@@ -112,13 +112,10 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F9', id: 'F9' },
 	{ label: 'F10', id: 'F10' },
 	{ label: 'F11', id: 'F11' },
-	{ label: 'F12', id: 'F12' }
-];
-instance.prototype.CHOICES_KEYSModifier = [
-	{ label: 'None', id: 'None' },
-	{ label: 'Option/Alt', id: 'Option/Alt' },
-	{ label: 'Control', id: 'Control' },
-	{ label: 'Shift', id: 'Shift' }
+	{ label: 'F12', id: 'F12' },
+	{ label: 'Option/alt', id: 'alt'},
+	{ label: 'Control', id: 'ctrl'},
+	{ label: 'Command/Windows', id: 'cmd'}
 ];
 
 instance.prototype.actions = function (system) {
@@ -142,7 +139,7 @@ instance.prototype.actions = function (system) {
 				type: 'dropdown',
 				label: 'Special key to send',
 				id: 'specialKey',
-				choices: self.CHOICES_KEYSModifier
+				choices: self.CHOICES_KEYS
 				}
 			]
 		},
@@ -207,7 +204,7 @@ instance.prototype.action = function (action) {
 			break
 
 			case 'combination':
-				cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2';
+				cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2;
 			break
 
 			case 'press':
