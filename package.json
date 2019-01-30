@@ -1,0 +1,16 @@
+{
+	"name": "vicreo-hotkey",
+	"version": "1.0.0",
+	"api_version": "1.0.0",
+	"keywords": [ "Software" ],
+	"manufacturer": "VICREO",
+	"product": "Hotkey",
+	"shortname": "VICREO hotkey",
+	"description": "VICREO Hotkey Listener plugin for Companion",
+	"main": "hotkey.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Jeffrey Davidsz <jeffrey.davidsz@vicreo.eu>",
+	"license": "MIT"
+}
