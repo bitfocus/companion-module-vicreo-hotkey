@@ -1,0 +1,1 @@
+# companion-module-vicreo-hotkey
