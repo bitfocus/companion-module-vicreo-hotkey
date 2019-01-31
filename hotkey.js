@@ -146,10 +146,11 @@ instance.prototype.actions = function (system) {
 		'combination': {
 			label: 'Combination',
 			options: [ {
-				type: 'textinput',
+				type: 'dropdown',
 				label: 'Key or modifier 1',
 				id: 'key1',
-				default: 'ctrl'
+				default: 'ctrl',
+				choices: self.CHOICES_KEYS
 			},
 			{
 				type: 'textinput',
