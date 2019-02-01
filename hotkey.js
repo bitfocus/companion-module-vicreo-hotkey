@@ -64,7 +64,7 @@ instance.prototype.config_fields = function () {
 				id: 'info',
 				width: 12,
 				label: 'Information',
-				value: 'This module is for the VICREO Hotkey Listener from <a href="http://www.vicreo.eu/hotkey" target="_new">vicreo.eu/hotkey</a>.'
+				value: 'This module is for the VICREO Hotkey Listener, download <a href="https://github.com/JeffreyDavidsz/VICREO-Listener/releases" target="_new">here</a>.'
 			},
 			{
 				type: 'textinput',
