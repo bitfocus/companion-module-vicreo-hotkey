@@ -2,7 +2,10 @@
 	"name": "vicreo-hotkey",
 	"version": "1.0.0",
 	"api_version": "1.0.0",
-	"keywords": [ "Software" ],
+	"keywords": [
+		"Software",
+		"Keyboard emulator"
+		 ],
 	"manufacturer": "VICREO",
 	"product": "Hotkey",
 	"shortname": "VICREO hotkey",
