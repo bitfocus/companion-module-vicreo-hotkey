@@ -188,7 +188,7 @@ instance.prototype.actions = function (system) {
 			]
 		},
 		'file': {
-			label: 'Send stringmessage',
+			label: 'Open a file',
 			options: [ {
 				type: 'textinput',
 				label: 'Complete file path',
