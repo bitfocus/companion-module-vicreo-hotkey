@@ -186,6 +186,15 @@ instance.prototype.actions = function (system) {
 				id: 'msg'
 			}
 			]
+		},
+		'file': {
+			label: 'Send stringmessage',
+			options: [ {
+				type: 'textinput',
+				label: 'Complete file path',
+				id: 'file'
+			}
+			]
 		}
 	};
 		self.setActions(actions);
@@ -222,6 +231,10 @@ instance.prototype.action = function (action) {
 
 			case 'specialKey':
 				cmd = '<SPK>' + opt.specialKey;
+			break
+
+			case 'file':
+				cmd = '<FILE>' + opt.file;
 			break
 
 		}
