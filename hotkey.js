@@ -114,7 +114,7 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F11', id: 'F11' },
 	{ label: 'F12', id: 'F12' },
 	{ label: 'Option/alt', id: 'alt'},
-	{ label: 'Control', id: 'ctrl'},
+	{ label: 'Ctrl', id: 'ctrl'},
 	{ label: 'Command/Windows', id: 'cmd'}
 ];
 
@@ -128,7 +128,7 @@ instance.prototype.actions = function (system) {
 				type: 'textinput',
 				label: 'Single key to send',
 				id: 'singleKey',
-				default: 'n',
+				default: 'z',
 				regex: '/^.$/'
 				}
 			]
@@ -147,9 +147,9 @@ instance.prototype.actions = function (system) {
 			label: 'Combination',
 			options: [ {
 				type: 'dropdown',
-				label: 'Key or modifier 1',
+				label: 'Modifier',
 				id: 'key1',
-				default: 'ctrl',
+				default: 'Ctrl',
 				choices: self.CHOICES_KEYS
 			},
 			{
