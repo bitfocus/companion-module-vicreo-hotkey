@@ -115,7 +115,12 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F12', id: 'F12' },
 	{ label: 'Option/alt', id: 'alt'},
 	{ label: 'Ctrl', id: 'ctrl'},
-	{ label: 'Command/Windows', id: 'cmd'}
+	{ label: 'Command/Windows', id: 'cmd'},
+	{ label: 'Insert', id: 'insert'},
+	{ label: 'Num Lock', id: 'num_lock'},
+	{ label: 'Shift', id: 'shift'},
+	{ label: 'Alt_gr', id: 'alt_gr'},
+	{ label: 'Backspace', id: 'backspace'}
 ];
 
 instance.prototype.actions = function (system) {
