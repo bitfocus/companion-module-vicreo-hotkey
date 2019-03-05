@@ -165,6 +165,30 @@ instance.prototype.actions = function (system) {
 			}
 			]
 		},
+		'trio': {
+			label: 'Three key',
+			options: [ {
+				type: 'dropdown',
+				label: 'First modifier',
+				id: 'key1',
+				default: 'Ctrl',
+				choices: self.CHOICES_KEYS
+			},
+			{
+				type: 'dropdown',
+				label: 'Second modifier',
+				id: 'key2',
+				default: 'Shift',
+				choices: self.CHOICES_KEYS
+			},
+			{
+				type: 'textinput',
+				label: 'Key or modifier 3',
+				id: 'key3',
+				default: 'a'
+			}
+			]
+		},
 		'press': {
 			label: 'Key press',
 			options: [ {
@@ -220,6 +244,10 @@ instance.prototype.action = function (action) {
 
 			case 'combination':
 				cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2;
+			break
+
+			case 'trio':
+				cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2; +'<AND2>' + opt.key3;
 			break
 
 			case 'press':

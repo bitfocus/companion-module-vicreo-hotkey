@@ -3,7 +3,7 @@ This module connects to the VICREO Listener program which you need to download a
 
 >  VICREO Listener is a small program that sits on your machine waiting for incomming TCP connection/commands. It uses pre-defined commands to simulate keypresses on your machine. You can use this program to preform hotkey actions from remote
 
-Go to [VICREO releases](https://github.com/JeffreyDavidsz/VICREO-Listener/releases) for download.
+Go to [VICREO hotkey](http://vicreo.eu/hotkey) for download.
 
 ## Usage
 
@@ -13,6 +13,7 @@ Below you'll find a table of pre-installed commands that the listener will accep
 | --------------- | --------------------------- |-----------------------|
 | &lt;SK&gt;						| Single key									|&lt;SK&gt;n  								|
 | &lt;KCOMBO&gt;	&lt;AND&gt;	| Key combination							|&lt;KCOMBO&gt;alt&lt;AND&gt;tab  	|
+| &lt;KTRIO&gt;	&lt;AND&gt;	&lt;AND2&gt;	| Key trio combination							|&lt;KCOMBO&gt;ctrl&lt;AND&gt;shift&lt;AND2&gt;d  	|
 | &lt;KPRESS&gt;				| Simulates key down					|&lt;KPRESS&gt;n					  	|
 | &lt;KRELEASE&gt;			| Simulates key up						|&lt;KRELEASE&gt;n				  	|
 | &lt;MSG&gt;						| Send message								|&lt;MSG&gt;Hello World (only string message)		|
