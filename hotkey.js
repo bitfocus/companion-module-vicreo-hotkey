@@ -247,7 +247,7 @@ instance.prototype.action = function (action) {
 			break
 
 			case 'trio':
-				cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2; +'<AND2>' + opt.key3;
+				cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2 +'<AND2>' + opt.key3;
 			break
 
 			case 'press':
