@@ -64,7 +64,7 @@ instance.prototype.config_fields = function () {
 				id: 'info',
 				width: 12,
 				label: 'Information',
-				value: 'This module is for the VICREO Hotkey Listener, download <a href="https://github.com/JeffreyDavidsz/VICREO-Listener/releases" target="_new">here</a>.'
+				value: 'This module is for the VICREO Hotkey Listener, download <a href="http://www.vicreo.eu/hotkey/" target="_new">here</a>.'
 			},
 			{
 				type: 'textinput',
@@ -144,6 +144,7 @@ instance.prototype.actions = function (system) {
 				type: 'dropdown',
 				label: 'Special key to send',
 				id: 'specialKey',
+				default: 'enter',
 				choices: self.CHOICES_KEYS
 				}
 			]
@@ -154,7 +155,7 @@ instance.prototype.actions = function (system) {
 				type: 'dropdown',
 				label: 'Modifier',
 				id: 'key1',
-				default: 'Ctrl',
+				default: 'ctrl',
 				choices: self.CHOICES_KEYS
 			},
 			{
@@ -171,14 +172,14 @@ instance.prototype.actions = function (system) {
 				type: 'dropdown',
 				label: 'First modifier',
 				id: 'key1',
-				default: 'Ctrl',
+				default: 'ctrl',
 				choices: self.CHOICES_KEYS
 			},
 			{
 				type: 'dropdown',
 				label: 'Second modifier',
 				id: 'key2',
-				default: 'Shift',
+				default: 'shift',
 				choices: self.CHOICES_KEYS
 			},
 			{
