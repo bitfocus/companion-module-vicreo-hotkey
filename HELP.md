@@ -67,3 +67,7 @@ down
 num_lock (only windows)
 page_up
 page_down
+
+## TIPS ##
+
+For mac, when you need the path of a file, right-click on the file and when you see the menu, press and hold Alt to be able to copy the full path.
