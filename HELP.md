@@ -7,26 +7,6 @@ Go to [VICREO hotkey](http://vicreo.eu/hotkey) for download.
 
 ## Usage
 
-Below you'll find a table of pre-installed commands that the listener will accept. First tell the program what kind of key you are going to send and than the key itself.
-
-| Action					| Description									| Example								|
-| --------------- | --------------------------- |-----------------------|
-| &lt;SK&gt;						| Single key									|&lt;SK&gt;n  								|
-| &lt;KCOMBO&gt;	&lt;AND&gt;	| Key combination							|&lt;KCOMBO&gt;alt&lt;AND&gt;tab  	|
-| &lt;KTRIO&gt;	&lt;AND&gt;	&lt;AND2&gt;	| Key trio combination							|&lt;KCOMBO&gt;ctrl&lt;AND&gt;shift&lt;AND2&gt;d  	|
-| &lt;KPRESS&gt;				| Simulates key down					|&lt;KPRESS&gt;n					  	|
-| &lt;KRELEASE&gt;			| Simulates key up						|&lt;KRELEASE&gt;n				  	|
-| &lt;MSG&gt;						| Send message								|&lt;MSG&gt;Hello World (only string message)		|
-| &lt;FILE&gt;					| Open file (complete path)		|&lt;FILE&gt;c:\user\test\test.bat
-
-The &lt;KPRESS&gt; and &lt;KRELEASE&gt; can be used for special cases, Example;<br>
-&lt;KPRESS&gt;ctrl<br>
-&lt;KPRESS&gt;c<br>
-&lt;KRELEASE&gt;c<br>
-&lt;KRELEASE&gt;ctrl<br>
-
-but above is the same as &lt;KCOMBO&gt;ctrl&lt;AND&gt;c
-
 > Make sure you use the backslash in the file open command
 
 ## Modifiers ##
