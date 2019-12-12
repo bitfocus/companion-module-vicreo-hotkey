@@ -48,6 +48,9 @@ num_lock (only windows)
 page_up
 page_down
 
-## TIPS ##
+## TIPS for MacOS ##
 
 For mac, when you need the path of a file, right-click on the file and when you see the menu, press and hold Alt to be able to copy the full path.
+
+When using powerpoint for mac, you can program a goto slide via a process. Use the 'Send KeyPress To MacOS Process' action and fill the process name (in this case powerpoint, you can search for it in activity monitor on the mac) and select the desired key. For example ANSI_3. Then use a bit delay (30ms) on the same button for the ANSI_KeypadEnter.
+For this to work you would need to run minimum version 1.4 of the VICREO-Listener.
