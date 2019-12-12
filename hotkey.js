@@ -93,6 +93,26 @@ instance.prototype.initPresets = function (updates) {
 	var presets = [];
 
 	presets.push({
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Command + Tab',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					Key1: 'cmd',
+					key2: 'tab'
+				}
+			}
+		]
+	})
+
+	presets.push({
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
@@ -128,8 +148,8 @@ instance.prototype.initPresets = function (updates) {
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
-			text: 'Next\nSlide',
-			size: '18',
+			text: 'Next\\nSlide',
+			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
 		},
@@ -147,7 +167,7 @@ instance.prototype.initPresets = function (updates) {
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
-			text: 'Previous Slide',
+			text: 'Previous\\nSlide',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
@@ -166,7 +186,7 @@ instance.prototype.initPresets = function (updates) {
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
-			text: 'Start\nfrom top',
+			text: 'Start\\nfrom top',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
@@ -187,7 +207,7 @@ instance.prototype.initPresets = function (updates) {
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
-			text: 'Start\nfrom current',
+			text: 'Start\\nfrom current',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
@@ -207,7 +227,7 @@ instance.prototype.initPresets = function (updates) {
 		category: 'powerpoint for mac',
 		bank: {
 			style: 'text',
-			text: 'Quit\nslideshow',
+			text: 'Quit\\nslideshow',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
