@@ -6,7 +6,7 @@ exports.getPresets = function(self) {
 		category: 'Basic control',
 		bank: {
 			style: 'text',
-			text: 'Command + Tab',
+			text: 'Command + Tab (MAC)',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
@@ -23,7 +23,105 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Alt + Tab (Windows)',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					Key1: 'alt',
+					key2: 'tab'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Ctrl + c',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					Key1: 'ctrl',
+					key2: 'c'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Ctrl + v',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					Key1: 'ctrl',
+					key2: 'v'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Esc',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'specialKey',
+				options: {
+					specialKey: 'esc'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Basic control',
+		bank: {
+			style: 'text',
+			text: 'Esc',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'specialKey',
+				options: {
+					specialKey: 'space'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Goto slide 1',
@@ -55,7 +153,7 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Next\\nSlide',
@@ -74,7 +172,7 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Previous\\nSlide',
@@ -93,7 +191,7 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Start\\nfrom top',
@@ -114,7 +212,7 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Start\\nfrom current',
@@ -134,13 +232,70 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'powerpoint for mac',
+		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
 			text: 'Quit\\nslideshow',
 			size: '14',
 			color: self.rgb(255,255,255),
 			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'specialKey',
+				options: {
+					specialKey: 'esc'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Keynote',
+		bank: {
+			style: 'text',
+			text: 'Next\\nSlide',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,200)
+		},
+		actions: [
+			{
+				action: 'specialKey',
+				options: {
+					specialKey: 'space'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Keynote',
+		bank: {
+			style: 'text',
+			text: 'Previous\\nSlide',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,200)
+		},
+		actions: [
+			{
+				action: 'specialKey',
+				options: {
+					specialKey: 'left'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Keynote',
+		bank: {
+			style: 'text',
+			text: 'Quit\\nslideshow',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,200)
 		},
 		actions: [
 			{
