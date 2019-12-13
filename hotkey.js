@@ -1,5 +1,7 @@
 var instance_skel = require('../../instance_skel');
 var tcp = require('../../tcp');
+var presets = require('./presets');
+var actions = require('./actions');
 var debug;
 var log;
 
@@ -62,18 +64,18 @@ instance.prototype.config_fields = function () {
 		var self = this;
 		return [
 			{
-				type: 'text',
-				id: 'info',
+				type:  'text',
+				id:    'info',
 				width: 12,
 				label: 'Information',
 				value: 'This module is for the VICREO Hotkey Listener, download <a href="http://www.vicreo.eu/hotkey/" target="_new">here</a>.'
 			},
 			{
-				type: 'textinput',
-				id: 'host',
+				type:  'textinput',
+				id:    'host',
 				label: 'Target IP',
 				width: 6,
-				regex: self.REGEX_IP
+				regex:  self.REGEX_IP
 			}
 		]
 };
@@ -90,159 +92,8 @@ instance.prototype.destroy = function () {
 
 instance.prototype.initPresets = function (updates) {
 	var self = this;
-	var presets = [];
 
-	presets.push({
-		category: 'Basic control',
-		bank: {
-			style: 'text',
-			text: 'Command + Tab',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'combination',
-				options: {
-					Key1: 'cmd',
-					key2: 'tab'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Goto slide 1',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'sendKeypressToProcess',
-				options: {
-					processSearchString: 'powerpoint',
-					virtualKeyCode: '0x12',
-					modifier1: 'none',
-					modifier2: 'none'
-				}
-			},
-			{
-				action: 'sendKeypressToProcess',
-				delay: '30',
-				options: {
-					processSearchString: 'powerpoint',
-					virtualKeyCode: '0x4C',
-					modifier1: 'none',
-					modifier2: 'none'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Next\\nSlide',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'space'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Previous\\nSlide',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'left'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Start\\nfrom top',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'trio',
-				options: {
-					key1: 'shift',
-					key2: 'cmd',
-					key3: 'enter'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Start\\nfrom current',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'combination',
-				options: {
-					key1: 'cmd',
-					key2: 'enter'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'powerpoint for mac',
-		bank: {
-			style: 'text',
-			text: 'Quit\\nslideshow',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'esc'
-				}
-			}
-		]
-	})
-
-	self.setPresetDefinitions(presets);
+	self.setPresetDefinitions(presets.getPresets(self));
 }
 
 instance.prototype.VIRTUAL_KEYCODES_ANSI = [
@@ -408,140 +259,7 @@ instance.prototype.CHOICES_KEYS = [
 instance.prototype.actions = function (system) {
 	var self = this;
 
-	var actions = {
-		'singleKey': {
-			label: 'Hot(single)key',
-			options: [ {
-				type: 'textinput',
-				label: 'Single key to send',
-				id: 'singleKey',
-				default: 'z',
-				regex: '/^.$/'
-				}
-			]
-		},
-		'specialKey': {
-			label: 'special key',
-			options: [ {
-				type: 'dropdown',
-				label: 'Special key to send',
-				id: 'specialKey',
-				default: 'enter',
-				choices: self.CHOICES_KEYS
-				}
-			]
-		},
-		'combination': {
-			label: 'Combination',
-			options: [ {
-				type: 'dropdown',
-				label: 'Modifier',
-				id: 'key1',
-				default: 'ctrl',
-				choices: self.CHOICES_KEYS
-			},
-			{
-				type: 'textinput',
-				label: 'Key or modifier 2',
-				id: 'key2',
-				default: 'c'
-			}
-			]
-		},
-		'trio': {
-			label: 'Three key',
-			options: [ {
-				type: 'dropdown',
-				label: 'First modifier',
-				id: 'key1',
-				default: 'ctrl',
-				choices: self.CHOICES_KEYS
-			},
-			{
-				type: 'dropdown',
-				label: 'Second modifier',
-				id: 'key2',
-				default: 'shift',
-				choices: self.CHOICES_KEYS
-			},
-			{
-				type: 'textinput',
-				label: 'Key or modifier 3',
-				id: 'key3',
-				default: 'a'
-			}
-			]
-		},
-		'press': {
-			label: 'Key press',
-			options: [ {
-				type: 'textinput',
-				label: 'Key to press',
-				id: 'keyPress'
-			}
-			]
-		},
-		'release': {
-			label: 'Key release',
-			options: [ {
-				type: 'textinput',
-				label: 'Key to release',
-				id: 'keyRelease'
-			}
-			]
-		},
-		'msg': {
-			label: 'Send stringmessage',
-			options: [ {
-				type: 'textinput',
-				label: 'Type message',
-				id: 'msg'
-			}
-			]
-		},
-		'file': {
-			label: 'Open a file',
-			options: [ {
-				type: 'textinput',
-				label: 'Complete file path',
-				id: 'file'
-			}
-			]
-		},
-		'sendKeypressToProcess': {
-			label: 'Send KeyPress To MacOS Process',
-			options: [ {
-				type: 'textinput',
-				label: 'Process Search String',
-				id: 'processSearchString',
-				default: 'powerpoint'
-			},
-			{
-				type: 'dropdown',
-				label: 'Virtual KeyCode',
-				id: 'virtualKeyCode',
-				default: '0x00',
-				choices: self.VIRTUAL_KEYCODES_ANSI,
-				minChoicesForSearch: 0
-			},
-			{
-				type: 'dropdown',
-				label: 'Combine with modifier 1',
-				id: 'modifier1',
-				default: 'none',
-				choices: self.MODIFIER_KEYS
-			},
-			{
-				type: 'dropdown',
-				label: 'Combine with modifier 2',
-				id: 'modifier2',
-				default: 'none',
-				choices: self.MODIFIER_KEYS
-			}
-			]
-		},
-	};
-		self.setActions(actions);
+	self.setActions(actions.getActions(self));
 };
 
 
@@ -551,7 +269,7 @@ instance.prototype.action = function (action) {
 		var cmd;
 		var opt = action.options;
 
-		switch (action.action) {
+		switch (id) {
 
 			case 'singleKey':
 				cmd = '<SK>' + opt.singleKey;
