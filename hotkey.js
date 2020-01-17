@@ -53,7 +53,7 @@ instance.prototype.updateConfig = function (config) {
 			});
 
 			self.tcp.on('error', function (message) {
-				// ignore for now
+				self.log('error',"TCP error",message)
 			});
 		}
 		self.initPresets();
