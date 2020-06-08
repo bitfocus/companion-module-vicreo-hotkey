@@ -80,7 +80,7 @@ instance.prototype.config_fields = function () {
 			{
 				type:  'textinput',
 				id:    'port',
-				label: 'Port number',
+				label: 'Port number (only for the nodejs build)',
 				width: 6,
 				regex:  self.REGEX_PORT,
 				default: 10001
@@ -91,7 +91,7 @@ instance.prototype.config_fields = function () {
 				label: 'hotkey version',
 				width: 6,
 				choices: [{ label: 'Python build', id: 'python'},{ label: 'nodejs build', id: 'nodejs'}],
-				default: 'nodejs'
+				default: 'python'
 			}
 		]
 };
