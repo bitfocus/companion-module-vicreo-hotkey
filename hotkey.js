@@ -16,14 +16,14 @@ function instance(system, id, config) {
 
 instance.prototype.init = function () {
 		var self = this;
-
+		if (self.config.port == undefined ) self.config.port = 10001;
 		debug = self.debug;
 		log = self.log;
 
 		self.status(self.STATUS_UNKNOWN);
 
 		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, 10001);
+			self.tcp = new tcp(self.config.host, self.config.port);
 
 			self.tcp.on('status_change', function (status, message) {
 				self.status(status, message);
@@ -44,9 +44,9 @@ instance.prototype.updateConfig = function (config) {
 			self.tcp.destroy();
 			delete self.tcp;
 		}
-		// Listener port 10001
+		// Listener port self.config.port
 		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, 10001);
+			self.tcp = new tcp(self.config.host, self.config.port);
 
 			self.tcp.on('status_change', function (status, message) {
 				self.status(status, message);
@@ -76,6 +76,14 @@ instance.prototype.config_fields = function () {
 				label: 'Target IP',
 				width: 6,
 				regex:  self.REGEX_IP
+			},
+			{
+				type:  'textinput',
+				id:    'port',
+				label: 'Port number',
+				width: 6,
+				regex:  self.REGEX_PORT,
+				default: 10001
 			},
 			{
 				type:  'dropdown',
