@@ -16,14 +16,14 @@ function instance(system, id, config) {
 
 instance.prototype.init = function () {
 		var self = this;
-
+		if (self.config.port == undefined ) self.config.port = 10001;
 		debug = self.debug;
 		log = self.log;
 
 		self.status(self.STATUS_UNKNOWN);
 
 		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, 10001);
+			self.tcp = new tcp(self.config.host, self.config.port);
 
 			self.tcp.on('status_change', function (status, message) {
 				self.status(status, message);
@@ -44,9 +44,9 @@ instance.prototype.updateConfig = function (config) {
 			self.tcp.destroy();
 			delete self.tcp;
 		}
-		// Listener port 10001
+		// Listener port self.config.port
 		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, 10001);
+			self.tcp = new tcp(self.config.host, self.config.port);
 
 			self.tcp.on('status_change', function (status, message) {
 				self.status(status, message);
@@ -76,6 +76,22 @@ instance.prototype.config_fields = function () {
 				label: 'Target IP',
 				width: 6,
 				regex:  self.REGEX_IP
+			},
+			{
+				type:  'textinput',
+				id:    'port',
+				label: 'Port number (only for the nodejs build)',
+				width: 6,
+				regex:  self.REGEX_PORT,
+				default: 10001
+			},
+			{
+				type:  'dropdown',
+				id:    'version',
+				label: 'hotkey version',
+				width: 6,
+				choices: [{ label: 'Python build', id: 'python'},{ label: 'nodejs build', id: 'nodejs'}],
+				default: 'python'
 			}
 		]
 };
@@ -268,50 +284,96 @@ instance.prototype.action = function (action) {
 		var id = action.action;
 		var cmd;
 		var opt = action.options;
+		console.log('self.config.version',self.config.version)
+		if (self.config.version == 'nodejs') {
+			switch (id) {
+				case 'singleKey':
+					cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`;
+					break
 
-		switch (id) {
+				case 'combination':
+					cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`;
+					break
 
-			case 'singleKey':
-				cmd = '<SK>' + opt.singleKey;
-			break
+				case 'trio':
+					cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`;
+					break
 
-			case 'combination':
-				cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2;
-			break
+				case 'press':
+					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`;
+					break
 
-			case 'trio':
-				cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2 +'<AND2>' + opt.key3;
-			break
+				case 'release':
+					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`;
+					break
 
-			case 'press':
-				cmd = '<KPRESS>' + opt.keyPress;
-			break
+				case 'msg':
+					cmd = `{ "type":"string","msg":"${opt.msg}" }`
+					break
 
-			case 'release':
-				cmd = '<KRELEASE>' + opt.keyRelease;
-			break
+				case 'specialKey':
+					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`;
+					break
 
-			case 'msg':
-				cmd = '<MSG>' + opt.msg;
-			break
+				case 'shell': 
+					cmd = `{ "type":"shell","shell":"${opt.shell}" }`
+					break
+	
+				case 'file':
+					cmd = `{ "type":"file","path":"${opt.file}" }`
+					break
 
-			case 'specialKey':
-				cmd = '<SPK>' + opt.specialKey;
-			break
+				case 'sendKeypressToProcess':
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}" "modifier":["${opt.modifier1}","${opt.modifier2}"] }`
+					break
 
-			case 'file':
-				cmd = '<FILE>' + opt.file;
-			break
+			}
+		} else {
+			switch (id) {
 
-			case 'sendKeypressToProcess':
-				cmd = '<SKE>' + opt.virtualKeyCode + '<PROCESS>' + opt.processSearchString + '<AND>' + opt.modifier1 + '<AND2>' + opt.modifier2;
-			break
+				case 'singleKey':
+					cmd = '<SK>' + opt.singleKey;
+					break
 
+				case 'combination':
+					cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2;
+					break
+
+				case 'trio':
+					cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2 +'<AND2>' + opt.key3;
+					break
+
+				case 'press':
+					cmd = '<KPRESS>' + opt.keyPress;
+					break
+
+				case 'release':
+					cmd = '<KRELEASE>' + opt.keyRelease;
+					break
+
+				case 'msg':
+					cmd = '<MSG>' + opt.msg;
+					break
+
+				case 'specialKey':
+					cmd = '<SPK>' + opt.specialKey;
+					break
+
+				case 'file':
+					cmd = '<FILE>' + opt.file;
+					break
+
+				case 'sendKeypressToProcess':
+					cmd = '<SKE>' + opt.virtualKeyCode + '<PROCESS>' + opt.processSearchString + '<AND>' + opt.modifier1 + '<AND2>' + opt.modifier2;
+					break
+
+			}
 		}
 
 		if (cmd !== undefined) {
 			if (self.tcp !== undefined) {
 				debug('sending ', cmd, "to", self.tcp.host);
+				console.log('cmd',cmd)
 				self.tcp.send(cmd);
 			}
 		}
