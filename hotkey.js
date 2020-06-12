@@ -90,7 +90,7 @@ instance.prototype.config_fields = function () {
 				id:    'version',
 				label: 'hotkey version',
 				width: 6,
-				choices: [{ label: 'Python build', id: 'python'},{ label: 'nodejs build', id: 'nodejs'}],
+				choices: [{ label: 'Version below 2.0', id: 'python'},{ label: 'Version > 2.0', id: 'nodejs'}],
 				default: 'python'
 			}
 		]
@@ -284,27 +284,36 @@ instance.prototype.action = function (action) {
 		var id = action.action;
 		var cmd;
 		var opt = action.options;
-		console.log('self.config.version',self.config.version)
+		function checkKey(key) {
+			switch(key) {
+				case 'cmd':
+					return 'command';
+				case 'esc':
+					return 'escape';
+			}
+			return key;
+		}
+		// console.log('self.config.version',self.config.version)
 		if (self.config.version == 'nodejs') {
 			switch (id) {
 				case 'singleKey':
-					cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`;
+					cmd = `{ "key":"${checkKey(opt.singleKey)}", "type":"press", "modifiers":[] }`;
 					break
 
 				case 'combination':
-					cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`;
+					cmd = `{ "key":"${checkKey(opt.key2)}", "type":"press", "modifiers":["${checkKey(opt.key1)}"] }`;
 					break
 
 				case 'trio':
-					cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`;
+					cmd = `{ "key":"${checkKey(opt.key3)}", "type":"press", "modifiers":["${checkKey(opt.key1)}","${checkKey(opt.key2)}"] }`;
 					break
 
 				case 'press':
-					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`;
+					cmd = `{ "key":"${checkKey(opt.keyPress)}", "type":"down", "modifiers":[] }`;
 					break
 
 				case 'release':
-					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`;
+					cmd = `{ "key":"${checkKey(opt.keyRelease)}", "type":"up", "modifiers":[] }`;
 					break
 
 				case 'msg':
@@ -312,7 +321,7 @@ instance.prototype.action = function (action) {
 					break
 
 				case 'specialKey':
-					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`;
+					cmd = `{ "key":"${checkKey(opt.specialKey)}", "type":"press", "modifiers":[] }`;
 					break
 
 				case 'shell': 
@@ -324,7 +333,7 @@ instance.prototype.action = function (action) {
 					break
 
 				case 'sendKeypressToProcess':
-					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}" "modifier":["${opt.modifier1}","${opt.modifier2}"] }`
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}" "modifier":["${checkKey(opt.modifier1)}","${checkKey(opt.modifier2)}"] }`
 					break
 
 			}
