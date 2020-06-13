@@ -228,28 +228,30 @@ instance.prototype.VIRTUAL_KEYCODES_ANSI = [
 ];
 
 instance.prototype.MODIFIER_KEYS = [
-	{ label: 'None', id: 'none'},
-	{ label: 'Option/alt', id: 'alt'},
+	{ label: 'Shift', id: 'shift'},
+	{ label: 'fn', id: 'fn'},
 	{ label: 'Ctrl', id: 'ctrl'},
 	{ label: 'Command', id: 'cmd'},
-	{ label: 'Shift', id: 'shift'}
+	{ label: 'Option/alt', id: 'alt'},
+	{ label: 'Right Shift', id: 'right_shift'},
+	{ label: 'Right alt', id: 'right_alt'},
+	{ label: 'Right ctrl', id: 'right_ctrl'}
 ];
 
 instance.prototype.CHOICES_KEYS = [
+	{ label: 'Backspace', id: 'backspace'},
+	{ label: 'Delete', id: 'delete' },
 	{ label: 'Enter', id: 'enter' },
-	{ label: 'Space', id: 'space' },
+	{ label: 'Tab', id: 'tab' },
+	{ label: 'Esc', id: 'escape' },
 	{ label: 'Arrow up', id: 'up' },
 	{ label: 'Arrow Down', id: 'down' },
-	{ label: 'Arrow Left', id: 'left' },
 	{ label: 'Arrow Right', id: 'right' },
-	{ label: 'Delete', id: 'delete' },
-	{ label: 'Esc', id: 'esc' },
-	{ label: 'Tab', id: 'tab' },
-	{ label: 'Page Down', id: 'page_down' },
-	{ label: 'Page Up', id: 'page_up' },
-	{ label: 'End', id: 'end' },
+	{ label: 'Arrow Left', id: 'left' },
 	{ label: 'Home', id: 'home' },
-	{ label: 'Caps Lock', id: 'caps_lock' },
+	{ label: 'End', id: 'end' },
+	{ label: 'Page Up', id: 'page_up' },
+	{ label: 'Page Down', id: 'page_down' },
 	{ label: 'F1', id: 'F1' },
 	{ label: 'F2', id: 'F2' },
 	{ label: 'F3', id: 'F3' },
@@ -262,14 +264,42 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F10', id: 'F10' },
 	{ label: 'F11', id: 'F11' },
 	{ label: 'F12', id: 'F12' },
+	{ label: 'Command/Windows', id: 'command'},
 	{ label: 'Option/alt', id: 'alt'},
 	{ label: 'Ctrl', id: 'ctrl'},
-	{ label: 'Command/Windows', id: 'cmd'},
-	{ label: 'Insert', id: 'insert'},
-	{ label: 'Num Lock', id: 'num_lock'},
 	{ label: 'Shift', id: 'shift'},
-	{ label: 'Alt_gr', id: 'alt_gr'},
-	{ label: 'Backspace', id: 'backspace'}
+	{ label: 'Right-Shift*', id: 'right_shift'},
+	{ label: 'Space', id: 'space' },
+	{ label: 'Printscreen (No Mac)*', id: 'printscreen' },
+	{ label: 'Insert (no Mac)', id: 'insert'},
+	// { label: 'Audio mute', id: 'audio_mute'},
+	// { label: 'Audio volume down', id: 'audio_vol_down'},
+	// { label: 'Audio volume up', id: 'audio_vol_up'},
+	// { label: 'Play', id: 'audio_play'},
+	// { label: 'Stop', id: 'audio_stop'},
+	// { label: 'Pause', id: 'audio_pause'},
+	// { label: 'Previous track', id: 'audio_prev'},
+	// { label: 'Next track', id: 'audio_next'},
+	// { label: 'Numpad 0 (No Linux)*', id: 'numpad_0'},
+	// { label: 'Numpad 1 (No Linux)*', id: 'numpad_1'},
+	// { label: 'Numpad 2 (No Linux)*', id: 'numpad_2'},
+	// { label: 'Numpad 3 (No Linux)*', id: 'numpad_3'},
+	// { label: 'Numpad 4 (No Linux)*', id: 'numpad_4'},
+	// { label: 'Numpad 5 (No Linux)*', id: 'numpad_5'},
+	// { label: 'Numpad 6 (No Linux)*', id: 'numpad_6'},
+	// { label: 'Numpad 7 (No Linux)*', id: 'numpad_7'},
+	// { label: 'Numpad 8 (No Linux)*', id: 'numpad_8'},
+	// { label: 'Numpad 9 (No Linux)*', id: 'numpad_9'},
+	// { label: 'Monitor brightness up (Only Mac)*', id: 'lights_mon_up'},
+	// { label: 'Monitor brightness down (Only Mac)*', id: 'lights_mon_down'},
+	// { label: 'Monitor brightness down (Only Mac)*', id: 'lights_mon_down'},
+	// { label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle'},
+	// { label: 'Keyboard light up (Only Mac)*', id: 'lights_kbd_up'},
+	// { label: 'Keyboard light down (Only Mac)*', id: 'lights_kbd_down'},
+
+	// { label: 'Caps Lock', id: 'caps_lock' },
+	// { label: 'Num Lock', id: 'num_lock'},
+	// { label: 'Alt_gr', id: 'alt_gr'},
 ];
 
 instance.prototype.actions = function (system) {
@@ -284,12 +314,14 @@ instance.prototype.action = function (action) {
 		var id = action.action;
 		var cmd;
 		var opt = action.options;
+
 		function checkKey(key) {
 			switch(key) {
 				case 'cmd':
 					return 'command';
 				case 'esc':
 					return 'escape';
+
 			}
 			return key;
 		}
@@ -297,23 +329,23 @@ instance.prototype.action = function (action) {
 		if (self.config.version == 'nodejs') {
 			switch (id) {
 				case 'singleKey':
-					cmd = `{ "key":"${checkKey(opt.singleKey)}", "type":"press", "modifiers":[] }`;
+					cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`;
 					break
 
 				case 'combination':
-					cmd = `{ "key":"${checkKey(opt.key2)}", "type":"press", "modifiers":["${checkKey(opt.key1)}"] }`;
+					cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`;
 					break
 
 				case 'trio':
-					cmd = `{ "key":"${checkKey(opt.key3)}", "type":"press", "modifiers":["${checkKey(opt.key1)}","${checkKey(opt.key2)}"] }`;
+					cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`;
 					break
 
 				case 'press':
-					cmd = `{ "key":"${checkKey(opt.keyPress)}", "type":"down", "modifiers":[] }`;
+					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`;
 					break
 
 				case 'release':
-					cmd = `{ "key":"${checkKey(opt.keyRelease)}", "type":"up", "modifiers":[] }`;
+					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`;
 					break
 
 				case 'msg':
@@ -321,7 +353,7 @@ instance.prototype.action = function (action) {
 					break
 
 				case 'specialKey':
-					cmd = `{ "key":"${checkKey(opt.specialKey)}", "type":"press", "modifiers":[] }`;
+					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`;
 					break
 
 				case 'shell': 
@@ -333,7 +365,13 @@ instance.prototype.action = function (action) {
 					break
 
 				case 'sendKeypressToProcess':
-					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}" "modifier":["${checkKey(opt.modifier1)}","${checkKey(opt.modifier2)}"] }`
+					if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
+						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}"] }`
+					} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
+						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}","${opt.modifier2}"] }`
+					} else {
+						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":[] }`
+					}
 					break
 
 			}

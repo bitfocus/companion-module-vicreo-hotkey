@@ -30,11 +30,11 @@ exports.getActions = function(self) {
 				label: 'Modifier',
 				id: 'key1',
 				default: 'ctrl',
-				choices: self.CHOICES_KEYS
+				choices: self.MODIFIER_KEYS
 			},
 			{
 				type: 'textinput',
-				label: 'Key or modifier 2',
+				label: '(Special) Key',
 				id: 'key2',
 				default: 'c'
 			}
@@ -47,18 +47,18 @@ exports.getActions = function(self) {
 				label: 'First modifier',
 				id: 'key1',
 				default: 'ctrl',
-				choices: self.CHOICES_KEYS
+				choices: self.MODIFIER_KEYS
 			},
 			{
 				type: 'dropdown',
 				label: 'Second modifier',
 				id: 'key2',
 				default: 'shift',
-				choices: self.CHOICES_KEYS
+				choices: self.MODIFIER_KEYS
 			},
 			{
 				type: 'textinput',
-				label: 'Key or modifier 3',
+				label: '(Special) Key',
 				id: 'key3',
 				default: 'a'
 			}
@@ -91,6 +91,15 @@ exports.getActions = function(self) {
 			}
 			]
 		},
+		'shell': {
+			label: 'Send shell command',
+			options: [ {
+				type: 'textinput',
+				label: 'Type command',
+				id: 'shell'
+			}
+			]
+		},
 		'file': {
 			label: 'Open a file',
 			options: [ {
@@ -106,7 +115,7 @@ exports.getActions = function(self) {
 				type: 'textinput',
 				label: 'Process Search String',
 				id: 'processSearchString',
-				default: 'powerpoint'
+				default: 'Microsoft PowerPoint'
 			},
 			{
 				type: 'dropdown',
