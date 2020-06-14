@@ -314,13 +314,17 @@ instance.prototype.action = function (action) {
 		var id = action.action;
 		var cmd;
 		var opt = action.options;
-
+		
+		const escapeRegExp = (string) => {
+			return string.replace(/[\\]/g, '/')
+		}
+		
 		function checkKey(key) {
 			switch(key) {
-				case 'cmd':
-					return 'command';
-				case 'esc':
-					return 'escape';
+				case 'command':
+					return 'cmd';
+				case 'escape':
+					return 'esc';
 
 			}
 			return key;
@@ -361,7 +365,7 @@ instance.prototype.action = function (action) {
 					break
 	
 				case 'file':
-					cmd = `{ "type":"file","path":"${opt.file}" }`
+					cmd = `{ "type":"file","path":"${escapeRegExp(opt.file)}" }`
 					break
 
 				case 'sendKeypressToProcess':
@@ -379,23 +383,23 @@ instance.prototype.action = function (action) {
 			switch (id) {
 
 				case 'singleKey':
-					cmd = '<SK>' + opt.singleKey;
+					cmd = '<SK>' + checkKey(opt.singleKey);
 					break
 
 				case 'combination':
-					cmd = '<KCOMBO>'+ opt.key1 +'<AND>' + opt.key2;
+					cmd = '<KCOMBO>'+ checkKey(opt.key1) +'<AND>' + checkKey(opt.key2);
 					break
 
 				case 'trio':
-					cmd = '<KTRIO>'+ opt.key1 +'<AND>' + opt.key2 +'<AND2>' + opt.key3;
+					cmd = '<KTRIO>'+ checkKey(opt.key1) +'<AND>' + checkKey(opt.key2) +'<AND2>' + checkKey(opt.key3);
 					break
 
 				case 'press':
-					cmd = '<KPRESS>' + opt.keyPress;
+					cmd = '<KPRESS>' + checkKey(opt.keyPress);
 					break
 
 				case 'release':
-					cmd = '<KRELEASE>' + opt.keyRelease;
+					cmd = '<KRELEASE>' + checkKey(opt.keyRelease);
 					break
 
 				case 'msg':
@@ -403,7 +407,7 @@ instance.prototype.action = function (action) {
 					break
 
 				case 'specialKey':
-					cmd = '<SPK>' + opt.specialKey;
+					cmd = '<SPK>' + checkKey(opt.specialKey);
 					break
 
 				case 'file':
