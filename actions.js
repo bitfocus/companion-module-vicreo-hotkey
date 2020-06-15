@@ -142,6 +142,21 @@ exports.getActions = function(self) {
 			]
 		}
 	};
-
+	
+	if(self.config.version == 'nodejs') {
+		actions.specialKeyOS = {
+				label: 'special key OS dependent',
+				options: [ {
+					type: 'dropdown',
+					label: 'Special key to send',
+					id: 'specialKey',
+					default: 'audio_mute',
+					choices: self.CHOICES_KEYS_SPECIALS
+					}
+				]
+			
+		}
+		
+	}
 	return(actions);
 }

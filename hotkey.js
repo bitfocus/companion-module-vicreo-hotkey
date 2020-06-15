@@ -90,7 +90,7 @@ instance.prototype.config_fields = function () {
 				id:    'version',
 				label: 'hotkey version',
 				width: 6,
-				choices: [{ label: 'Version below 2.0', id: 'python'},{ label: 'Version > 2.0', id: 'nodejs'}],
+				choices: [{ label: 'Version below 2.0', id: 'python'},{ label: 'Version > 2.0.5', id: 'nodejs'}],
 				default: 'python'
 			}
 		]
@@ -266,36 +266,37 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F12', id: 'F12' },
 	{ label: 'Command/Windows', id: 'command'},
 	{ label: 'Option/alt', id: 'alt'},
-	{ label: 'Ctrl', id: 'ctrl'},
+	{ label: 'Ctrl', id: 'control'},
 	{ label: 'Shift', id: 'shift'},
 	{ label: 'Right-Shift*', id: 'right_shift'},
-	{ label: 'Space', id: 'space' },
+	{ label: 'Space', id: 'space' }
+];
+instance.prototype.CHOICES_KEYS_SPECIALS = [
+	{ label: 'Audio mute (toggle)', id: 'audio_mute'},
+	{ label: 'Audio volume down', id: 'audio_vol_down'},
+	{ label: 'Audio volume up', id: 'audio_vol_up'},
+	{ label: 'Play', id: 'audio_play'},
+	{ label: 'Stop', id: 'audio_stop'},
+	{ label: 'Pause', id: 'audio_pause'},
+	{ label: 'Previous track', id: 'audio_prev'},
+	{ label: 'Next track', id: 'audio_next'},
+	{ label: 'Numpad 0 (No Linux)', id: 'numpad_0'},
+	{ label: 'Numpad 1 (No Linux)', id: 'numpad_1'},
+	{ label: 'Numpad 2 (No Linux)', id: 'numpad_2'},
+	{ label: 'Numpad 3 (No Linux)', id: 'numpad_3'},
+	{ label: 'Numpad 4 (No Linux)', id: 'numpad_4'},
+	{ label: 'Numpad 5 (No Linux)', id: 'numpad_5'},
+	{ label: 'Numpad 6 (No Linux)', id: 'numpad_6'},
+	{ label: 'Numpad 7 (No Linux)', id: 'numpad_7'},
+	{ label: 'Numpad 8 (No Linux)', id: 'numpad_8'},
+	{ label: 'Numpad 9 (No Linux)', id: 'numpad_9'},
+	{ label: 'Monitor brightness up (Only Mac)', id: 'lights_mon_up'},
+	{ label: 'Monitor brightness down (Only Mac)', id: 'lights_mon_down'},
 	{ label: 'Printscreen (No Mac)*', id: 'printscreen' },
-	{ label: 'Insert (no Mac)', id: 'insert'},
-	// { label: 'Audio mute', id: 'audio_mute'},
-	// { label: 'Audio volume down', id: 'audio_vol_down'},
-	// { label: 'Audio volume up', id: 'audio_vol_up'},
-	// { label: 'Play', id: 'audio_play'},
-	// { label: 'Stop', id: 'audio_stop'},
-	// { label: 'Pause', id: 'audio_pause'},
-	// { label: 'Previous track', id: 'audio_prev'},
-	// { label: 'Next track', id: 'audio_next'},
-	// { label: 'Numpad 0 (No Linux)*', id: 'numpad_0'},
-	// { label: 'Numpad 1 (No Linux)*', id: 'numpad_1'},
-	// { label: 'Numpad 2 (No Linux)*', id: 'numpad_2'},
-	// { label: 'Numpad 3 (No Linux)*', id: 'numpad_3'},
-	// { label: 'Numpad 4 (No Linux)*', id: 'numpad_4'},
-	// { label: 'Numpad 5 (No Linux)*', id: 'numpad_5'},
-	// { label: 'Numpad 6 (No Linux)*', id: 'numpad_6'},
-	// { label: 'Numpad 7 (No Linux)*', id: 'numpad_7'},
-	// { label: 'Numpad 8 (No Linux)*', id: 'numpad_8'},
-	// { label: 'Numpad 9 (No Linux)*', id: 'numpad_9'},
-	// { label: 'Monitor brightness up (Only Mac)*', id: 'lights_mon_up'},
-	// { label: 'Monitor brightness down (Only Mac)*', id: 'lights_mon_down'},
-	// { label: 'Monitor brightness down (Only Mac)*', id: 'lights_mon_down'},
-	// { label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle'},
-	// { label: 'Keyboard light up (Only Mac)*', id: 'lights_kbd_up'},
-	// { label: 'Keyboard light down (Only Mac)*', id: 'lights_kbd_down'},
+	{ label: 'Insert (no Mac)*', id: 'insert'},
+	{ label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle'},
+	{ label: 'Keyboard light up (Only Mac)', id: 'lights_kbd_up'},
+	{ label: 'Keyboard light down (Only Mac)', id: 'lights_kbd_down'},
 
 	// { label: 'Caps Lock', id: 'caps_lock' },
 	// { label: 'Num Lock', id: 'num_lock'},
@@ -325,6 +326,8 @@ instance.prototype.action = function (action) {
 					return 'cmd';
 				case 'escape':
 					return 'esc';
+				case 'control':
+					return 'ctrl';
 
 			}
 			return key;
@@ -358,6 +361,10 @@ instance.prototype.action = function (action) {
 
 				case 'specialKey':
 					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`;
+					break
+
+				case 'specialKeyOS':
+					cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[] }`;
 					break
 
 				case 'shell': 
