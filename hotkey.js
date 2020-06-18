@@ -421,6 +421,10 @@ instance.prototype.action = function (action) {
 					cmd = '<FILE>' + opt.file;
 					break
 
+				case 'shell': 
+					cmd = '<SHELL>'+ opt.shell;
+					break
+					
 				case 'sendKeypressToProcess':
 					cmd = '<SKE>' + opt.virtualKeyCode + '<PROCESS>' + opt.processSearchString + '<AND>' + opt.modifier1 + '<AND2>' + opt.modifier2;
 					break
