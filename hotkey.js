@@ -230,8 +230,8 @@ instance.prototype.VIRTUAL_KEYCODES_ANSI = [
 instance.prototype.MODIFIER_KEYS = [
 	{ label: 'Shift', id: 'shift'},
 	{ label: 'fn', id: 'fn'},
-	{ label: 'Ctrl', id: 'ctrl'},
-	{ label: 'Command', id: 'cmd'},
+	{ label: 'Ctrl', id: 'control'},
+	{ label: 'Command', id: 'command'},
 	{ label: 'Option/alt', id: 'alt'},
 	{ label: 'Right Shift', id: 'right_shift'},
 	{ label: 'Right alt', id: 'right_alt'},

@@ -15,7 +15,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'combination',
 				options: {
-					Key1: 'cmd',
+					key1: 'command',
 					key2: 'tab'
 				}
 			}
@@ -35,7 +35,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'combination',
 				options: {
-					Key1: 'alt',
+					key1: 'alt',
 					key2: 'tab'
 				}
 			}
@@ -55,7 +55,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'combination',
 				options: {
-					Key1: 'ctrl',
+					key1: 'control',
 					key2: 'c'
 				}
 			}
@@ -75,7 +75,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'combination',
 				options: {
-					Key1: 'ctrl',
+					key1: 'control',
 					key2: 'v'
 				}
 			}
@@ -95,7 +95,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'specialKey',
 				options: {
-					specialKey: 'esc'
+					specialKey: 'escape'
 				}
 			}
 		]
@@ -204,7 +204,7 @@ exports.getPresets = function(self) {
 				action: 'trio',
 				options: {
 					key1: 'shift',
-					key2: 'cmd',
+					key2: 'command',
 					key3: 'enter'
 				}
 			}
@@ -224,7 +224,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'combination',
 				options: {
-					key1: 'cmd',
+					key1: 'command',
 					key2: 'enter'
 				}
 			}
@@ -244,7 +244,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'specialKey',
 				options: {
-					specialKey: 'esc'
+					specialKey: 'escape'
 				}
 			}
 		]
@@ -301,7 +301,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'specialKey',
 				options: {
-					specialKey: 'esc'
+					specialKey: 'escape'
 				}
 			}
 		]

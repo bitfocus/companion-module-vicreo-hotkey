@@ -7,7 +7,7 @@ Go to [VICREO hotkey](https://vicreo.eu/hotkey) for download.
 
 ## Usage
 
-Download and run the application on the remote computer (local is also possible). In companion fill in the IP address of the remote computer or 127.0.0.1 is installed on the same machine
+Download and run the application on the remote computer (local is also possible). In companion, fill in the IP address of the remote computer or 127.0.0.1 if installed on the same machine.
 
 ## Keys ##
 
@@ -40,7 +40,7 @@ F11
 F12
 Command/Win
 Option/alt
-Ctrl
+Control
 Shift
 Right-Shift
 Space(bar)
@@ -71,6 +71,7 @@ Monitor brightness down
 Insert
 Keyboard light up
 Keyboard light down 
+Printscreen
 
 ## TIPS for MacOS ##
 

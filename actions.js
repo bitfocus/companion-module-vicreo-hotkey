@@ -29,7 +29,7 @@ exports.getActions = function(self) {
 				type: 'dropdown',
 				label: 'Modifier',
 				id: 'key1',
-				default: 'ctrl',
+				default: 'control',
 				choices: self.MODIFIER_KEYS
 			},
 			{
@@ -46,7 +46,7 @@ exports.getActions = function(self) {
 				type: 'dropdown',
 				label: 'First modifier',
 				id: 'key1',
-				default: 'ctrl',
+				default: 'control',
 				choices: self.MODIFIER_KEYS
 			},
 			{
