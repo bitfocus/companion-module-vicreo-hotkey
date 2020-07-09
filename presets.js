@@ -3,7 +3,7 @@ exports.getPresets = function(self) {
 	var presets = [];
 
 	presets.push({
-		category: 'Basic control',
+		category: 'OSX',
 		bank: {
 			style: 'text',
 			text: 'Command + Tab (MAC)',
@@ -23,7 +23,67 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'Basic control',
+		category: 'OSX',
+		bank: {
+			style: 'text',
+			text: 'Command + x',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					key1: 'Command',
+					key2: 'x'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'OSX',
+		bank: {
+			style: 'text',
+			text: 'Command + c',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					key1: 'Command',
+					key2: 'c'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'OSX',
+		bank: {
+			style: 'text',
+			text: 'Command + v',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					key1: 'Command',
+					key2: 'v'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Windows',
 		bank: {
 			style: 'text',
 			text: 'Alt + Tab (Windows)',
@@ -43,7 +103,27 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'Basic control',
+		category: 'Windows',
+		bank: {
+			style: 'text',
+			text: 'Ctrl + x',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'combination',
+				options: {
+					key1: 'control',
+					key2: 'x'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Windows',
 		bank: {
 			style: 'text',
 			text: 'Ctrl + c',
@@ -63,7 +143,7 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'Basic control',
+		category: 'Windows',
 		bank: {
 			style: 'text',
 			text: 'Ctrl + v',
@@ -83,44 +163,6 @@ exports.getPresets = function(self) {
 	})
 
 	presets.push({
-		category: 'Basic control',
-		bank: {
-			style: 'text',
-			text: 'Esc',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'escape'
-				}
-			}
-		]
-	})
-
-	presets.push({
-		category: 'Basic control',
-		bank: {
-			style: 'text',
-			text: 'Esc',
-			size: '14',
-			color: self.rgb(255,255,255),
-			bgcolor: self.rgb(51,51,255)
-		},
-		actions: [
-			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'space'
-				}
-			}
-		]
-	})
-
-	presets.push({
 		category: 'Powerpoint for mac',
 		bank: {
 			style: 'text',
@@ -133,7 +175,7 @@ exports.getPresets = function(self) {
 			{
 				action: 'sendKeypressToProcess',
 				options: {
-					processSearchString: 'powerpoint',
+					processSearchString: 'Microsoft PowerPoint',
 					virtualKeyCode: '0x12',
 					modifier1: 'none',
 					modifier2: 'none'
@@ -143,7 +185,7 @@ exports.getPresets = function(self) {
 				action: 'sendKeypressToProcess',
 				delay: '30',
 				options: {
-					processSearchString: 'powerpoint',
+					processSearchString: 'Microsoft PowerPoint',
 					virtualKeyCode: '0x4C',
 					modifier1: 'none',
 					modifier2: 'none'
@@ -302,6 +344,44 @@ exports.getPresets = function(self) {
 				action: 'specialKey',
 				options: {
 					specialKey: 'escape'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Windows',
+		bank: {
+			style: 'text',
+			text: 'Shutdown',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,200)
+		},
+		actions: [
+			{
+				action: 'shell',
+				options: {
+					shell: 'shutdown /sg'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Windows',
+		bank: {
+			style: 'text',
+			text: 'Reboot',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,200)
+		},
+		actions: [
+			{
+				action: 'shell',
+				options: {
+					shell: 'shutdown /rg'
 				}
 			}
 		]
