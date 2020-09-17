@@ -296,6 +296,27 @@ exports.getPresets = function(self) {
 		category: 'Keynote',
 		bank: {
 			style: 'text',
+			text: 'Start\\nfrom current',
+			size: '14',
+			color: self.rgb(255,255,255),
+			bgcolor: self.rgb(51,51,255)
+		},
+		actions: [
+			{
+				action: 'trio',
+				options: {
+					key1: 'alt',
+					key2: 'command',
+					key3: 'p'
+				}
+			}
+		]
+	})
+
+	presets.push({
+		category: 'Keynote',
+		bank: {
+			style: 'text',
 			text: 'Next\\nSlide',
 			size: '14',
 			color: self.rgb(255,255,255),
