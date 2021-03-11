@@ -372,7 +372,7 @@ instance.prototype.action = function (action) {
 					break
 	
 				case 'file':
-					cmd = `{ "type":"file","path":"${escapeRegExp(opt.file)}" }`
+					cmd = `{ "type":"file","path":${escapeRegExp(opt.file)} }`
 					break
 
 				case 'sendKeypressToProcess':

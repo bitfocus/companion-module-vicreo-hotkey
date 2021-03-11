@@ -9,9 +9,11 @@ Go to [VICREO hotkey](https://vicreo.eu/hotkey) for download.
 
 Download and run the application on the remote computer (local is also possible). In companion, fill in the IP address of the remote computer or 127.0.0.1 if installed on the same machine.
 
+>> Check the build in presets!
+
 ## Keys ##
 
->The following keys are supported: (missing something? let me know!)
+>The following keys are supported:
 
 Backspace
 Delete
@@ -73,11 +75,14 @@ Keyboard light up
 Keyboard light down 
 Printscreen
 
-## TIPS for MacOS ##
+### TIPS for MacOS ###
 
 For mac, when you need the path of a file, right-click on the file and when you see the menu, press and hold Alt to be able to copy the full path.
 
 When using Powerpoint for mac, you can program a goto slide via a process. Use the 'Send KeyPress To MacOS Process' action and fill the process name (in this case Microsoft Powerpoint, you can search for it in activity monitor on the mac) and select the desired key. For example ANSI_3. Then use a bit delay (30ms) on the same button for the ANSI_KeypadEnter.
-For this to work you would need to run minimum version 1.4 of the VICREO-Listener.
 
-Check the build in presets!
+>> When using file paths make sure you escape the " like this \"filepath\"
+
+### TIPS for Windows ###
+
+For windows, when you need to open a file, right-click on the file while pressing Shift, to be able to copy the full path. Leave it all as it is (wrong slashes and ")

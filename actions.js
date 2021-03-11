@@ -104,7 +104,7 @@ exports.getActions = function(self) {
 			label: 'Open a file',
 			options: [ {
 				type: 'textinput',
-				label: 'Complete file path',
+				label: 'Complete file path (read help file)',
 				id: 'file'
 			}
 			]
