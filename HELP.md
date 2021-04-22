@@ -86,3 +86,4 @@ When using Powerpoint for mac, you can program a goto slide via a process. Use t
 ### TIPS for Windows ###
 
 For windows, when you need to open a file, right-click on the file while pressing Shift, to be able to copy the full path. Leave it all as it is (wrong slashes and ")
+There is an example preset to open notepad.

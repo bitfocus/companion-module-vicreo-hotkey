@@ -1,115 +1,119 @@
-var instance_skel = require('../../instance_skel');
-var tcp = require('../../tcp');
-var presets = require('./presets');
-var actions = require('./actions');
-var debug;
-var log;
+var instance_skel = require('../../instance_skel')
+var tcp = require('../../tcp')
+var presets = require('./presets')
+var actions = require('./actions')
+var debug
+var log
 
 function instance(system, id, config) {
-		var self = this;
+	var self = this
 
-		// super-constructor
-		instance_skel.apply(this, arguments);
-		self.actions(); // export actions
-		return self;
+	// super-constructor
+	instance_skel.apply(this, arguments)
+	self.actions() // export actions
+	return self
 }
 
 instance.prototype.init = function () {
-		var self = this;
-		if (self.config.port == undefined ) self.config.port = 10001;
-		debug = self.debug;
-		log = self.log;
+	var self = this
+	if (self.config.port == undefined) self.config.port = 10001
+	debug = self.debug
+	log = self.log
 
-		self.status(self.STATUS_UNKNOWN);
+	self.status(self.STATUS_UNKNOWN)
 
-		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, self.config.port);
+	if (self.config.host !== undefined) {
+		self.tcp = new tcp(self.config.host, self.config.port)
 
-			self.tcp.on('status_change', function (status, message) {
-				self.status(status, message);
-			});
+		self.tcp.on('status_change', function (status, message) {
+			self.status(status, message)
+		})
 
-			self.tcp.on('error', function () {
-				// Ignore
-			});
-		}
-		self.initPresets();
-};
+		self.tcp.on('error', function () {
+			// Ignore
+		})
+	}
+	self.initPresets()
+}
 
 instance.prototype.updateConfig = function (config) {
-		var self = this;
-		self.config = config;
+	var self = this
+	self.config = config
 
-		if (self.tcp !== undefined) {
-			self.tcp.destroy();
-			delete self.tcp;
-		}
-		// Listener port self.config.port
-		if (self.config.host !== undefined) {
-			self.tcp = new tcp(self.config.host, self.config.port);
+	if (self.tcp !== undefined) {
+		self.tcp.destroy()
+		delete self.tcp
+	}
+	// Listener port self.config.port
+	if (self.config.host !== undefined) {
+		self.tcp = new tcp(self.config.host, self.config.port)
 
-			self.tcp.on('status_change', function (status, message) {
-				self.status(status, message);
-			});
+		self.tcp.on('status_change', function (status, message) {
+			self.status(status, message)
+		})
 
-			self.tcp.on('error', function (message) {
-				self.log('error',"TCP error",message)
-			});
-		}
-		self.initPresets();
-};
+		self.tcp.on('error', function (message) {
+			self.log('error', 'TCP error', message)
+		})
+	}
+	self.initPresets()
+}
 
 // Return config fields for web config
 instance.prototype.config_fields = function () {
-		var self = this;
-		return [
-			{
-				type:  'text',
-				id:    'info',
-				width: 12,
-				label: 'Information',
-				value: 'This module is for the VICREO Hotkey Listener, download <a href="http://www.vicreo.eu/hotkey/" target="_new">here</a>.'
-			},
-			{
-				type:  'textinput',
-				id:    'host',
-				label: 'Target IP',
-				width: 6,
-				regex:  self.REGEX_IP
-			},
-			{
-				type:  'textinput',
-				id:    'port',
-				label: 'Port number (only for the nodejs build)',
-				width: 6,
-				regex:  self.REGEX_PORT,
-				default: 10001
-			},
-			{
-				type:  'dropdown',
-				id:    'version',
-				label: 'hotkey version',
-				width: 6,
-				choices: [{ label: 'Version below 2.0', id: 'python'},{ label: 'Version > 2.0.5', id: 'nodejs'}],
-				default: 'python'
-			}
-		]
-};
+	var self = this
+	return [
+		{
+			type: 'text',
+			id: 'info',
+			width: 12,
+			label: 'Information',
+			value:
+				'This module is for the VICREO Hotkey Listener, download <a href="http://www.vicreo.eu/hotkey/" target="_new">here</a>.',
+		},
+		{
+			type: 'textinput',
+			id: 'host',
+			label: 'Target IP',
+			width: 6,
+			regex: self.REGEX_IP,
+		},
+		{
+			type: 'textinput',
+			id: 'port',
+			label: 'Port number (only for the nodejs build)',
+			width: 6,
+			regex: self.REGEX_PORT,
+			default: 10001,
+		},
+		{
+			type: 'dropdown',
+			id: 'version',
+			label: 'hotkey version',
+			width: 6,
+			choices: [
+				{ label: 'Version below 2.0', id: 'python' },
+				{ label: 'Version > 2.0.5', id: 'nodejs' },
+			],
+			default: 'python',
+		},
+	]
+}
 
 // When module gets deleted
 instance.prototype.destroy = function () {
-	var self = this;
+	var self = this
 
-		if (self.tcp !== undefined) {
-			self.tcp.destroy();
-		}
-		debug("destroy", self.id);
-};
+	if (self.tcp !== undefined) {
+		self.tcp.destroy()
+	}
+	debug('destroy', self.id)
+}
 
 instance.prototype.initPresets = function (updates) {
-	var self = this;
+	var self = this
 
-	self.setPresetDefinitions(presets.getPresets(self));
+	self.setPresetDefinitions(presets.getPresets(self))
 }
 
 instance.prototype.VIRTUAL_KEYCODES_ANSI = [
@@ -224,22 +228,22 @@ instance.prototype.VIRTUAL_KEYCODES_ANSI = [
 	{ label: 'ANSI_Keypad6', id: '0x58' },
 	{ label: 'ANSI_Keypad7', id: '0x59' },
 	{ label: 'ANSI_Keypad8', id: '0x5B' },
-	{ label: 'ANSI_Keypad9', id: '0x5C' }
-];
+	{ label: 'ANSI_Keypad9', id: '0x5C' },
+]
 
 instance.prototype.MODIFIER_KEYS = [
-	{ label: 'Shift', id: 'shift'},
-	{ label: 'fn', id: 'fn'},
-	{ label: 'Ctrl', id: 'control'},
-	{ label: 'Command', id: 'command'},
-	{ label: 'Option/alt', id: 'alt'},
-	{ label: 'Right Shift', id: 'right_shift'},
-	{ label: 'Right alt', id: 'right_alt'},
-	{ label: 'Right ctrl', id: 'right_ctrl'}
-];
+	{ label: 'Shift', id: 'shift' },
+	{ label: 'fn', id: 'fn' },
+	{ label: 'Ctrl', id: 'control' },
+	{ label: 'Command', id: 'command' },
+	{ label: 'Option/alt', id: 'alt' },
+	{ label: 'Right Shift', id: 'right_shift' },
+	{ label: 'Right alt', id: 'right_alt' },
+	{ label: 'Right ctrl', id: 'right_ctrl' },
+]
 
 instance.prototype.CHOICES_KEYS = [
-	{ label: 'Backspace', id: 'backspace'},
+	{ label: 'Backspace', id: 'backspace' },
 	{ label: 'Delete', id: 'delete' },
 	{ label: 'Enter', id: 'enter' },
 	{ label: 'Tab', id: 'tab' },
@@ -264,182 +268,185 @@ instance.prototype.CHOICES_KEYS = [
 	{ label: 'F10', id: 'F10' },
 	{ label: 'F11', id: 'F11' },
 	{ label: 'F12', id: 'F12' },
-	{ label: 'Command/Windows', id: 'command'},
-	{ label: 'Option/alt', id: 'alt'},
-	{ label: 'Ctrl', id: 'control'},
-	{ label: 'Shift', id: 'shift'},
-	{ label: 'Right-Shift*', id: 'right_shift'},
-	{ label: 'Space', id: 'space' }
-];
+	{ label: 'Command/Windows', id: 'command' },
+	{ label: 'Option/alt', id: 'alt' },
+	{ label: 'Ctrl', id: 'control' },
+	{ label: 'Shift', id: 'shift' },
+	{ label: 'Right-Shift*', id: 'right_shift' },
+	{ label: 'Space', id: 'space' },
+]
 instance.prototype.CHOICES_KEYS_SPECIALS = [
-	{ label: 'Audio mute (toggle)', id: 'audio_mute'},
-	{ label: 'Audio volume down', id: 'audio_vol_down'},
-	{ label: 'Audio volume up', id: 'audio_vol_up'},
-	{ label: 'Play', id: 'audio_play'},
-	{ label: 'Stop', id: 'audio_stop'},
-	{ label: 'Pause', id: 'audio_pause'},
-	{ label: 'Previous track', id: 'audio_prev'},
-	{ label: 'Next track', id: 'audio_next'},
-	{ label: 'Numpad 0 (No Linux)', id: 'numpad_0'},
-	{ label: 'Numpad 1 (No Linux)', id: 'numpad_1'},
-	{ label: 'Numpad 2 (No Linux)', id: 'numpad_2'},
-	{ label: 'Numpad 3 (No Linux)', id: 'numpad_3'},
-	{ label: 'Numpad 4 (No Linux)', id: 'numpad_4'},
-	{ label: 'Numpad 5 (No Linux)', id: 'numpad_5'},
-	{ label: 'Numpad 6 (No Linux)', id: 'numpad_6'},
-	{ label: 'Numpad 7 (No Linux)', id: 'numpad_7'},
-	{ label: 'Numpad 8 (No Linux)', id: 'numpad_8'},
-	{ label: 'Numpad 9 (No Linux)', id: 'numpad_9'},
-	{ label: 'Monitor brightness up (Only Mac)', id: 'lights_mon_up'},
-	{ label: 'Monitor brightness down (Only Mac)', id: 'lights_mon_down'},
+	{ label: 'Audio mute (toggle)', id: 'audio_mute' },
+	{ label: 'Audio volume down', id: 'audio_vol_down' },
+	{ label: 'Audio volume up', id: 'audio_vol_up' },
+	{ label: 'Play', id: 'audio_play' },
+	{ label: 'Stop', id: 'audio_stop' },
+	{ label: 'Pause', id: 'audio_pause' },
+	{ label: 'Previous track', id: 'audio_prev' },
+	{ label: 'Next track', id: 'audio_next' },
+	{ label: 'Numpad 0 (No Linux)', id: 'numpad_0' },
+	{ label: 'Numpad 1 (No Linux)', id: 'numpad_1' },
+	{ label: 'Numpad 2 (No Linux)', id: 'numpad_2' },
+	{ label: 'Numpad 3 (No Linux)', id: 'numpad_3' },
+	{ label: 'Numpad 4 (No Linux)', id: 'numpad_4' },
+	{ label: 'Numpad 5 (No Linux)', id: 'numpad_5' },
+	{ label: 'Numpad 6 (No Linux)', id: 'numpad_6' },
+	{ label: 'Numpad 7 (No Linux)', id: 'numpad_7' },
+	{ label: 'Numpad 8 (No Linux)', id: 'numpad_8' },
+	{ label: 'Numpad 9 (No Linux)', id: 'numpad_9' },
+	{ label: 'Monitor brightness up (Only Mac)', id: 'lights_mon_up' },
+	{ label: 'Monitor brightness down (Only Mac)', id: 'lights_mon_down' },
 	{ label: 'Printscreen (No Mac)*', id: 'printscreen' },
-	{ label: 'Insert (no Mac)*', id: 'insert'},
-	{ label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle'},
-	{ label: 'Keyboard light up (Only Mac)', id: 'lights_kbd_up'},
-	{ label: 'Keyboard light down (Only Mac)', id: 'lights_kbd_down'},
+	{ label: 'Insert (no Mac)*', id: 'insert' },
+	{ label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle' },
+	{ label: 'Keyboard light up (Only Mac)', id: 'lights_kbd_up' },
+	{ label: 'Keyboard light down (Only Mac)', id: 'lights_kbd_down' },
 
 	// { label: 'Caps Lock', id: 'caps_lock' },
 	// { label: 'Num Lock', id: 'num_lock'},
 	// { label: 'Alt_gr', id: 'alt_gr'},
-];
+]
 
 instance.prototype.actions = function (system) {
-	var self = this;
+	var self = this
 
-	self.setActions(actions.getActions(self));
-};
-
+	self.setActions(actions.getActions(self))
+}
 
 instance.prototype.action = function (action) {
-		var self = this;
-		var id = action.action;
-		var cmd;
-		var opt = action.options;
-		
-		const escapeRegExp = (string) => {
-			return string.replace(/[\\]/g, '/')
+	var self = this
+	var id = action.action
+	var cmd
+	var opt = action.options
+
+	const escapeRegExp = (string) => {
+		return string.replace(/[\\]/g, '/')
+	}
+
+	function checkKey(key) {
+		switch (key) {
+			case 'command':
+				return 'cmd'
+			case 'escape':
+				return 'esc'
+			case 'control':
+				return 'ctrl'
 		}
-		
-		function checkKey(key) {
-			switch(key) {
-				case 'command':
-					return 'cmd';
-				case 'escape':
-					return 'esc';
-				case 'control':
-					return 'ctrl';
+		return key
+	}
+	// console.log('self.config.version',self.config.version)
+	if (self.config.version == 'nodejs') {
+		switch (id) {
+			case 'singleKey':
+				cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`
+				break
 
-			}
-			return key;
+			case 'combination':
+				cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`
+				break
+
+			case 'trio':
+				cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`
+				break
+
+			case 'press':
+				cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`
+				break
+
+			case 'release':
+				cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`
+				break
+
+			case 'msg':
+				cmd = `{ "type":"string","msg":"${opt.msg}" }`
+				break
+
+			case 'specialKey':
+				cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`
+				break
+
+			case 'specialKeyOS':
+				cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[] }`
+				break
+
+			case 'shell':
+				cmd = `{ "type":"shell","shell":"${opt.shell}" }`
+				break
+
+			case 'file':
+				cmd = `{ "type":"file","path":${escapeRegExp(opt.file)} }`
+				break
+
+			case 'sendKeypressToProcess':
+				if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}"] }`
+				} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}","${opt.modifier2}"] }`
+				} else {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":[] }`
+				}
+				break
 		}
-		// console.log('self.config.version',self.config.version)
-		if (self.config.version == 'nodejs') {
-			switch (id) {
-				case 'singleKey':
-					cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`;
-					break
+	} else {
+		switch (id) {
+			case 'singleKey':
+				cmd = '<SK>' + checkKey(opt.singleKey)
+				break
 
-				case 'combination':
-					cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`;
-					break
+			case 'combination':
+				cmd = '<KCOMBO>' + checkKey(opt.key1) + '<AND>' + checkKey(opt.key2)
+				break
 
-				case 'trio':
-					cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`;
-					break
+			case 'trio':
+				cmd = '<KTRIO>' + checkKey(opt.key1) + '<AND>' + checkKey(opt.key2) + '<AND2>' + checkKey(opt.key3)
+				break
 
-				case 'press':
-					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`;
-					break
+			case 'press':
+				cmd = '<KPRESS>' + checkKey(opt.keyPress)
+				break
 
-				case 'release':
-					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`;
-					break
+			case 'release':
+				cmd = '<KRELEASE>' + checkKey(opt.keyRelease)
+				break
 
-				case 'msg':
-					cmd = `{ "type":"string","msg":"${opt.msg}" }`
-					break
+			case 'msg':
+				cmd = '<MSG>' + opt.msg
+				break
 
-				case 'specialKey':
-					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`;
-					break
+			case 'specialKey':
+				cmd = '<SPK>' + checkKey(opt.specialKey)
+				break
 
-				case 'specialKeyOS':
-					cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[] }`;
-					break
+			case 'file':
+				cmd = '<FILE>' + opt.file
+				break
 
-				case 'shell': 
-					cmd = `{ "type":"shell","shell":"${opt.shell}" }`
-					break
-	
-				case 'file':
-					cmd = `{ "type":"file","path":${escapeRegExp(opt.file)} }`
-					break
+			case 'shell':
+				cmd = '<SHELL>' + opt.shell
+				break
 
-				case 'sendKeypressToProcess':
-					if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}"] }`
-					} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}","${opt.modifier2}"] }`
-					} else {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":[] }`
-					}
-					break
-
-			}
-		} else {
-			switch (id) {
-
-				case 'singleKey':
-					cmd = '<SK>' + checkKey(opt.singleKey);
-					break
-
-				case 'combination':
-					cmd = '<KCOMBO>'+ checkKey(opt.key1) +'<AND>' + checkKey(opt.key2);
-					break
-
-				case 'trio':
-					cmd = '<KTRIO>'+ checkKey(opt.key1) +'<AND>' + checkKey(opt.key2) +'<AND2>' + checkKey(opt.key3);
-					break
-
-				case 'press':
-					cmd = '<KPRESS>' + checkKey(opt.keyPress);
-					break
-
-				case 'release':
-					cmd = '<KRELEASE>' + checkKey(opt.keyRelease);
-					break
-
-				case 'msg':
-					cmd = '<MSG>' + opt.msg;
-					break
-
-				case 'specialKey':
-					cmd = '<SPK>' + checkKey(opt.specialKey);
-					break
-
-				case 'file':
-					cmd = '<FILE>' + opt.file;
-					break
-
-				case 'shell': 
-					cmd = '<SHELL>'+ opt.shell;
-					break
-					
-				case 'sendKeypressToProcess':
-					cmd = '<SKE>' + opt.virtualKeyCode + '<PROCESS>' + opt.processSearchString + '<AND>' + opt.modifier1 + '<AND2>' + opt.modifier2;
-					break
-
-			}
+			case 'sendKeypressToProcess':
+				cmd =
+					'<SKE>' +
+					opt.virtualKeyCode +
+					'<PROCESS>' +
+					opt.processSearchString +
+					'<AND>' +
+					opt.modifier1 +
+					'<AND2>' +
+					opt.modifier2
+				break
 		}
+	}
 
-		if (cmd !== undefined) {
-			if (self.tcp !== undefined) {
-				debug('sending ', cmd, "to", self.tcp.host);
-				console.log('cmd',cmd)
-				self.tcp.send(cmd);
-			}
+	if (cmd !== undefined) {
+		if (self.tcp !== undefined) {
+			debug('sending ', cmd, 'to', self.tcp.host)
+			console.log('cmd', cmd)
+			self.tcp.send(cmd)
 		}
-};
+	}
+}
 
-instance_skel.extendedBy(instance);
-exports = module.exports = instance;
+instance_skel.extendedBy(instance)
+exports = module.exports = instance
