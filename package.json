@@ -1,11 +1,11 @@
 {
 	"name": "vicreo-hotkey",
-	"version": "1.4.5",
+	"version": "2.0.0",
 	"api_version": "1.0.0",
 	"keywords": [
 		"Software",
 		"Keyboard emulator"
-		],
+	],
 	"manufacturer": "VICREO",
 	"product": "Hotkey",
 	"shortname": "VICREO hotkey",
@@ -15,5 +15,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Jeffrey Davidsz <jeffrey.davidsz@vicreo.eu>",
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {
+		"md5": "^2.3.0"
+	}
 }

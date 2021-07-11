@@ -2,6 +2,7 @@ var instance_skel = require('../../instance_skel')
 var tcp = require('../../tcp')
 var presets = require('./presets')
 var actions = require('./actions')
+var md5 = require('md5')
 var debug
 var log
 
@@ -81,10 +82,17 @@ instance.prototype.config_fields = function () {
 		{
 			type: 'textinput',
 			id: 'port',
-			label: 'Port number (only for the nodejs build)',
+			label: 'Port number (only for the nodejs builds)',
 			width: 6,
 			regex: self.REGEX_PORT,
 			default: 10001,
+		},
+		{
+			type: 'textinput',
+			id: 'password',
+			label: 'Password protected listeners (only version > 3.0.0)',
+			width: 6,
+			default: "",
 		},
 		{
 			type: 'dropdown',
@@ -93,9 +101,10 @@ instance.prototype.config_fields = function () {
 			width: 6,
 			choices: [
 				{ label: 'Version below 2.0', id: 'python' },
-				{ label: 'Version > 2.0.5', id: 'nodejs' },
+				{ label: 'Version > 2.0.5', id: '2.0.5' },
+				{ label: 'Version > 3.0.0', id: '3.0.0' },
 			],
-			default: 'nodejs',
+			default: '2.0.5',
 		},
 	]
 }
@@ -241,7 +250,6 @@ instance.prototype.MODIFIER_KEYS = [
 	{ label: 'Right alt', id: 'right_alt' },
 	{ label: 'Right ctrl', id: 'right_ctrl' },
 ]
-
 instance.prototype.CHOICES_KEYS = [
 	{ label: 'Backspace', id: 'backspace' },
 	{ label: 'Delete', id: 'delete' },
@@ -309,7 +317,6 @@ instance.prototype.CHOICES_KEYS_SPECIALS = [
 
 instance.prototype.actions = function (system) {
 	var self = this
-
 	self.setActions(actions.getActions(self))
 }
 
@@ -318,10 +325,6 @@ instance.prototype.action = function (action) {
 	var id = action.action
 	var cmd
 	var opt = action.options
-
-	const escapeRegExp = (string) => {
-		return string.replace(/[\\]/g, '/')
-	}
 
 	function checkKey(key) {
 		switch (key) {
@@ -334,8 +337,59 @@ instance.prototype.action = function (action) {
 		}
 		return key
 	}
-	// console.log('self.config.version',self.config.version)
-	if (self.config.version == 'nodejs') {
+	if (self.config.version == '3.0.0') {
+		switch (id) {
+			case 'singleKey':
+				cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'combination':
+				cmd = `{ "key":"${opt.key2}", "type":"combination", "modifiers":["${opt.key1}"], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'trio':
+				cmd = `{ "key":"${opt.key3}", "type":"trio", "modifiers":["${opt.key1}","${opt.key2}"], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'press':
+				cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'release':
+				cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'msg':
+				cmd = `{ "type":"string","msg":"${opt.msg}", "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'specialKey':
+				cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'specialKeyOS':
+				cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'shell':
+				cmd = `{ "type":"shell","shell":"${opt.shell}", "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'file':
+				cmd = `{ "type":"file","path":"${encodeURI(opt.file)}", "password": "${md5(self.config.password)}" }`
+				break
+
+			case 'sendKeypressToProcess':
+				if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}"], "password": "${md5(self.config.password)}" }`
+				} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}","${opt.modifier2}"], "password": "${md5(self.config.password)}" }`
+				} else {
+					cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				}
+				break
+		}
+	} else if (self.config.version == '2.0.5') {
 		switch (id) {
 			case 'singleKey':
 				cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`
@@ -374,7 +428,7 @@ instance.prototype.action = function (action) {
 				break
 
 			case 'file':
-				cmd = `{ "type":"file","path":${escapeRegExp(opt.file)} }`
+				cmd = `{ "type":"file","path":${opt.file.replace(/[\\]/g, '/')} }`
 				break
 
 			case 'sendKeypressToProcess':
@@ -418,7 +472,7 @@ instance.prototype.action = function (action) {
 				break
 
 			case 'file':
-				cmd = '<FILE>' + opt.file
+				cmd = '<FILE>' + opt.file.replace(/[\\]/g, '/')
 				break
 
 			case 'shell':

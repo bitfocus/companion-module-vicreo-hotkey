@@ -43,7 +43,7 @@ exports.getActions = function (self) {
 			],
 		},
 		trio: {
-			label: 'Three key',
+			label: 'Three key (trio)',
 			options: [
 				{
 					type: 'dropdown',
@@ -112,7 +112,7 @@ exports.getActions = function (self) {
 			options: [
 				{
 					type: 'textinput',
-					label: 'Complete file path (read help file)',
+					label: 'Complete file path, surround by " (read help file)',
 					id: 'file',
 				},
 			],
