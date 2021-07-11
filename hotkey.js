@@ -95,7 +95,7 @@ instance.prototype.config_fields = function () {
 				{ label: 'Version below 2.0', id: 'python' },
 				{ label: 'Version > 2.0.5', id: 'nodejs' },
 			],
-			default: 'python',
+			default: 'nodejs',
 		},
 	]
 }
