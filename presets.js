@@ -179,6 +179,25 @@ exports.getPresets = function (self) {
 			},
 		],
 	})
+	
+	presets.push({
+		category: 'OSX',
+		bank: {
+			style: 'text',
+			text: 'Open Notepad',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 255),
+		},
+		actions: [
+			{
+				action: 'file',
+				options: {
+					file: '"/System/Applications/Notes.app"',
+				},
+			},
+		],
+	})
 
 	presets.push({
 		category: 'Powerpoint for mac',

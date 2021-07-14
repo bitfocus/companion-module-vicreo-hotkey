@@ -46,6 +46,8 @@ Control
 Shift
 Right-Shift
 Space(bar)
+Leftmouse
+Rightmouse
 
 ## Check out the special keys ! ##
 Some functions might not work on different OS
@@ -75,13 +77,15 @@ Keyboard light up
 Keyboard light down 
 Printscreen
 
+### Open a file ###
+Goto presets and drag-drop [Open Notepad]. This will give you the right example how to do this.
 ### TIPS for MacOS ###
 
 For mac, when you need the path of a file, right-click on the file and when you see the menu, press and hold Alt to be able to copy the full path.
 
 When using Powerpoint for mac, you can program a goto slide via a process. Use the 'Send KeyPress To MacOS Process' action and fill the process name (in this case Microsoft Powerpoint, you can search for it in activity monitor on the mac) and select the desired key. For example ANSI_3. Then use a bit delay (30ms) on the same button for the ANSI_KeypadEnter.
 
->> When using file paths make sure you escape the " like this \"filepath\"
+>> When using file paths make sure you put " around the path, like: "filepath"
 
 ### TIPS for Windows ###
 
