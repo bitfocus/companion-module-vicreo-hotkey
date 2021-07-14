@@ -104,7 +104,7 @@ instance.prototype.config_fields = function () {
 				{ label: 'Version > 2.0.5', id: '2.0.5' },
 				{ label: 'Version > 3.0.0', id: '3.0.0' },
 			],
-			default: '2.0.5',
+			default: '3.0.0',
 		},
 	]
 }
@@ -320,7 +320,8 @@ instance.prototype.CHOICES_KEYS_SPECIALS = [
 	{ label: 'Insert (no Mac)*', id: 'insert' },
 	{ label: 'Toggle keyboard light on/off (Only Mac)*', id: 'lights_kbd_toggle' },
 	{ label: 'Keyboard light up (Only Mac)', id: 'lights_kbd_up' },
-	{ label: 'Keyboard light down (Only Mac)', id: 'lights_kbd_down' },
+	{ label: 'Left mouse click', id: 'leftmouse' },
+	{ label: 'Right mouse click', id: 'rightmouse' },
 
 	// { label: 'Caps Lock', id: 'caps_lock' },
 	// { label: 'Num Lock', id: 'num_lock'},
