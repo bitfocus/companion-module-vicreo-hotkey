@@ -85,7 +85,7 @@ exports.getPresets = function (self) {
 		category: 'Windows',
 		bank: {
 			style: 'text',
-			text: 'Alt + Tab (Windows)',
+			text: 'Combination Example',
 			size: '14',
 			color: self.rgb(255, 255, 255),
 			bgcolor: self.rgb(51, 51, 255),
@@ -101,6 +101,27 @@ exports.getPresets = function (self) {
 		],
 	})
 
+	presets.push({
+		category: 'Windows',
+		bank: {
+			style: 'text',
+			text: 'Trio example',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'trio',
+				options: {
+					key1: 'control',
+					key2: 'alt',
+					key3: 'tab',
+				},
+			},
+		],
+	})
+	
 	presets.push({
 		category: 'Windows',
 		bank: {
@@ -179,7 +200,7 @@ exports.getPresets = function (self) {
 			},
 		],
 	})
-	
+
 	presets.push({
 		category: 'OSX',
 		bank: {
@@ -440,6 +461,63 @@ exports.getPresets = function (self) {
 				action: 'shell',
 				options: {
 					shell: 'shutdown /rg',
+				},
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Audio',
+		bank: {
+			style: 'text',
+			text: 'Mute (toggle)',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'specialKeyOS',
+				options: {
+					specialKey: 'audio_mute',
+				},
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Audio',
+		bank: {
+			style: 'text',
+			text: 'Volume Up',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'specialKeyOS',
+				options: {
+					specialKey: 'audio_vol_up',
+				},
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Audio',
+		bank: {
+			style: 'text',
+			text: 'Volume Down',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'specialKeyOS',
+				options: {
+					specialKey: 'audio_vol_down',
 				},
 			},
 		],
