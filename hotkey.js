@@ -377,7 +377,7 @@ instance.prototype.action = function (action) {
 				break
 
 			case 'specialKey':
-				cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(self.config.password)}" }`
 				break
 
 			case 'specialKeyOS':
