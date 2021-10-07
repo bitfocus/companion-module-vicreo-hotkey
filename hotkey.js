@@ -353,7 +353,7 @@ instance.prototype.action = function (action) {
 	if (self.config.version == '3.0.0') {
 		switch (id) {
 			case 'singleKey':
-				cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[], "password": "${md5(self.config.password)}" }`
+				cmd = `{ "key":"${opt.singleKey}", "type":"press", "password": "${md5(self.config.password)}" }`
 				break
 
 			case 'combination':
