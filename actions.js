@@ -1,5 +1,5 @@
-exports.getActions = function (self) {
-	var actions = {
+exports.getActions = (self) => {
+	let actions = {
 		singleKey: {
 			label: 'Hot(single)key',
 			options: [

@@ -3,7 +3,7 @@ This module connects to the VICREO Listener program which you need to download a
 
 >  VICREO Listener is a small program that sits on your machine waiting for incoming TCP connection/commands. It uses pre-defined commands to simulate key-presses on your machine. You can use this program to preform hotkey actions from remote.
 
-Go to [VICREO hotkey](https://vicreo.eu/hotkey) for download.
+Go to [VICREO Listener](https://vicreo-listener.com) for download.
 When you have an issue let me know at: [https://github.com/JeffreyDavidsz/VICRO-Listener-ISSUES](https://github.com/JeffreyDavidsz/VICRO-Listener-ISSUES)
 
 ## Usage

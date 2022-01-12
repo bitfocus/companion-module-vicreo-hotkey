@@ -1,5 +1,5 @@
 exports.getPresets = function (self) {
-	var presets = []
+	let presets = []
 
 	presets.push({
 		category: 'OSX',

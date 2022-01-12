@@ -1,13 +1,13 @@
 {
 	"name": "vicreo-hotkey",
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"api_version": "1.0.0",
 	"keywords": [
 		"Software",
 		"Keyboard emulator"
 	],
 	"manufacturer": "VICREO",
-	"product": "Hotkey",
+	"product": ["Hotkey","Listener"],
 	"shortname": "VICREO hotkey",
 	"description": "VICREO Hotkey Listener plugin for Companion",
 	"main": "hotkey.js",
