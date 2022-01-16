@@ -4,6 +4,7 @@ const presets = require('./presets')
 const actions = require('./actions')
 const md5 = require('md5')
 let debug = () => {}
+let log
 
 class instance extends instance_skel {
 	/**
@@ -29,11 +30,11 @@ class instance extends instance_skel {
 		if (this.config.host !== undefined) {
 			this.tcp = new tcp(this.config.host, this.config.port)
 
-			this.tcp.on('status_change', function (status, message) {
+			this.tcp.on('status_change', (status, message) => {
 				this.status(status, message)
 			})
 
-			this.tcp.on('error', function () {
+			this.tcp.on('error', () => {
 				// Ignore
 			})
 		}
