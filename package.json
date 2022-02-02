@@ -7,7 +7,10 @@
 		"Keyboard emulator"
 	],
 	"manufacturer": "VICREO",
-	"product": ["Hotkey","Listener"],
+	"product": [
+		"Hotkey",
+		"Listener"
+	],
 	"shortname": "VICREO hotkey",
 	"description": "VICREO Hotkey Listener plugin for Companion",
 	"main": "hotkey.js",
@@ -18,5 +21,13 @@
 	"license": "MIT",
 	"dependencies": {
 		"md5": "^2.3.0"
+	},
+	"homepage": "https://github.com/bitfocus/companion-module-vicreo-hotkey#readme",
+	"bugs": {
+		"url": "https://github.com/bitfocus/companion-module-vicreo-hotkey/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git"
 	}
 }
