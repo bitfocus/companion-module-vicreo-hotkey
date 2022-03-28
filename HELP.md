@@ -4,7 +4,7 @@ This module connects to the VICREO Listener program which you need to download a
 >  VICREO Listener is a small program that sits on your machine waiting for incoming TCP connection/commands. It uses pre-defined commands to simulate key-presses on your machine. You can use this program to preform hotkey actions from remote.
 
 Go to [VICREO Listener](https://vicreo-listener.com) for download.
-When you have an issue let me know at: [https://github.com/JeffreyDavidsz/VICRO-Listener-ISSUES](https://github.com/JeffreyDavidsz/VICRO-Listener-ISSUES)
+When you have an issue let me know at: [https://github.com/bitfocus/companion-module-vicreo-hotkey/issues](https://github.com/bitfocus/companion-module-vicreo-hotkey/issues)
 
 ## Usage
 
@@ -90,5 +90,5 @@ When using Powerpoint for mac, you can program a goto slide via a process. Use t
 
 ### TIPS for Windows ###
 
-For windows, when you need to open a file, right-click on the file while pressing Shift, to be able to copy the full path. Leave it all as it is (wrong slashes and ")
+For Windows, when you need to open a file, right-click on the file while pressing Shift, to be able to copy the full path. Leave it all as it is (wrong slashes and ")
 There is an example preset to open notepad.
