@@ -67,6 +67,38 @@ exports.getActions = (self) => {
 				},
 			],
 		},
+		quartet: {
+			label: 'Four keys (quartet)',
+			options: [
+				{
+					type: 'dropdown',
+					label: 'First modifier',
+					id: 'key1',
+					default: 'control',
+					choices: self.MODIFIER_KEYS,
+				},
+				{
+					type: 'dropdown',
+					label: 'Second modifier',
+					id: 'key2',
+					default: 'shift',
+					choices: self.MODIFIER_KEYS,
+				},
+				{
+					type: 'dropdown',
+					label: 'Third modifier',
+					id: 'key3',
+					default: 'alt',
+					choices: self.MODIFIER_KEYS,
+				},
+				{
+					type: 'textinput',
+					label: '(Special) Key',
+					id: 'key4',
+					default: 'a',
+				},
+			],
+		},
 		press: {
 			label: 'Key press',
 			options: [
@@ -152,7 +184,6 @@ exports.getActions = (self) => {
 		},
 	}
 
-	if (self.config.version == 'nodejs') {
 		actions.specialKeyOS = {
 			label: 'special key OS dependent',
 			options: [
@@ -165,6 +196,5 @@ exports.getActions = (self) => {
 				},
 			],
 		}
-	}
 	return actions
 }
