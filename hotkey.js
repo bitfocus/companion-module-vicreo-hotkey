@@ -17,49 +17,88 @@ class instance extends instance_skel {
 	 */
 	constructor(system, id, config) {
 		super(system, id, config)
+		this.intervalConnect = false
+
+		// Create socket
+		this.timeout = 5000
+		this.retrying = false
 		this.actions() // export actions
+
+		process.on('uncaughtException', (err) => {
+			console.log(err)
+		})
 	}
 
 	init() {
-		if (this.config.port == undefined) this.config.port = 10001
 		debug = this.debug
 		log = this.log
 
 		this.status(this.STATUS_UNKNOWN)
 
-		if (this.config.host !== undefined) {
-			this.tcp = new tcp(this.config.host, this.config.port)
-
-			this.tcp.on('status_change', (status, message) => {
-				this.status(status, message)
-			})
-
-			this.tcp.on('error', () => {
-				// Ignore
-			})
-		}
+		this.init_TCP()
 		this.initPresets()
+	}
+
+	// Functions to handle socket events
+	makeConnection() {
+		console.log(`Connecting to ${this.config.host}:${this.config.port}...`)
+		// Create socket and bind callbacks
+		this.tcp = new tcp(this.config.host, this.config.port)
+
+		this.tcp.on('status_change', (status, message) => {
+			this.status(status, message)
+		})
+		this.tcp.on('connect', () => {
+			this.log('info', 'connected')
+			console.log('connected')
+			this.status(this.STATUS_OK)
+			clearInterval(this.intervalConnect)
+			this.retrying = false
+		})
+		this.tcp.on('data', (data) => {
+			console.log('data', data.toString())
+		})
+
+		// this.tcp.on('end', this.endEventHandler())
+		// this.tcp.on('timeout', this.timeoutEventHandler())
+		// this.tcp.on('drain', this.drainEventHandler())
+		// this.tcp.on('error', this.errorEventHandler())
+		this.tcp.on('close', () => {
+			this.log('info', 'Connection closed')
+			if (!this.retrying) {
+				this.retrying = true
+				console.log('Reconnecting...')
+			}
+			this.intervalConnect = setInterval(this.makeConnection(), this.timeout)
+		})
+	}
+
+	endEventHandler() {
+		console.log('end')
+	}
+	timeoutEventHandler() {
+		console.log('timeout')
+	}
+	drainEventHandler() {
+		console.log('drain')
+	}
+	errorEventHandler() {
+		console.log('error')
+	}
+
+	init_TCP() {
+		this.status(this.STATUS_UNKNOWN)
+
+		if (this.config.port == undefined) this.config.port = 10001
+		if (this.config.host !== undefined) {
+			this.makeConnection()
+		}
 	}
 
 	updateConfig(config) {
 		this.config = config
 
-		if (this.tcp !== undefined) {
-			this.tcp.destroy()
-			delete this.tcp
-		}
-		// Listener port this.config.port
-		if (this.config.host !== undefined) {
-			this.tcp = new tcp(this.config.host, this.config.port)
-
-			this.tcp.on('status_change', (status, message) => {
-				this.status(status, message)
-			})
-
-			this.tcp.on('error', (message) => {
-				this.log('error', 'TCP error', message)
-			})
-		}
+		this.init_TCP()
 		this.initPresets()
 	}
 
@@ -84,7 +123,7 @@ class instance extends instance_skel {
 			{
 				type: 'textinput',
 				id: 'port',
-				label: 'Port number (only for the nodejs builds)',
+				label: 'Port number',
 				width: 6,
 				regex: this.REGEX_PORT,
 				default: 10001,
@@ -92,21 +131,9 @@ class instance extends instance_skel {
 			{
 				type: 'textinput',
 				id: 'password',
-				label: 'Password protected listeners (only version > 3.0.0)',
+				label: 'Password protected listeners',
 				width: 6,
 				default: '',
-			},
-			{
-				type: 'dropdown',
-				id: 'version',
-				label: 'hotkey version',
-				width: 6,
-				choices: [
-					{ label: 'Version below 2.0', id: 'python' },
-					{ label: 'Version > 2.0.5', id: '2.0.5' },
-					{ label: 'Version > 3.0.0', id: '3.0.0' },
-				],
-				default: '3.0.0',
 			},
 		]
 	}
@@ -239,6 +266,7 @@ class instance extends instance_skel {
 	]
 
 	MODIFIER_KEYS = [
+		{ label: 'None', id: 'none' },
 		{ label: 'Shift', id: 'shift' },
 		{ label: 'fn', id: 'fn' },
 		{ label: 'Ctrl', id: 'control' },
@@ -332,195 +360,119 @@ class instance extends instance_skel {
 
 	action(action) {
 		let id = action.action
-		let cmd
+		let cmd = {}
 		let opt = action.options
 
-		function checkKey(key) {
-			switch (key) {
-				case 'command':
-					return 'cmd'
-				case 'escape':
-					return 'esc'
-				case 'control':
-					return 'ctrl'
-			}
-			return key
-		}
-		if (this.config.version == '3.0.0') {
-			switch (id) {
-				case 'singleKey':
-					cmd = `{ "key":"${opt.singleKey}", "type":"press", "password": "${md5(this.config.password)}" }`
-					break
+		switch (id) {
+			case 'singleKey':
+				cmd.key = opt.singleKey
+				cmd.type = 'press'
+				cmd.password = md5(this.config.password)
+				break
 
-				case 'combination':
-					cmd = `{ "key":"${opt.key2}", "type":"combination", "modifiers":["${opt.key1}"], "password": "${md5(
-						this.config.password
-					)}" }`
-					break
+			case 'combination':
+				cmd.key = opt.key2
+				cmd.type = 'combination'
+				cmd.modifiers = [opt.key1]
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.key2}", "type":"combination", "modifiers":["${opt.key1}"], "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'trio':
-					cmd = `{ "key":"${opt.key3}", "type":"trio", "modifiers":["${opt.key1}","${opt.key2}"], "password": "${md5(
-						this.config.password
-					)}" }`
-					break
+			case 'trio':
+				cmd.key = opt.key3
+				cmd.type = 'trio'
+				cmd.modifiers = [opt.key2, opt.key1]
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.key3}", "type":"trio", "modifiers":["${opt.key1}","${opt.key2}"], "password": "${md5(this.config.password	)}" }`
+				break
 
-				case 'press':
-					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[], "password": "${md5(this.config.password)}" }`
-					break
+			case 'quartet':
+				cmd.key = opt.key4
+				cmd.type = 'quartet'
+				cmd.modifiers = [opt.key3, opt.key2, opt.key1]
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.key3}", "type":"trio", "modifiers":["${opt.key1}","${opt.key2}"], "password": "${md5(this.config.password	)}" }`
+				break
 
-				case 'release':
-					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[], "password": "${md5(this.config.password)}" }`
-					break
+			case 'press':
+				cmd.key = opt.keyPress
+				cmd.type = 'down'
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[], "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'msg':
-					cmd = `{ "type":"string","msg":"${opt.msg}", "password": "${md5(this.config.password)}" }`
-					break
+			case 'release':
+				cmd.key = opt.keyRelease
+				cmd.type = 'up'
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[], "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'specialKey':
-					cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(
-						this.config.password
-					)}" }`
-					break
+			case 'msg':
+				cmd.type = 'string'
+				cmd.msg = opt.msg
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "type":"string","msg":"${opt.msg}", "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'specialKeyOS':
-					cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(
-						this.config.password
-					)}" }`
-					break
+			case 'specialKey':
+				cmd.key = opt.specialKey
+				cmd.type = 'pressSpecial'
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'shell':
-					cmd = `{ "type":"shell","shell":"${opt.shell}", "password": "${md5(this.config.password)}" }`
-					break
+			case 'specialKeyOS':
+				cmd.key = opt.specialKey
+				cmd.type = 'pressSpecial'
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[], "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'file':
-					cmd = `{ "type":"file","path":"${encodeURI(opt.file)}", "password": "${md5(this.config.password)}" }`
-					break
+			case 'shell':
+				cmd.type = 'shell'
+				cmd.shell = opt.shell
+				cmd.password = md5(this.config.password)
+				cmd = `{ "type":"shell","shell":"${opt.shell}", "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'sendKeypressToProcess':
-					if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-							opt.processSearchString
-						}", "modifiers":["${opt.modifier1}"], "password": "${md5(this.config.password)}" }`
-					} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-							opt.processSearchString
-						}", "modifiers":["${opt.modifier1}","${opt.modifier2}"], "password": "${md5(this.config.password)}" }`
-					} else {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-							opt.processSearchString
-						}", "modifiers":[], "password": "${md5(this.config.password)}" }`
-					}
-					break
-			}
-		} else if (this.config.version == '2.0.5') {
-			switch (id) {
-				case 'singleKey':
-					cmd = `{ "key":"${opt.singleKey}", "type":"press", "modifiers":[] }`
-					break
+			case 'file':
+				cmd.file = 'file'
+				cmd.path = encodeURI(opt.file)
+				cmd.password = md5(this.config.password)
+				// cmd = `{ "type":"file","path":"${encodeURI(opt.file)}", "password": "${md5(this.config.password)}" }`
+				break
 
-				case 'combination':
-					cmd = `{ "key":"${opt.key2}", "type":"press", "modifiers":["${opt.key1}"] }`
-					break
+			case 'sendKeypressToProcess':
+				cmd.key = opt.virtualKeyCode
+				cmd.type = 'processOSX'
+				cmd.processName = opt.processSearchString
+				cmd.modifiers = []
+				if (opt.modifier1 != 'none') cmd.modifiers.push(opt.modifier1)
+				if (opt.modifier2 != 'none') cmd.modifiers.push(opt.modifier2)
+				cmd.password = md5(this.config.password)
 
-				case 'trio':
-					cmd = `{ "key":"${opt.key3}", "type":"press", "modifiers":["${opt.key1}","${opt.key2}"] }`
-					break
-
-				case 'press':
-					cmd = `{ "key":"${opt.keyPress}", "type":"down", "modifiers":[] }`
-					break
-
-				case 'release':
-					cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[] }`
-					break
-
-				case 'msg':
-					cmd = `{ "type":"string","msg":"${opt.msg}" }`
-					break
-
-				case 'specialKey':
-					cmd = `{ "key":"${opt.specialKey}", "type":"press", "modifiers":[] }`
-					break
-
-				case 'specialKeyOS':
-					cmd = `{ "key":"${opt.specialKey}", "type":"pressSpecial", "modifiers":[] }`
-					break
-
-				case 'shell':
-					cmd = `{ "type":"shell","shell":"${opt.shell}" }`
-					break
-
-				case 'file':
-					cmd = `{ "type":"file","path":${opt.file.replace(/[\\]/g, '/')} }`
-					break
-
-				case 'sendKeypressToProcess':
-					if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}"] }`
-					} else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":["${opt.modifier1}","${opt.modifier2}"] }`
-					} else {
-						cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${opt.processSearchString}", "modifiers":[] }`
-					}
-					break
-			}
-		} else {
-			switch (id) {
-				case 'singleKey':
-					cmd = '<SK>' + checkKey(opt.singleKey)
-					break
-
-				case 'combination':
-					cmd = '<KCOMBO>' + checkKey(opt.key1) + '<AND>' + checkKey(opt.key2)
-					break
-
-				case 'trio':
-					cmd = '<KTRIO>' + checkKey(opt.key1) + '<AND>' + checkKey(opt.key2) + '<AND2>' + checkKey(opt.key3)
-					break
-
-				case 'press':
-					cmd = '<KPRESS>' + checkKey(opt.keyPress)
-					break
-
-				case 'release':
-					cmd = '<KRELEASE>' + checkKey(opt.keyRelease)
-					break
-
-				case 'msg':
-					cmd = '<MSG>' + opt.msg
-					break
-
-				case 'specialKey':
-					cmd = '<SPK>' + checkKey(opt.specialKey)
-					break
-
-				case 'file':
-					cmd = '<FILE>' + opt.file.replace(/[\\]/g, '/')
-					break
-
-				case 'shell':
-					cmd = '<SHELL>' + opt.shell
-					break
-
-				case 'sendKeypressToProcess':
-					cmd =
-						'<SKE>' +
-						opt.virtualKeyCode +
-						'<PROCESS>' +
-						opt.processSearchString +
-						'<AND>' +
-						opt.modifier1 +
-						'<AND2>' +
-						opt.modifier2
-					break
-			}
+				// if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
+				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
+				// 		opt.processSearchString
+				// 	}", "modifiers":["${opt.modifier1}"], "password": "${md5(this.config.password)}" }`
+				// } else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
+				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
+				// 		opt.processSearchString
+				// 	}", "modifiers":["${opt.modifier1}","${opt.modifier2}"], "password": "${md5(this.config.password)}" }`
+				// } else {
+				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
+				// 		opt.processSearchString
+				// 	}", "modifiers":[], "password": "${md5(this.config.password)}" }`
+				// }
+				break
 		}
 
+		console.log('cmd', JSON.stringify(cmd))
 		if (cmd !== undefined) {
 			if (this.tcp !== undefined) {
 				debug('sending ', cmd, 'to', this.tcp.host)
-				console.log('cmd', cmd)
-				this.tcp.send(cmd)
+				this.tcp.send(JSON.stringify(cmd))
 			}
 		}
 	}
