@@ -12,6 +12,23 @@ Download and run the application on the remote computer (local is also possible)
 
 >> Check the build in presets!
 
+## SUPPORTED ACTIONS ##
+
+* Single hotkey
+* Special key (see keylist)
+* Combination of keys
+>> After this you would need a license. Go to [VICREO Listener](https://vicreo-listener.com/license) to get one.
+* trio combination of keys
+* quartet combination of keys
+* Separate key press
+* Separate key release
+* MousePosition
+* MouseClick
+* Send a string
+* Send Shell command
+* Open a file remotely 
+* Send key directly to a process
+
 ## Keys ##
 
 >The following keys are supported:
@@ -92,3 +109,7 @@ When using Powerpoint for mac, you can program a goto slide via a process. Use t
 
 For Windows, when you need to open a file, right-click on the file while pressing Shift, to be able to copy the full path. Leave it all as it is (wrong slashes and ")
 There is an example preset to open notepad.
+
+### Mouse Position and click ###
+
+From version 4.0.10 upwards there is control over the mouse via position and a click (left, right, middle button, double click)

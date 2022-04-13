@@ -119,6 +119,44 @@ exports.getActions = (self) => {
 				},
 			],
 		},
+		mousePosition: {
+			label: 'Change mouse position',
+			options: [
+				{
+					type: 'number',
+					label: 'X-coordinate',
+					id: 'x',
+					default: 100,
+					minSelection: 1,
+				},
+				{
+					type: 'number',
+					label: 'Y-coordinate',
+					id: 'y',
+					default: 100,
+					minSelection: 1,
+				},
+			],
+		},
+		mouseClick: {
+			label: 'Click the mouse',
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Which button',
+					id: 'button',
+					default: 'left',
+					choices: [{ id: 'left', label: 'Left' },{ id: 'right', label: 'Right' },{ id: 'middle', label: 'Middle' }],
+				},
+				{
+					type: 'dropdown',
+					label: 'Double click?',
+					id: 'double',
+					default: 'false',
+					choices: [{ id: 'false', label: 'Single click' },{ id: 'true', label: 'Double click' }],
+				},
+			],
+		},
 		msg: {
 			label: 'Send stringmessage',
 			options: [

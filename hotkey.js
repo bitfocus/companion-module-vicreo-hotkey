@@ -408,6 +408,20 @@ class instance extends instance_skel {
 				// cmd = `{ "key":"${opt.keyRelease}", "type":"up", "modifiers":[], "password": "${md5(this.config.password)}" }`
 				break
 
+			case 'mousePosition':
+				cmd.type = 'mousePosition'
+				cmd.x = opt.x
+				cmd.y = opt.y
+				cmd.password = md5(this.config.password)
+				break
+
+			case 'mouseClick':
+				cmd.type = 'mouseClick'
+				cmd.button = opt.button
+				cmd.double = opt.double
+				cmd.password = md5(this.config.password)
+				break
+
 			case 'msg':
 				cmd.type = 'string'
 				cmd.msg = opt.msg
