@@ -447,7 +447,7 @@ class instance extends instance_skel {
 				cmd.type = 'shell'
 				cmd.shell = opt.shell
 				cmd.password = md5(this.config.password)
-				cmd = `{ "type":"shell","shell":"${opt.shell}", "password": "${md5(this.config.password)}" }`
+				// cmd = `{ "type":"shell","shell":"${opt.shell}", "password": "${md5(this.config.password)}" }`
 				break
 
 			case 'file':
