@@ -451,7 +451,7 @@ class instance extends instance_skel {
 				break
 
 			case 'file':
-				cmd.file = 'file'
+				cmd.type = 'file'
 				cmd.path = encodeURI(opt.file)
 				cmd.password = md5(this.config.password)
 				// cmd = `{ "type":"file","path":"${encodeURI(opt.file)}", "password": "${md5(this.config.password)}" }`
