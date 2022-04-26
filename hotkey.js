@@ -37,6 +37,34 @@ class instance extends instance_skel {
 
 		this.init_TCP()
 		this.initPresets()
+		this.initVariables()
+	}
+	/**
+	 * Process incoming data
+	 * @param {JSON obj} data
+	 */
+	processData(msg) {
+		console.log('msg', msg)
+		switch (msg.type) {
+			case 'version':
+				this.setVariable('version', msg.data)
+				break
+			case 'license':
+				this.setVariable('license', msg.data)
+				break
+			case 'mousePosition':
+				this.setVariable('mouseX', msg.x)
+				this.setVariable('mouseY', msg.y)
+				break
+			case 'subscribe':
+			case 'unsubscribe':
+			case 'getMousePosition':
+				break
+
+			default:
+				console.log('Wrong type', msg)
+				break
+		}
 	}
 
 	// Functions to handle socket events
@@ -56,13 +84,23 @@ class instance extends instance_skel {
 			this.retrying = false
 		})
 		this.tcp.on('data', (data) => {
-			console.log('data', data.toString())
+			let dataArray = data.toString().trim().split('\r\n')
+			for (const iterator of dataArray) {
+				const json = ((raw) => {
+					try {
+						return JSON.parse(raw)
+					} catch (objError) {
+						if (objError instanceof SyntaxError) {
+							console.error(objError.name)
+						} else {
+							console.error(objError.message)
+						}
+					}
+				})(iterator)
+				this.processData(json)
+			}
 		})
 
-		// this.tcp.on('end', this.endEventHandler())
-		// this.tcp.on('timeout', this.timeoutEventHandler())
-		// this.tcp.on('drain', this.drainEventHandler())
-		// this.tcp.on('error', this.errorEventHandler())
 		this.tcp.on('close', () => {
 			this.log('info', 'Connection closed')
 			if (!this.retrying) {
@@ -144,6 +182,16 @@ class instance extends instance_skel {
 			this.tcp.destroy()
 		}
 		debug('destroy', this.id)
+	}
+
+	initVariables() {
+		let variables = [
+			{ name: 'version', label: 'VICREO Listener version' },
+			{ name: 'license', label: 'License' },
+			{ name: 'mouseX', label: 'mouseX' },
+			{ name: 'mouseY', label: 'mouseY' },
+		]
+		this.setVariableDefinitions(variables)
 	}
 
 	initPresets(updates) {
@@ -415,6 +463,11 @@ class instance extends instance_skel {
 				cmd.password = md5(this.config.password)
 				break
 
+			case 'getMousePosition':
+				cmd.type = 'getMousePosition'
+				cmd.password = md5(this.config.password)
+				break
+
 			case 'mouseClick':
 				cmd.type = 'mouseClick'
 				cmd.button = opt.button
@@ -465,20 +518,21 @@ class instance extends instance_skel {
 				if (opt.modifier1 != 'none') cmd.modifiers.push(opt.modifier1)
 				if (opt.modifier2 != 'none') cmd.modifiers.push(opt.modifier2)
 				cmd.password = md5(this.config.password)
+				break
 
-				// if (opt.modifier1 != 'none' && opt.modifier2 == 'none') {
-				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-				// 		opt.processSearchString
-				// 	}", "modifiers":["${opt.modifier1}"], "password": "${md5(this.config.password)}" }`
-				// } else if (opt.modifier2 != 'none' && opt.modifier1 != 'none') {
-				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-				// 		opt.processSearchString
-				// 	}", "modifiers":["${opt.modifier1}","${opt.modifier2}"], "password": "${md5(this.config.password)}" }`
-				// } else {
-				// 	cmd = `{ "key":"${opt.virtualKeyCode}", "type":"processOSX","processName":"${
-				// 		opt.processSearchString
-				// 	}", "modifiers":[], "password": "${md5(this.config.password)}" }`
-				// }
+			case 'subscribe':
+				cmd.type = opt.subscribe
+				cmd.name = opt.name
+				cmd.interval = opt.interval
+				cmd.password = md5(this.config.password)
+				break
+
+			case 'custom':
+				try {
+					cmd = JSON.parse(opt.custom)
+				} catch (error) {
+					console.error('error', error)
+				}
 				break
 		}
 

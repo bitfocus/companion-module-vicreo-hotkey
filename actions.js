@@ -123,18 +123,18 @@ exports.getActions = (self) => {
 			label: 'Change mouse position',
 			options: [
 				{
-					type: 'number',
+					type: 'textwithvariables',
 					label: 'X-coordinate',
 					id: 'x',
 					default: 100,
-					minSelection: 1,
+					width: 6
 				},
 				{
-					type: 'number',
+					type: 'textwithvariables',
 					label: 'Y-coordinate',
 					id: 'y',
 					default: 100,
-					minSelection: 1,
+					width: 6
 				},
 			],
 		},
@@ -156,6 +156,10 @@ exports.getActions = (self) => {
 					choices: [{ id: 'false', label: 'Single click' },{ id: 'true', label: 'Double click' }],
 				},
 			],
+		},
+		getMousePosition: {
+			label: 'Get the position of the mouse on screen',
+			options: [],
 		},
 		msg: {
 			label: 'Send stringmessage',
@@ -220,9 +224,7 @@ exports.getActions = (self) => {
 				},
 			],
 		},
-	}
-
-		actions.specialKeyOS = {
+		specialKeyOS: {
 			label: 'special key OS dependent',
 			options: [
 				{
@@ -233,6 +235,44 @@ exports.getActions = (self) => {
 					choices: self.CHOICES_KEYS_SPECIALS,
 				},
 			],
-		}
+		},
+		subscribe: {
+			label: 'Subscribe to data',
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Subscribe',
+					id: 'subscribe',
+					default: 'subscribe',
+					choices: [{ id: 'subscribe', label: 'Subscribe' },{ id: 'unsubscribe', label: 'Unsubscribe' }],
+				},
+				{
+					type: 'dropdown',
+					label: 'Object',
+					id: 'name',
+					default: 'mousePosition',
+					choices: [{ id: 'mousePosition', label: 'mouse position' }],
+				},
+				{
+					type: 'number',
+					label: 'Interval',
+					id: 'interval',
+					default: 1000,
+				}
+			]
+		},
+		custom: {
+			label: 'Custom action',
+			options: [
+				{
+					type: 'textinput',
+					label: 'Custom message',
+					id: 'custom',
+					default: '{"type":}',
+				},
+			]
+		},
+	}
+
 	return actions
 }

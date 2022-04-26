@@ -523,5 +523,147 @@ exports.getPresets = function (self) {
 		],
 	})
 
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Click left',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'mouseClick',
+				options: {
+					button: 'left',
+					double: 'false'
+				},
+			},
+		],
+	})
+	
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Click right',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'mouseClick',
+				options: {
+					button: 'right',
+					double: 'false'
+				},
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Set Mouse\\nposition',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'mousePosition',
+				options: {
+					x: 500,
+					y: 500
+				}
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Get Mouse\\nposition',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'getMousePosition',
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'textwithvariables',
+			text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [],
+	})
+	
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'textwithvariables',
+			text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [],
+	})
+
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Subscribe\\nto position',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'subscribe',
+				options: {
+					subscribe: 'subscribe',
+					name: 'mousePosition',
+					interval: 1000
+				},
+			},
+		],
+	})
+
+	presets.push({
+		category: 'Mouse',
+		bank: {
+			style: 'text',
+			text: 'Unsubscribe\\nto position',
+			size: '14',
+			color: self.rgb(255, 255, 255),
+			bgcolor: self.rgb(51, 51, 200),
+		},
+		actions: [
+			{
+				action: 'subscribe',
+				options: {
+					subscribe: 'unsubscribe',
+					name: 'mousePosition',
+					interval: 1000
+				},
+			},
+		],
+	})
+
 	return presets
 }
