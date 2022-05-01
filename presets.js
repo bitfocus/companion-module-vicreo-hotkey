@@ -186,7 +186,7 @@ exports.getPresets = function (self) {
 		category: 'Windows',
 		bank: {
 			style: 'text',
-			text: 'Open Notepad',
+			text: 'Open Wordpad',
 			size: '14',
 			color: self.rgb(255, 255, 255),
 			bgcolor: self.rgb(51, 51, 255),
@@ -195,7 +195,7 @@ exports.getPresets = function (self) {
 			{
 				action: 'file',
 				options: {
-					file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Notepad.lnk"',
+					file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
 				},
 			},
 		],
