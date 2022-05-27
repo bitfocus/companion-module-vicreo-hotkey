@@ -17,7 +17,9 @@ Download and run the application on the remote computer (local is also possible)
 * Single hotkey
 * Special key (see keylist)
 * Combination of keys
+
 >> After this you would need a license. Go to [VICREO Listener](https://vicreo-listener.com/license) to get one.
+
 * trio combination of keys
 * quartet combination of keys
 * Separate key press

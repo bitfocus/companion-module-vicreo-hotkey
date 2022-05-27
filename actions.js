@@ -43,7 +43,7 @@ exports.getActions = (self) => {
 			],
 		},
 		trio: {
-			label: 'Three key (trio)',
+			label: 'Three key (trio, pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -68,7 +68,7 @@ exports.getActions = (self) => {
 			],
 		},
 		quartet: {
-			label: 'Four keys (quartet)',
+			label: 'Four keys (quartet, pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -120,7 +120,7 @@ exports.getActions = (self) => {
 			],
 		},
 		mousePosition: {
-			label: 'Change mouse position',
+			label: 'Change mouse position (pro-action)',
 			options: [
 				{
 					type: 'textwithvariables',
@@ -139,7 +139,7 @@ exports.getActions = (self) => {
 			],
 		},
 		mouseClick: {
-			label: 'Click the mouse',
+			label: 'Click the mouse (pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -172,7 +172,7 @@ exports.getActions = (self) => {
 			],
 		},
 		shell: {
-			label: 'Send shell command',
+			label: 'Send shell command (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -182,7 +182,7 @@ exports.getActions = (self) => {
 			],
 		},
 		file: {
-			label: 'Open a file',
+			label: 'Open a file (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -192,7 +192,7 @@ exports.getActions = (self) => {
 			],
 		},
 		sendKeypressToProcess: {
-			label: 'Send KeyPress To MacOS Process',
+			label: 'Send KeyPress To MacOS Process (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -225,7 +225,7 @@ exports.getActions = (self) => {
 			],
 		},
 		specialKeyOS: {
-			label: 'special key OS dependent',
+			label: 'special key OS dependent (pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -237,7 +237,7 @@ exports.getActions = (self) => {
 			],
 		},
 		subscribe: {
-			label: 'Subscribe to data',
+			label: 'Subscribe to data (pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -262,7 +262,7 @@ exports.getActions = (self) => {
 			]
 		},
 		custom: {
-			label: 'Custom action',
+			label: 'Custom action (pro-action)',
 			options: [
 				{
 					type: 'textinput',
