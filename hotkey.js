@@ -24,9 +24,9 @@ class instance extends instance_skel {
 		this.retrying = false
 		this.actions() // export actions
 
-		process.on('uncaughtException', (err) => {
-			console.log(err)
-		})
+		// process.on('uncaughtException', (err) => {
+		// 	console.log(err)
+		// })
 	}
 
 	init() {
@@ -108,6 +108,9 @@ class instance extends instance_skel {
 				console.log('Reconnecting...')
 			}
 			this.intervalConnect = setInterval(this.makeConnection(), this.timeout)
+		})
+		this.tcp.on('error', (err) => {
+			this.log('info', err)
 		})
 	}
 
