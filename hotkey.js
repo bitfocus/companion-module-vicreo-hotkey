@@ -85,19 +85,17 @@ class instance extends instance_skel {
 		})
 		this.tcp.on('data', (data) => {
 			let dataArray = data.toString().trim().split('\r\n')
-			for (const iterator of dataArray) {
-				const json = ((raw) => {
-					try {
-						return JSON.parse(raw)
-					} catch (objError) {
-						if (objError instanceof SyntaxError) {
-							console.error(objError.name)
-						} else {
-							console.error(objError.message)
-						}
+			for (const rawData of dataArray) {
+				try {
+					let processed = JSON.parse(rawData)
+					if (processed !== null || processed !== undefined) this.processData(processed)
+				} catch (objError) {
+					if (objError instanceof SyntaxError) {
+						console.error(objError.name)
+					} else {
+						console.error(objError.message)
 					}
-				})(iterator)
-				this.processData(json)
+				}
 			}
 		})
 
