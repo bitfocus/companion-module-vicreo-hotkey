@@ -1,6 +1,18 @@
+const md5 = require('md5')
 let cmd = {}
 
-exports.getActions = () => {
+const sendCommand = (cmd) => {
+	console.log('cmd', JSON.stringify(cmd))
+	cmd.password = md5(this.config.password)
+	if (cmd !== undefined) {
+		if (this.tcp !== undefined) {
+			this.log('debug ', `${cmd} to ${this.tcp.host}`)
+			this.tcp.send(JSON.stringify(cmd))
+		}
+	}
+}
+exports.getActions = (tcp) => {
+	this.tcp = tcp
 	let actions = {
 		singleKey: {
 			name: 'Hot(single)key',
@@ -16,7 +28,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.key = event.options.singleKey
 				cmd.type = 'press'
-				cmd.password = md5(this.config.password)
+
+				sendCommand(cmd)
 			},
 		},
 		specialKey: {
@@ -33,7 +46,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		combination: {
@@ -57,7 +71,8 @@ exports.getActions = () => {
 				cmd.key = event.options.key2
 				cmd.type = 'combination'
 				cmd.modifiers = [event.options.key1]
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		trio: {
@@ -88,7 +103,8 @@ exports.getActions = () => {
 				cmd.key = event.options.key3
 				cmd.type = 'trio'
 				cmd.modifiers = [event.options.key2, event.options.key1]
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		quartet: {
@@ -126,7 +142,8 @@ exports.getActions = () => {
 				cmd.key = event.options.key4
 				cmd.type = 'quartet'
 				cmd.modifiers = [event.options.key3, event.options.key2, event.options.key1]
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		press: {
@@ -141,7 +158,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.key = event.options.keyPress
 				cmd.type = 'down'
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		release: {
@@ -156,7 +174,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.key = event.options.keyRelease
 				cmd.type = 'up'
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		mousePosition: {
@@ -181,7 +200,8 @@ exports.getActions = () => {
 				cmd.type = 'mousePosition'
 				cmd.x = event.options.x
 				cmd.y = event.options.y
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		mouseClick: {
@@ -213,7 +233,8 @@ exports.getActions = () => {
 				cmd.type = 'mouseClick'
 				cmd.button = event.options.button
 				cmd.double = event.options.double
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		getMousePosition: {
@@ -221,7 +242,7 @@ exports.getActions = () => {
 			options: [],
 			callback: async () => {
 				cmd.type = 'getMousePosition'
-				cmd.password = md5(this.config.password)
+				
 			},
 		},
 		msg: {
@@ -236,7 +257,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.type = 'string'
 				cmd.msg = event.options.msg
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		shell: {
@@ -251,7 +273,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.type = 'shell'
 				cmd.shell = event.options.shell
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		file: {
@@ -266,7 +289,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.type = 'file'
 				cmd.path = encodeURI(event.options.file)
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		sendKeypressToProcess: {
@@ -308,7 +332,8 @@ exports.getActions = () => {
 				cmd.modifiers = []
 				if (event.options.modifier1 != 'none') cmd.modifiers.push(event.options.modifier1)
 				if (event.options.modifier2 != 'none') cmd.modifiers.push(event.options.modifier2)
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		specialKeyOS: {
@@ -325,7 +350,8 @@ exports.getActions = () => {
 			callback: async (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		subscribe: {
@@ -359,7 +385,8 @@ exports.getActions = () => {
 				cmd.type = event.options.subscribe
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
-				cmd.password = md5(this.config.password)
+				
+				sendCommand(cmd)
 			},
 		},
 		custom: {
@@ -378,6 +405,7 @@ exports.getActions = () => {
 				} catch (error) {
 					console.error('error', error)
 				}
+				sendCommand(cmd)
 			},
 		},
 	}
