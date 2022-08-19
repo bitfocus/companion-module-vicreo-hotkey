@@ -1,18 +1,8 @@
 const md5 = require('md5')
 let cmd = {}
 
-const sendCommand = (cmd) => {
-	console.log('cmd', JSON.stringify(cmd))
-	cmd.password = md5(this.config.password)
-	if (cmd !== undefined) {
-		if (this.tcp !== undefined) {
-			this.log('debug ', `${cmd} to ${this.tcp.host}`)
-			this.tcp.send(JSON.stringify(cmd))
-		}
-	}
-}
-exports.getActions = (tcp) => {
-	this.tcp = tcp
+
+exports.getActions = (base) => {
 	let actions = {
 		singleKey: {
 			name: 'Hot(single)key',
@@ -29,7 +19,7 @@ exports.getActions = (tcp) => {
 				cmd.key = event.options.singleKey
 				cmd.type = 'press'
 
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		specialKey: {
@@ -47,7 +37,7 @@ exports.getActions = (tcp) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		combination: {
@@ -72,7 +62,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'combination'
 				cmd.modifiers = [event.options.key1]
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		trio: {
@@ -104,7 +94,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'trio'
 				cmd.modifiers = [event.options.key2, event.options.key1]
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		quartet: {
@@ -143,7 +133,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'quartet'
 				cmd.modifiers = [event.options.key3, event.options.key2, event.options.key1]
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		press: {
@@ -159,7 +149,7 @@ exports.getActions = (tcp) => {
 				cmd.key = event.options.keyPress
 				cmd.type = 'down'
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		release: {
@@ -175,7 +165,7 @@ exports.getActions = (tcp) => {
 				cmd.key = event.options.keyRelease
 				cmd.type = 'up'
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		mousePosition: {
@@ -201,7 +191,7 @@ exports.getActions = (tcp) => {
 				cmd.x = event.options.x
 				cmd.y = event.options.y
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		mouseClick: {
@@ -234,7 +224,7 @@ exports.getActions = (tcp) => {
 				cmd.button = event.options.button
 				cmd.double = event.options.double
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		getMousePosition: {
@@ -258,7 +248,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'string'
 				cmd.msg = event.options.msg
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		shell: {
@@ -274,7 +264,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'shell'
 				cmd.shell = event.options.shell
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		file: {
@@ -290,7 +280,7 @@ exports.getActions = (tcp) => {
 				cmd.type = 'file'
 				cmd.path = encodeURI(event.options.file)
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		sendKeypressToProcess: {
@@ -333,7 +323,7 @@ exports.getActions = (tcp) => {
 				if (event.options.modifier1 != 'none') cmd.modifiers.push(event.options.modifier1)
 				if (event.options.modifier2 != 'none') cmd.modifiers.push(event.options.modifier2)
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		specialKeyOS: {
@@ -351,7 +341,7 @@ exports.getActions = (tcp) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		subscribe: {
@@ -386,7 +376,7 @@ exports.getActions = (tcp) => {
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
 				
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 		custom: {
@@ -405,7 +395,7 @@ exports.getActions = (tcp) => {
 				} catch (error) {
 					console.error('error', error)
 				}
-				sendCommand(cmd)
+				base.sendCommand(cmd)
 			},
 		},
 	}

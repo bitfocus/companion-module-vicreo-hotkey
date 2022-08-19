@@ -1,7 +1,7 @@
-const { tcp, InstanceBase, runEntrypoint, Regex } = require('@companion-module/base')
+const { tcp, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
-const presets = require('./presets')
-const actions = require('./actions')
+const Presets = require('./presets')
+const Actions = require('./actions')
 let log
 
 class instance extends InstanceBase {
@@ -27,7 +27,7 @@ class instance extends InstanceBase {
 		this.config = config
 		log = this.log
 
-		this.status(this.STATUS_UNKNOWN)
+		this.updateStatus('connecting')
 
 		this.init_TCP()
 		this.initPresets()
@@ -38,8 +38,21 @@ class instance extends InstanceBase {
 		this.config = config
 
 		this.init_TCP()
+		this.setActionDefinitions(Actions.getActions(this))
 		this.initPresets()
 	}
+
+	sendCommand(cmd) {
+		console.log('cmd', JSON.stringify(cmd))
+		cmd.password = md5(this.config.password)
+		if (cmd !== undefined) {
+			if (this.tcp !== undefined) {
+				this.log('debug ', `${cmd} to ${this.tcp.host}`)
+				this.tcp.send(JSON.stringify(cmd))
+			}
+		}
+	}
+
 	/**
 	 * Process incoming data
 	 * @param {JSON obj} data
@@ -74,12 +87,13 @@ class instance extends InstanceBase {
 		this.tcp = new tcp(this.config.host, this.config.port)
 
 		this.tcp.on('status_change', (status, message) => {
-			this.status(status, message)
+			this.updateStatus(status, message)
+
 		})
 		this.tcp.on('connect', () => {
 			this.log('info', 'connected')
 			console.log('connected')
-			this.status(this.STATUS_OK)
+			this.updateStatus('connecting')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
 		})
@@ -126,13 +140,13 @@ class instance extends InstanceBase {
 	}
 
 	init_TCP() {
-		this.status(this.STATUS_UNKNOWN)
+		this.updateStatus('connecting')
 
 		if (this.config.port == undefined) this.config.port = 10001
 		if (this.config.host !== undefined) {
 			this.makeConnection()
 		}
-		this.setActionDefinitions(actions.getActions())
+		// this.setActionDefinitions(Actions.getActions())
 	}
 
 	// Return config fields for web config
@@ -192,12 +206,12 @@ class instance extends InstanceBase {
 		this.setVariableDefinitions(variables)
 	}
 
-	initPresets(updates) {
-		this.setPresetDefinitions(presets.getPresets(this))
+	initPresets() {
+		this.setPresetDefinitions(Presets.getPresets(combineRgb))
 	}
 
-	updateActions() {
-		this.setActionDefinitions(actions.getActions())
+	actions() {
+		this.setActionDefinitions(Actions.getActions())
 	}
 }
 runEntrypoint(instance, UpgradeScripts)
