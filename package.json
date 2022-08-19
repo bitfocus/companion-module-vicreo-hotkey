@@ -3,7 +3,8 @@
 	"version": "4.0.0",
 	"main": "hotkey.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"format": "prettier -w ."
 	},
 	"license": "MIT",
 	"dependencies": {
