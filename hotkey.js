@@ -108,7 +108,7 @@ class instance extends instance_skel {
 			this.intervalConnect = setInterval(this.makeConnection(), this.timeout)
 		})
 		this.tcp.on('error', (err) => {
-			this.log('info', err)
+			this.log('info', err.toString())
 		})
 	}
 
