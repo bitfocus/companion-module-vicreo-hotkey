@@ -1,7 +1,7 @@
 const { TCPHelper, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
 const md5 = require('md5')
 const UpgradeScripts = require('./upgrades')
-const Presets = require('./presets')
+// const Presets = require('./presets')
 const Actions = require('./actions')
 let log
 
@@ -63,13 +63,13 @@ class instance extends InstanceBase {
 	processData(msg) {
 		switch (msg.type) {
 			case 'version':
-				this.setVariableValues({ version: msg.data})
+				this.setVariableValues({ version: msg.data })
 				break
 			case 'license':
-				this.setVariableValues({ license: msg.data})
+				this.setVariableValues({ license: msg.data })
 				break
 			case 'mousePosition':
-				this.setVariableValues({ mouseX: msg.x, mouseY: msg.y})
+				this.setVariableValues({ mouseX: msg.x, mouseY: msg.y })
 				break
 			case 'subscribe':
 			case 'unsubscribe':
@@ -90,7 +90,6 @@ class instance extends InstanceBase {
 
 		this.tcp.on('status_change', (status, message) => {
 			this.updateStatus(status, message)
-
 		})
 		this.tcp.on('connect', () => {
 			this.log('info', 'connected')
@@ -125,19 +124,6 @@ class instance extends InstanceBase {
 		this.tcp.on('error', (err) => {
 			this.log('info', err)
 		})
-	}
-
-	endEventHandler() {
-		console.log('end')
-	}
-	timeoutEventHandler() {
-		console.log('timeout')
-	}
-	drainEventHandler() {
-		console.log('drain')
-	}
-	errorEventHandler() {
-		console.log('error')
 	}
 
 	init_TCP() {
@@ -207,7 +193,32 @@ class instance extends InstanceBase {
 	}
 
 	initPresets() {
-		this.setPresetDefinitions(Presets.getPresetsList())
+		// this.setPresetDefinitions(Presets.getPresetsList())
+		const presets = {}
+		presets['CommandTab'] = {
+			name: 'CommandTab',
+			type: 'press',
+			category: 'OSX',
+			style: {
+				text: 'Command + Tab (MAC)',
+				size: '14',
+				color: combineRgb(255, 255, 255),
+				bgcolor: combineRgb(51, 51, 255),
+			},
+			actions: {
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'command',
+							key2: 'tab',
+						},
+					},
+				],
+				up: [],
+			},
+		}
+		this.setPresetDefinitions(presets)
 	}
 
 	actions() {
