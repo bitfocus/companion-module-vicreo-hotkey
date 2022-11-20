@@ -1,4 +1,5 @@
-const { tcp, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
+const { TCPHelper, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
+const md5 = require('md5')
 const UpgradeScripts = require('./upgrades')
 const Presets = require('./presets')
 const Actions = require('./actions')
@@ -30,6 +31,7 @@ class instance extends InstanceBase {
 		this.updateStatus('connecting')
 
 		this.init_TCP()
+		this.setActionDefinitions(Actions.getActions(this))
 		this.initPresets()
 		this.initVariables()
 	}
@@ -40,11 +42,12 @@ class instance extends InstanceBase {
 		this.init_TCP()
 		this.setActionDefinitions(Actions.getActions(this))
 		this.initPresets()
+		this.initVariables()
 	}
 
 	sendCommand(cmd) {
-		console.log('cmd', JSON.stringify(cmd))
 		cmd.password = md5(this.config.password)
+		console.log('cmd', JSON.stringify(cmd))
 		if (cmd !== undefined) {
 			if (this.tcp !== undefined) {
 				this.log('debug ', `${cmd} to ${this.tcp.host}`)
@@ -58,7 +61,6 @@ class instance extends InstanceBase {
 	 * @param {JSON obj} data
 	 */
 	processData(msg) {
-		console.log('msg', msg)
 		switch (msg.type) {
 			case 'version':
 				this.setVariableValues({ version: msg.data})
@@ -75,7 +77,7 @@ class instance extends InstanceBase {
 				break
 
 			default:
-				console.log('Wrong type', msg)
+				console.log('Other message', msg)
 				break
 		}
 	}
@@ -84,7 +86,7 @@ class instance extends InstanceBase {
 	makeConnection() {
 		console.log(`Connecting to ${this.config.host}:${this.config.port}...`)
 		// Create socket and bind callbacks
-		this.tcp = new tcp(this.config.host, this.config.port)
+		this.tcp = new TCPHelper(this.config.host, this.config.port)
 
 		this.tcp.on('status_change', (status, message) => {
 			this.updateStatus(status, message)
@@ -93,7 +95,6 @@ class instance extends InstanceBase {
 		this.tcp.on('connect', () => {
 			this.log('info', 'connected')
 			console.log('connected')
-			this.updateStatus('connecting')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
 		})
@@ -146,7 +147,6 @@ class instance extends InstanceBase {
 		if (this.config.host !== undefined) {
 			this.makeConnection()
 		}
-		// this.setActionDefinitions(Actions.getActions())
 	}
 
 	// Return config fields for web config
@@ -207,11 +207,11 @@ class instance extends InstanceBase {
 	}
 
 	initPresets() {
-		this.setPresetDefinitions(Presets.getPresets(combineRgb))
+		this.setPresetDefinitions(Presets.getPresetsList())
 	}
 
 	actions() {
-		this.setActionDefinitions(Actions.getActions())
+		this.setActionDefinitions(Actions.getActions(this))
 	}
 }
 runEntrypoint(instance, UpgradeScripts)
