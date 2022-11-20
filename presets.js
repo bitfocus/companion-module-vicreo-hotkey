@@ -1,32 +1,32 @@
-const { combineRgb } = require("@companion-module/base")
+const { combineRgb } = require('@companion-module/base')
 
 exports.getPresetsList = () => {
 	const presets = {}
-		presets['CommandTab'] = {
-				name: 'CommandTab',
-				type: 'press',
-				category: 'OSX',
-				style: {
-					text: 'Command + Tab (MAC)',
-					size: '14',
-					color: combineRgb(255, 255, 255),
-					bgcolor: combineRgb(51, 51, 255),
+	presets['CommandTab'] = {
+		name: 'CommandTab',
+		type: 'press',
+		category: 'OSX',
+		style: {
+			text: 'Command + Tab (MAC)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'command',
+						key2: 'tab',
+					},
 				},
-				actions: {
-					down: [
-						{
-							actionId: 'combination',
-							options: {
-								key1: 'command',
-								key2: 'tab',
-							},
-						},
-					],
-					up: [],
-				},
-			},
-	
-	console.log("loading presets", presets);
+			],
+			up: [],
+		},
+	}
+
+	console.log('loading presets', presets)
 
 	// presets.push({
 	// 	category: 'OSX',
