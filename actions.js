@@ -1,6 +1,4 @@
-const md5 = require('md5')
 let cmd = {}
-
 
 exports.getActions = (base) => {
 	let actions = {
