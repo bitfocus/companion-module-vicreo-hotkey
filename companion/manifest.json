@@ -1,34 +1,24 @@
 {
 	"id": "vicreo-hotkey",
 	"name": "vicreo-hotkey",
-	"shortname": "VICREO hotkey",
+	"shortname": "VICREO-Listener",
 	"description": "VICREO Hotkey Listener plugin for Companion",
-	"version": "0.0.0",
+	"version": "4.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git",
 	"bugs": "https://github.com/bitfocus/companion-module-vicreo-hotkey/issues",
-	"maintainers": [
-		{
-			"name": "Jeffrey Davidsz",
-			"email": "jeffrey.davidsz@vicreo.eu"
-		}
-	],
+	"maintainers": [{
+		"name": "Jeffrey Davidsz",
+		"email": "jeffrey.davidsz@vicreo.eu"
+	}],
 	"legacyIds": [],
 	"runtime": {
 		"type": "node14",
-		"api": "socket.io",
+		"api": "nodejs-ipc",
 		"apiVersion": "0.0.0",
 		"entrypoint": "../hotkey.js"
 	},
 	"manufacturer": "VICREO",
-	"products": [
-		[
-			"Hotkey",
-			"Listener"
-		]
-	],
-	"keywords": [
-		"Software",
-		"Keyboard emulator"
-	]
+	"products": ["Listener"],
+	"keywords": ["Keyboard", "emulator"]
 }
