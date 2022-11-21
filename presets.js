@@ -1,7 +1,8 @@
 const { combineRgb } = require('@companion-module/base')
 
-exports.getPresetsList = () => {
+exports.GetPresetsList = () => {
 	const presets = {}
+
 	presets['CommandTab'] = {
 		name: 'CommandTab',
 		type: 'press',
@@ -12,6 +13,7 @@ exports.getPresetsList = () => {
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(51, 51, 255),
 		},
+		feedbacks: [],
 		actions: {
 			down: [
 				{
@@ -26,651 +28,808 @@ exports.getPresetsList = () => {
 		},
 	}
 
-	console.log('loading presets', presets)
+	presets['commandX'] = {
+		name: 'commandX',
+		type: 'press',
+		category: 'OSX',
+		style: {
+			text: 'Command + x',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'Command',
+						key2: 'x',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'OSX',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Command + x',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'Command',
-	// 				key2: 'x',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['commandC'] = {
+		name: 'commandC',
+		type: 'press',
+		category: 'OSX',
+		style: {
+			text: 'Command + c',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'Command',
+						key2: 'c',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'OSX',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Command + c',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'Command',
-	// 				key2: 'c',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['commandV'] = {
+		name: 'commandV',
+		type: 'press',
+		category: 'OSX',
+		style: {
+			text: 'Command + v',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'Command',
+						key2: 'v',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'OSX',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Command + v',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'Command',
-	// 				key2: 'v',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['altTab'] = {
+		name: 'altTab',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Combination Example',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'alt',
+						key2: 'tab',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Combination Example',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'alt',
-	// 				key2: 'tab',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['controlAltTab'] = {
+		name: 'controlAltTab',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Trio example',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'trio',
+					options: {
+						key1: 'control',
+						key2: 'alt',
+						key3: 'tab',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Trio example',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'trio',
-	// 			options: {
-	// 				key1: 'control',
-	// 				key2: 'alt',
-	// 				key3: 'tab',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['controlX'] = {
+		name: 'controlX',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Ctrl + x',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'control',
+						key2: 'x',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Ctrl + x',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'control',
-	// 				key2: 'x',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['controlC'] = {
+		name: 'controlC',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Ctrl + c',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'control',
+						key2: 'c',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Ctrl + c',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'control',
-	// 				key2: 'c',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['controlV'] = {
+		name: 'controlV',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Ctrl + v',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'control',
+						key2: 'v',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Ctrl + v',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'control',
-	// 				key2: 'v',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['openWordpad'] = {
+		name: 'openWordpad',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Open Wordpad',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'file',
+					options: {
+						file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Open Wordpad',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'file',
-	// 			options: {
-	// 				file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['openNotepad'] = {
+		name: 'openNotepad',
+		type: 'press',
+		category: 'OSX',
+		style: {
+			text: 'Open Notepad',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'file',
+					options: {
+						file: '"/System/Applications/Notes.app"',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'OSX',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Open Notepad',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'file',
-	// 			options: {
-	// 				file: '"/System/Applications/Notes.app"',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['gotoSlide1'] = {
+		name: 'gotoSlide1',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Goto slide 1',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'sendKeypressToProcess',
+					options: {
+						processSearchString: 'Microsoft PowerPoint',
+						virtualKeyCode: '0x12',
+						modifier1: 'none',
+						modifier2: 'none',
+					},
+				},
+				{
+					actionId: 'sendKeypressToProcess',
+					delay: '30',
+					options: {
+						processSearchString: 'Microsoft PowerPoint',
+						virtualKeyCode: '0x4C',
+						modifier1: 'none',
+						modifier2: 'none',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Goto slide 1',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'sendKeypressToProcess',
-	// 			options: {
-	// 				processSearchString: 'Microsoft PowerPoint',
-	// 				virtualKeyCode: '0x12',
-	// 				modifier1: 'none',
-	// 				modifier2: 'none',
-	// 			},
-	// 		},
-	// 		{
-	// 			actionId: 'sendKeypressToProcess',
-	// 			delay: '30',
-	// 			options: {
-	// 				processSearchString: 'Microsoft PowerPoint',
-	// 				virtualKeyCode: '0x4C',
-	// 				modifier1: 'none',
-	// 				modifier2: 'none',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['nextSlide'] = {
+		name: 'nextSlide',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Next\\nSlide',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'space',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Next\\nSlide',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'space',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['previousSlide'] = {
+		name: 'previousSlide',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Previous\\nSlide',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'left',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Previous\\nSlide',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'left',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['startFromTop'] = {
+		name: 'startFromTop',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Start\\nfrom top',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'trio',
+					options: {
+						key1: 'shift',
+						key2: 'command',
+						key3: 'enter',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Start\\nfrom top',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'trio',
-	// 			options: {
-	// 				key1: 'shift',
-	// 				key2: 'command',
-	// 				key3: 'enter',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['startFromCurrent'] = {
+		name: 'startFromCurrent',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Start\\nfrom current',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'combination',
+					options: {
+						key1: 'command',
+						key2: 'enter',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Start\\nfrom current',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'combination',
-	// 			options: {
-	// 				key1: 'command',
-	// 				key2: 'enter',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['quitSlideshow'] = {
+		name: 'quitSlideshow',
+		type: 'press',
+		category: 'Powerpoint for mac',
+		style: {
+			text: 'Quit\\nslideshow',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'escape',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Powerpoint for mac',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Quit\\nslideshow',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'escape',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['startFromCurrentOSX'] = {
+		name: 'startFromCurrentOSX',
+		type: 'press',
+		category: 'Keynote',
+		style: {
+			text: 'Start\\nfrom current',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'trio',
+					options: {
+						key1: 'alt',
+						key2: 'command',
+						key3: 'p',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Keynote',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Start\\nfrom current',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 255),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'trio',
-	// 			options: {
-	// 				key1: 'alt',
-	// 				key2: 'command',
-	// 				key3: 'p',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['nextSlideOSX'] = {
+		name: 'nextSlideOSX',
+		type: 'press',
+		category: 'Keynote',
+		style: {
+			text: 'Next\\nSlide',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'space',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Keynote',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Next\\nSlide',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'space',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['previousSlideOSX'] = {
+		name: 'previousSlideOSX',
+		type: 'press',
+		category: 'Keynote',
+		style: {
+			text: 'Previous\\nSlide',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'left',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Keynote',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Previous\\nSlide',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'left',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['quitSlideshowOSX'] = {
+		name: 'quitSlideshowOSX',
+		type: 'press',
+		category: 'Keynote',
+		style: {
+			text: 'Quit\\nslideshow',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKey',
+					options: {
+						specialKey: 'escape',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Keynote',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Quit\\nslideshow',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKey',
-	// 			options: {
-	// 				specialKey: 'escape',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['shutdownWindows'] = {
+		name: 'shutdownWindows',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Shutdown',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'shell',
+					options: {
+						shell: 'shutdown /sg',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Shutdown',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'shell',
-	// 			options: {
-	// 				shell: 'shutdown /sg',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['rebootWindows'] = {
+		name: 'rebootWindows',
+		type: 'press',
+		category: 'Windows',
+		style: {
+			text: 'Reboot',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'shell',
+					options: {
+						shell: 'shutdown /rg',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Windows',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Reboot',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'shell',
-	// 			options: {
-	// 				shell: 'shutdown /rg',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['mute'] = {
+		name: 'mute',
+		type: 'press',
+		category: 'Audio',
+		style: {
+			text: 'Mute (toggle)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKeyOS',
+					options: {
+						specialKey: 'audio_mute',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Audio',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Mute (toggle)',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKeyOS',
-	// 			options: {
-	// 				specialKey: 'audio_mute',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['volumeUp'] = {
+		name: 'volumeUp',
+		type: 'press',
+		category: 'Audio',
+		style: {
+			text: 'Volume Up',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKeyOS',
+					options: {
+						specialKey: 'audio_vol_up',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Audio',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Volume Up',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKeyOS',
-	// 			options: {
-	// 				specialKey: 'audio_vol_up',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['volumeDown'] = {
+		name: 'volumeDown',
+		type: 'press',
+		category: 'Audio',
+		style: {
+			text: 'Volume Down',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'specialKeyOS',
+					options: {
+						specialKey: 'audio_vol_down',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Audio',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Volume Down',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'specialKeyOS',
-	// 			options: {
-	// 				specialKey: 'audio_vol_down',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['clickLeft'] = {
+		name: 'clickLeft',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Click left',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'mouseClick',
+					options: {
+						button: 'left',
+						double: 'false',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Click left',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'mouseClick',
-	// 			options: {
-	// 				button: 'left',
-	// 				double: 'false',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['clickRight'] = {
+		name: 'clickRight',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Click right',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'mouseClick',
+					options: {
+						button: 'right',
+						double: 'false',
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Click right',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'mouseClick',
-	// 			options: {
-	// 				button: 'right',
-	// 				double: 'false',
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['setMousePosition'] = {
+		name: 'setMousePosition',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Set Mouse\\nposition',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'mousePosition',
+					options: {
+						x: 500,
+						y: 500,
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Set Mouse\\nposition',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'mousePosition',
-	// 			options: {
-	// 				x: 500,
-	// 				y: 500,
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['getMousePosition'] = {
+		name: 'getMousePosition',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Get Mouse\\nposition',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'getMousePosition',
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Get Mouse\\nposition',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'getMousePosition',
-	// 		},
-	// 	],
-	// })
+	presets['mouseX'] = {
+		name: 'mouseX',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: { down: [], up: [] },
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'textwithvariables',
-	// 		text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [],
-	// })
+	presets['mouseY'] = {
+		name: 'mouseY',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: { down: [], up: [] },
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'textwithvariables',
-	// 		text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [],
-	// })
+	presets['subscribeToPosition'] = {
+		name: 'subscribeToPosition',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Subscribe\\nto position',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'subscribe',
+					options: {
+						subscribe: 'subscribe',
+						name: 'mousePosition',
+						interval: 1000,
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Subscribe\\nto position',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'subscribe',
-	// 			options: {
-	// 				subscribe: 'subscribe',
-	// 				name: 'mousePosition',
-	// 				interval: 1000,
-	// 			},
-	// 		},
-	// 	],
-	// })
-
-	// presets.push({
-	// 	category: 'Mouse',
-	// 	bank: {
-	// 		style: 'text',
-	// 		text: 'Unsubscribe\\nto position',
-	// 		size: '14',
-	// 		color: combineRgb(255, 255, 255),
-	// 		bgcolor: combineRgb(51, 51, 200),
-	// 	},
-	// 	actions: [
-	// 		{
-	// 			actionId: 'subscribe',
-	// 			options: {
-	// 				subscribe: 'unsubscribe',
-	// 				name: 'mousePosition',
-	// 				interval: 1000,
-	// 			},
-	// 		},
-	// 	],
-	// })
+	presets['unsubscribe'] = {
+		name: 'unsubscribe',
+		type: 'press',
+		category: 'Mouse',
+		style: {
+			text: 'Unsubscribe\\nto position',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		actions: {
+			down: [
+				{
+					actionId: 'subscribe',
+					options: {
+						subscribe: 'unsubscribe',
+						name: 'mousePosition',
+						interval: 1000,
+					},
+				},
+			],
+			up: [],
+		},
+	}
 
 	return presets
 }
