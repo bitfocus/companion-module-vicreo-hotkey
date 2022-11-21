@@ -50,7 +50,7 @@ class instance extends InstanceBase {
 		console.log('cmd', JSON.stringify(cmd))
 		if (cmd !== undefined) {
 			if (this.tcp !== undefined) {
-				this.log('debug ', `${cmd} to ${this.tcp.host}`)
+				this.log('debug', `${JSON.stringify(cmd)} to ${this.config.host}`)
 				this.tcp.send(JSON.stringify(cmd))
 			}
 		}
@@ -176,7 +176,7 @@ class instance extends InstanceBase {
 
 	// When module gets deleted
 	async destroy() {
-		this.log('debug', 'destroy')
+		this.log('info', 'destroy')
 		if (this.tcp !== undefined) {
 			this.tcp.destroy()
 		}
