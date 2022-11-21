@@ -1,8 +1,8 @@
 const { TCPHelper, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
 const md5 = require('md5')
 const UpgradeScripts = require('./upgrades')
-// const Presets = require('./presets')
-const Actions = require('./actions')
+const { GetPresetsList } = require('./presets')
+const { GetActions } = require('./actions')
 let log
 
 class instance extends InstanceBase {
@@ -21,7 +21,7 @@ class instance extends InstanceBase {
 		// Create socket
 		this.timeout = 5000
 		this.retrying = false
-		this.actions() // export actions
+		// this.actions() // export actions
 	}
 
 	async init(config) {
@@ -31,7 +31,7 @@ class instance extends InstanceBase {
 		this.updateStatus('connecting')
 
 		this.init_TCP()
-		this.setActionDefinitions(Actions.getActions(this))
+		this.actions()
 		this.initPresets()
 		this.initVariables()
 	}
@@ -40,7 +40,7 @@ class instance extends InstanceBase {
 		this.config = config
 
 		this.init_TCP()
-		this.setActionDefinitions(Actions.getActions(this))
+		this.actions()
 		this.initPresets()
 		this.initVariables()
 	}
@@ -193,36 +193,11 @@ class instance extends InstanceBase {
 	}
 
 	initPresets() {
-		// this.setPresetDefinitions(Presets.getPresetsList())
-		const presets = {}
-		presets['CommandTab'] = {
-			name: 'CommandTab',
-			type: 'press',
-			category: 'OSX',
-			style: {
-				text: 'Command + Tab (MAC)',
-				size: '14',
-				color: combineRgb(255, 255, 255),
-				bgcolor: combineRgb(51, 51, 255),
-			},
-			actions: {
-				down: [
-					{
-						actionId: 'combination',
-						options: {
-							key1: 'command',
-							key2: 'tab',
-						},
-					},
-				],
-				up: [],
-			},
-		}
-		this.setPresetDefinitions(presets)
+		this.setPresetDefinitions(GetPresetsList())
 	}
 
 	actions() {
-		this.setActionDefinitions(Actions.getActions(this))
+		this.setActionDefinitions(GetActions(this))
 	}
 }
 runEntrypoint(instance, UpgradeScripts)

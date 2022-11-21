@@ -1,6 +1,6 @@
 let cmd = {}
 
-exports.getActions = (base) => {
+exports.GetActions = (base) => {
 	let actions = {
 		singleKey: {
 			name: 'Hot(single)key',
@@ -230,7 +230,7 @@ exports.getActions = (base) => {
 			options: [],
 			callback: async () => {
 				cmd.type = 'getMousePosition'
-				
+				base.sendCommand(cmd)
 			},
 		},
 		msg: {
