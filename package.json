@@ -8,7 +8,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@companion-module/base": "~0.4.6",
+		"@companion-module/base": "~0.5.0",
 		"md5": "^2.3.0"
 	},
 	"repository": {
@@ -16,7 +16,7 @@
 		"url": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^0.3.1"
+		"@companion-module/tools": "^0.3.3"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json"
 }
