@@ -5,7 +5,7 @@ exports.GetPresetsList = () => {
 
 	presets['CommandTab'] = {
 		name: 'CommandTab',
-		type: 'press',
+		type: 'button',
 		category: 'OSX',
 		style: {
 			text: 'Command + Tab (MAC)',
@@ -14,23 +14,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'command',
-						key2: 'tab',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'command',
+							key2: 'tab',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['commandX'] = {
 		name: 'commandX',
-		type: 'press',
+		type: 'button',
 		category: 'OSX',
 		style: {
 			text: 'Command + x',
@@ -39,23 +41,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'Command',
-						key2: 'x',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'x',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['commandC'] = {
 		name: 'commandC',
-		type: 'press',
+		type: 'button',
 		category: 'OSX',
 		style: {
 			text: 'Command + c',
@@ -64,23 +68,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'Command',
-						key2: 'c',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'c',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['commandV'] = {
 		name: 'commandV',
-		type: 'press',
+		type: 'button',
 		category: 'OSX',
 		style: {
 			text: 'Command + v',
@@ -89,23 +95,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'Command',
-						key2: 'v',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'v',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['altTab'] = {
 		name: 'altTab',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Combination Example',
@@ -114,23 +122,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'alt',
-						key2: 'tab',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'alt',
+							key2: 'tab',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['controlAltTab'] = {
 		name: 'controlAltTab',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Trio example',
@@ -139,24 +149,26 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'trio',
-					options: {
-						key1: 'control',
-						key2: 'alt',
-						key3: 'tab',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'control',
+							key2: 'alt',
+							key3: 'tab',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['controlX'] = {
 		name: 'controlX',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + x',
@@ -165,23 +177,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'control',
-						key2: 'x',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'x',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['controlC'] = {
 		name: 'controlC',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + c',
@@ -190,23 +204,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'control',
-						key2: 'c',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'c',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['controlV'] = {
 		name: 'controlV',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + v',
@@ -215,23 +231,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'control',
-						key2: 'v',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'v',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['openWordpad'] = {
 		name: 'openWordpad',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Open Wordpad',
@@ -240,22 +258,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'file',
-					options: {
-						file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'file',
+						options: {
+							file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['openNotepad'] = {
 		name: 'openNotepad',
-		type: 'press',
+		type: 'button',
 		category: 'OSX',
 		style: {
 			text: 'Open Notepad',
@@ -264,22 +284,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'file',
-					options: {
-						file: '"/System/Applications/Notes.app"',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'file',
+						options: {
+							file: '"/System/Applications/Notes.app"',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['gotoSlide1'] = {
 		name: 'gotoSlide1',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Goto slide 1',
@@ -288,35 +310,37 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'sendKeypressToProcess',
-					options: {
-						processSearchString: 'Microsoft PowerPoint',
-						virtualKeyCode: '0x12',
-						modifier1: 'none',
-						modifier2: 'none',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'sendKeypressToProcess',
+						options: {
+							processSearchString: 'Microsoft PowerPoint',
+							virtualKeyCode: '0x12',
+							modifier1: 'none',
+							modifier2: 'none',
+						},
 					},
-				},
-				{
-					actionId: 'sendKeypressToProcess',
-					delay: '30',
-					options: {
-						processSearchString: 'Microsoft PowerPoint',
-						virtualKeyCode: '0x4C',
-						modifier1: 'none',
-						modifier2: 'none',
+					{
+						actionId: 'sendKeypressToProcess',
+						delay: '30',
+						options: {
+							processSearchString: 'Microsoft PowerPoint',
+							virtualKeyCode: '0x4C',
+							modifier1: 'none',
+							modifier2: 'none',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['nextSlide'] = {
 		name: 'nextSlide',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Next\\nSlide',
@@ -325,22 +349,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'space',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'space',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['previousSlide'] = {
 		name: 'previousSlide',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Previous\\nSlide',
@@ -349,22 +375,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'left',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'left',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['startFromTop'] = {
 		name: 'startFromTop',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Start\\nfrom top',
@@ -373,24 +401,26 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'trio',
-					options: {
-						key1: 'shift',
-						key2: 'command',
-						key3: 'enter',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'shift',
+							key2: 'command',
+							key3: 'enter',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['startFromCurrent'] = {
 		name: 'startFromCurrent',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Start\\nfrom current',
@@ -399,23 +429,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'combination',
-					options: {
-						key1: 'command',
-						key2: 'enter',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'command',
+							key2: 'enter',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['quitSlideshow'] = {
 		name: 'quitSlideshow',
-		type: 'press',
+		type: 'button',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Quit\\nslideshow',
@@ -424,22 +456,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'escape',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'escape',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['startFromCurrentOSX'] = {
 		name: 'startFromCurrentOSX',
-		type: 'press',
+		type: 'button',
 		category: 'Keynote',
 		style: {
 			text: 'Start\\nfrom current',
@@ -448,24 +482,26 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 255),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'trio',
-					options: {
-						key1: 'alt',
-						key2: 'command',
-						key3: 'p',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'alt',
+							key2: 'command',
+							key3: 'p',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['nextSlideOSX'] = {
 		name: 'nextSlideOSX',
-		type: 'press',
+		type: 'button',
 		category: 'Keynote',
 		style: {
 			text: 'Next\\nSlide',
@@ -474,22 +510,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'space',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'space',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['previousSlideOSX'] = {
 		name: 'previousSlideOSX',
-		type: 'press',
+		type: 'button',
 		category: 'Keynote',
 		style: {
 			text: 'Previous\\nSlide',
@@ -498,22 +536,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'left',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'left',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['quitSlideshowOSX'] = {
 		name: 'quitSlideshowOSX',
-		type: 'press',
+		type: 'button',
 		category: 'Keynote',
 		style: {
 			text: 'Quit\\nslideshow',
@@ -522,22 +562,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKey',
-					options: {
-						specialKey: 'escape',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'escape',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['shutdownWindows'] = {
 		name: 'shutdownWindows',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Shutdown',
@@ -546,22 +588,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'shell',
-					options: {
-						shell: 'shutdown /sg',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'shutdown /sg',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['rebootWindows'] = {
 		name: 'rebootWindows',
-		type: 'press',
+		type: 'button',
 		category: 'Windows',
 		style: {
 			text: 'Reboot',
@@ -570,22 +614,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'shell',
-					options: {
-						shell: 'shutdown /rg',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'shutdown /rg',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['mute'] = {
 		name: 'mute',
-		type: 'press',
+		type: 'button',
 		category: 'Audio',
 		style: {
 			text: 'Mute (toggle)',
@@ -594,22 +640,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKeyOS',
-					options: {
-						specialKey: 'audio_mute',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_mute',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['volumeUp'] = {
 		name: 'volumeUp',
-		type: 'press',
+		type: 'button',
 		category: 'Audio',
 		style: {
 			text: 'Volume Up',
@@ -618,22 +666,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKeyOS',
-					options: {
-						specialKey: 'audio_vol_up',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_vol_up',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['volumeDown'] = {
 		name: 'volumeDown',
-		type: 'press',
+		type: 'button',
 		category: 'Audio',
 		style: {
 			text: 'Volume Down',
@@ -642,22 +692,24 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'specialKeyOS',
-					options: {
-						specialKey: 'audio_vol_down',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_vol_down',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['clickLeft'] = {
 		name: 'clickLeft',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Click left',
@@ -666,23 +718,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'mouseClick',
-					options: {
-						button: 'left',
-						double: 'false',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseClick',
+						options: {
+							button: 'left',
+							double: 'false',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['clickRight'] = {
 		name: 'clickRight',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Click right',
@@ -691,23 +745,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'mouseClick',
-					options: {
-						button: 'right',
-						double: 'false',
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseClick',
+						options: {
+							button: 'right',
+							double: 'false',
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['setMousePosition'] = {
 		name: 'setMousePosition',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Set Mouse\\nposition',
@@ -716,23 +772,25 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'mousePosition',
-					options: {
-						x: 500,
-						y: 500,
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mousePosition',
+						options: {
+							x: 500,
+							y: 500,
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['getMousePosition'] = {
 		name: 'getMousePosition',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Get Mouse\\nposition',
@@ -741,19 +799,21 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'getMousePosition',
-				},
-			],
-			up: [],
-		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'getMousePosition',
+					},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['mouseX'] = {
 		name: 'mouseX',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
@@ -762,12 +822,12 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: { down: [], up: [] },
+		steps: [{ down: [], up: [] }],
 	}
 
 	presets['mouseY'] = {
 		name: 'mouseY',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
@@ -776,12 +836,12 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: { down: [], up: [] },
+		steps: [{ down: [], up: [] }],
 	}
 
 	presets['subscribeToPosition'] = {
 		name: 'subscribeToPosition',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Subscribe\\nto position',
@@ -790,24 +850,26 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'subscribe',
-					options: {
-						subscribe: 'subscribe',
-						name: 'mousePosition',
-						interval: 1000,
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'subscribe',
+							name: 'mousePosition',
+							interval: 1000,
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	presets['unsubscribe'] = {
 		name: 'unsubscribe',
-		type: 'press',
+		type: 'button',
 		category: 'Mouse',
 		style: {
 			text: 'Unsubscribe\\nto position',
@@ -816,19 +878,21 @@ exports.GetPresetsList = () => {
 			bgcolor: combineRgb(51, 51, 200),
 		},
 		feedbacks: [],
-		actions: {
-			down: [
-				{
-					actionId: 'subscribe',
-					options: {
-						subscribe: 'unsubscribe',
-						name: 'mousePosition',
-						interval: 1000,
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'unsubscribe',
+							name: 'mousePosition',
+							interval: 1000,
+						},
 					},
-				},
-			],
-			up: [],
-		},
+				],
+				up: [],
+			},
+		],
 	}
 
 	return presets
