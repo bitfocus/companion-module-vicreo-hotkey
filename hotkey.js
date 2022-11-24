@@ -1,7 +1,8 @@
-const { TCPHelper, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
+const { TCPHelper, InstanceBase, runEntrypoint, Regex } = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
+const crypto = require('crypto')
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
