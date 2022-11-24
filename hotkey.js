@@ -1,9 +1,11 @@
 const { TCPHelper, InstanceBase, runEntrypoint, Regex, combineRgb } = require('@companion-module/base')
-const md5 = require('md5')
 const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
-let log
+
+function md5(str) {
+	return crypto.createHash('md5').update(str).digest('hex')
+}
 
 class instance extends InstanceBase {
 	/**
@@ -26,7 +28,6 @@ class instance extends InstanceBase {
 
 	async init(config) {
 		this.config = config
-		log = this.log
 
 		this.updateStatus('connecting')
 
