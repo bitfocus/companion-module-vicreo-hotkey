@@ -46,7 +46,7 @@ exports.GetActions = (base) => {
 					label: 'Modifier',
 					id: 'key1',
 					default: 'control',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'textinput',
@@ -71,14 +71,14 @@ exports.GetActions = (base) => {
 					label: 'First modifier',
 					id: 'key1',
 					default: 'control',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'dropdown',
 					label: 'Second modifier',
 					id: 'key2',
 					default: 'shift',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'textinput',
@@ -103,21 +103,21 @@ exports.GetActions = (base) => {
 					label: 'First modifier',
 					id: 'key1',
 					default: 'control',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'dropdown',
 					label: 'Second modifier',
 					id: 'key2',
 					default: 'shift',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'dropdown',
 					label: 'Third modifier',
 					id: 'key3',
 					default: 'alt',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'textinput',
@@ -295,7 +295,7 @@ exports.GetActions = (base) => {
 					label: 'Virtual KeyCode',
 					id: 'virtualKeyCode',
 					default: '0x00',
-					choices: this.VIRTUAL_KEYCODES_ANSI,
+					choices: VIRTUAL_KEYCODES_ANSI,
 					minChoicesForSearch: 0,
 				},
 				{
@@ -303,14 +303,14 @@ exports.GetActions = (base) => {
 					label: 'Combine with modifier 1',
 					id: 'modifier1',
 					default: 'none',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 				{
 					type: 'dropdown',
 					label: 'Combine with modifier 2',
 					id: 'modifier2',
 					default: 'none',
-					choices: this.MODIFIER_KEYS,
+					choices: MODIFIER_KEYS,
 				},
 			],
 			callback: async (event) => {
@@ -332,7 +332,7 @@ exports.GetActions = (base) => {
 					label: 'Special key to send',
 					id: 'specialKey',
 					default: 'audio_mute',
-					choices: this.CHOICES_KEYS_SPECIALS,
+					choices: CHOICES_KEYS_SPECIALS,
 				},
 			],
 			callback: async (event) => {
@@ -400,7 +400,7 @@ exports.GetActions = (base) => {
 
 	return actions
 }
-VIRTUAL_KEYCODES_ANSI = [
+const VIRTUAL_KEYCODES_ANSI = [
 	{ label: 'ANSI_A', id: '0x00' },
 	{ label: 'ANSI_B', id: '0x0B' },
 	{ label: 'ANSI_C', id: '0x08' },
@@ -514,7 +514,7 @@ VIRTUAL_KEYCODES_ANSI = [
 	{ label: 'ANSI_Keypad8', id: '0x5B' },
 	{ label: 'ANSI_Keypad9', id: '0x5C' },
 ]
-MODIFIER_KEYS = [
+const MODIFIER_KEYS = [
 	{ label: 'None', id: 'none' },
 	{ label: 'Shift', id: 'shift' },
 	{ label: 'fn', id: 'fn' },
@@ -525,7 +525,7 @@ MODIFIER_KEYS = [
 	{ label: 'Right alt', id: 'right_alt' },
 	{ label: 'Right ctrl', id: 'right_ctrl' },
 ]
-CHOICES_KEYS = [
+const CHOICES_KEYS = [
 	{ label: 'Backspace', id: 'backspace' },
 	{ label: 'Delete', id: 'delete' },
 	{ label: 'Enter', id: 'enter' },
@@ -570,7 +570,7 @@ CHOICES_KEYS = [
 	{ label: 'Right-Shift*', id: 'right_shift' },
 	{ label: 'Space', id: 'space' },
 ]
-CHOICES_KEYS_SPECIALS = [
+const CHOICES_KEYS_SPECIALS = [
 	{ label: 'Audio mute (toggle)', id: 'audio_mute' },
 	{ label: 'Audio volume down', id: 'audio_vol_down' },
 	{ label: 'Audio volume up', id: 'audio_vol_up' },
