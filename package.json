@@ -1,33 +1,21 @@
 {
 	"name": "vicreo-hotkey",
-	"version": "3.0.5",
-	"api_version": "1.0.0",
-	"keywords": [
-		"Software",
-		"Keyboard emulator"
-	],
-	"manufacturer": "VICREO",
-	"product": [
-		"Hotkey",
-		"Listener"
-	],
-	"shortname": "VICREO hotkey",
-	"description": "VICREO Hotkey Listener plugin for Companion",
+	"version": "4.0.0",
 	"main": "hotkey.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"format": "prettier -w ."
 	},
-	"author": "Jeffrey Davidsz <jeffrey.davidsz@vicreo.eu>",
 	"license": "MIT",
 	"dependencies": {
-		"md5": "^2.3.0"
-	},
-	"homepage": "https://github.com/bitfocus/companion-module-vicreo-hotkey#readme",
-	"bugs": {
-		"url": "https://github.com/bitfocus/companion-module-vicreo-hotkey/issues"
+		"@companion-module/base": "~0.6.0"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git"
-	}
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^0.3.3"
+	},
+	"prettier": "@companion-module/tools/.prettierrc.json"
 }

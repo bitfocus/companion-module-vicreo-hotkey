@@ -1,669 +1,899 @@
-exports.getPresets = function (self) {
-	let presets = []
+const { combineRgb } = require('@companion-module/base')
 
-	presets.push({
+exports.GetPresetsList = () => {
+	const presets = {}
+
+	presets['CommandTab'] = {
+		name: 'CommandTab',
+		type: 'button',
 		category: 'OSX',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Command + Tab (MAC)',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'command',
-					key2: 'tab',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'command',
+							key2: 'tab',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['commandX'] = {
+		name: 'commandX',
+		type: 'button',
 		category: 'OSX',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Command + x',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'Command',
-					key2: 'x',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'x',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['commandC'] = {
+		name: 'commandC',
+		type: 'button',
 		category: 'OSX',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Command + c',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'Command',
-					key2: 'c',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'c',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['commandV'] = {
+		name: 'commandV',
+		type: 'button',
 		category: 'OSX',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Command + v',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'Command',
-					key2: 'v',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'Command',
+							key2: 'v',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['altTab'] = {
+		name: 'altTab',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Combination Example',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'alt',
-					key2: 'tab',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'alt',
+							key2: 'tab',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['controlAltTab'] = {
+		name: 'controlAltTab',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Trio example',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'trio',
-				options: {
-					key1: 'control',
-					key2: 'alt',
-					key3: 'tab',
-				},
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'control',
+							key2: 'alt',
+							key3: 'tab',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
-	
-	presets.push({
+	}
+
+	presets['controlX'] = {
+		name: 'controlX',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Ctrl + x',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'control',
-					key2: 'x',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'x',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['controlC'] = {
+		name: 'controlC',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Ctrl + c',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'control',
-					key2: 'c',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'c',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['controlV'] = {
+		name: 'controlV',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Ctrl + v',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'control',
-					key2: 'v',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'control',
+							key2: 'v',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['openWordpad'] = {
+		name: 'openWordpad',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Open Wordpad',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'file',
-				options: {
-					file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
-				},
+				down: [
+					{
+						actionId: 'file',
+						options: {
+							file: '"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Wordpad.lnk"',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['openNotepad'] = {
+		name: 'openNotepad',
+		type: 'button',
 		category: 'OSX',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Open Notepad',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'file',
-				options: {
-					file: '"/System/Applications/Notes.app"',
-				},
+				down: [
+					{
+						actionId: 'file',
+						options: {
+							file: '"/System/Applications/Notes.app"',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['gotoSlide1'] = {
+		name: 'gotoSlide1',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Goto slide 1',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'sendKeypressToProcess',
-				options: {
-					processSearchString: 'Microsoft PowerPoint',
-					virtualKeyCode: '0x12',
-					modifier1: 'none',
-					modifier2: 'none',
-				},
-			},
-			{
-				action: 'sendKeypressToProcess',
-				delay: '30',
-				options: {
-					processSearchString: 'Microsoft PowerPoint',
-					virtualKeyCode: '0x4C',
-					modifier1: 'none',
-					modifier2: 'none',
-				},
+				down: [
+					{
+						actionId: 'sendKeypressToProcess',
+						options: {
+							processSearchString: 'Microsoft PowerPoint',
+							virtualKeyCode: '0x12',
+							modifier1: 'none',
+							modifier2: 'none',
+						},
+					},
+					{
+						actionId: 'sendKeypressToProcess',
+						delay: '30',
+						options: {
+							processSearchString: 'Microsoft PowerPoint',
+							virtualKeyCode: '0x4C',
+							modifier1: 'none',
+							modifier2: 'none',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['nextSlide'] = {
+		name: 'nextSlide',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Next\\nSlide',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'space',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'space',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['previousSlide'] = {
+		name: 'previousSlide',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Previous\\nSlide',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'left',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'left',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['startFromTop'] = {
+		name: 'startFromTop',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Start\\nfrom top',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'trio',
-				options: {
-					key1: 'shift',
-					key2: 'command',
-					key3: 'enter',
-				},
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'shift',
+							key2: 'command',
+							key3: 'enter',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['startFromCurrent'] = {
+		name: 'startFromCurrent',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Start\\nfrom current',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'combination',
-				options: {
-					key1: 'command',
-					key2: 'enter',
-				},
+				down: [
+					{
+						actionId: 'combination',
+						options: {
+							key1: 'command',
+							key2: 'enter',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['quitSlideshow'] = {
+		name: 'quitSlideshow',
+		type: 'button',
 		category: 'Powerpoint for mac',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Quit\\nslideshow',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'escape',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'escape',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['startFromCurrentOSX'] = {
+		name: 'startFromCurrentOSX',
+		type: 'button',
 		category: 'Keynote',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Start\\nfrom current',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 255),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 255),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'trio',
-				options: {
-					key1: 'alt',
-					key2: 'command',
-					key3: 'p',
-				},
+				down: [
+					{
+						actionId: 'trio',
+						options: {
+							key1: 'alt',
+							key2: 'command',
+							key3: 'p',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['nextSlideOSX'] = {
+		name: 'nextSlideOSX',
+		type: 'button',
 		category: 'Keynote',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Next\\nSlide',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'space',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'space',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['previousSlideOSX'] = {
+		name: 'previousSlideOSX',
+		type: 'button',
 		category: 'Keynote',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Previous\\nSlide',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'left',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'left',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['quitSlideshowOSX'] = {
+		name: 'quitSlideshowOSX',
+		type: 'button',
 		category: 'Keynote',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Quit\\nslideshow',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKey',
-				options: {
-					specialKey: 'escape',
-				},
+				down: [
+					{
+						actionId: 'specialKey',
+						options: {
+							specialKey: 'escape',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['shutdownWindows'] = {
+		name: 'shutdownWindows',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Shutdown',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'shell',
-				options: {
-					shell: 'shutdown /sg',
-				},
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'shutdown /sg',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['rebootWindows'] = {
+		name: 'rebootWindows',
+		type: 'button',
 		category: 'Windows',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Reboot',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'shell',
-				options: {
-					shell: 'shutdown /rg',
-				},
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'shutdown /rg',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['mute'] = {
+		name: 'mute',
+		type: 'button',
 		category: 'Audio',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Mute (toggle)',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKeyOS',
-				options: {
-					specialKey: 'audio_mute',
-				},
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_mute',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['volumeUp'] = {
+		name: 'volumeUp',
+		type: 'button',
 		category: 'Audio',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Volume Up',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKeyOS',
-				options: {
-					specialKey: 'audio_vol_up',
-				},
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_vol_up',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['volumeDown'] = {
+		name: 'volumeDown',
+		type: 'button',
 		category: 'Audio',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Volume Down',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'specialKeyOS',
-				options: {
-					specialKey: 'audio_vol_down',
-				},
+				down: [
+					{
+						actionId: 'specialKeyOS',
+						options: {
+							specialKey: 'audio_vol_down',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['clickLeft'] = {
+		name: 'clickLeft',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Click left',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'mouseClick',
-				options: {
-					button: 'left',
-					double: 'false'
-				},
+				down: [
+					{
+						actionId: 'mouseClick',
+						options: {
+							button: 'left',
+							double: 'false',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
-	
-	presets.push({
+	}
+
+	presets['clickRight'] = {
+		name: 'clickRight',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Click right',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'mouseClick',
-				options: {
-					button: 'right',
-					double: 'false'
-				},
+				down: [
+					{
+						actionId: 'mouseClick',
+						options: {
+							button: 'right',
+							double: 'false',
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['setMousePosition'] = {
+		name: 'setMousePosition',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Set Mouse\\nposition',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'mousePosition',
-				options: {
-					x: 500,
-					y: 500
-				}
+				down: [
+					{
+						actionId: 'mousePosition',
+						options: {
+							x: 500,
+							y: 500,
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['getMousePosition'] = {
+		name: 'getMousePosition',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Get Mouse\\nposition',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'getMousePosition',
+				down: [
+					{
+						actionId: 'getMousePosition',
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['mouseX'] = {
+		name: 'mouseX',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'textwithvariables',
+		style: {
 			text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [],
-	})
-	
-	presets.push({
+		feedbacks: [],
+		steps: [{ down: [], up: [] }],
+	}
+
+	presets['mouseY'] = {
+		name: 'mouseY',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'textwithvariables',
+		style: {
 			text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [],
-	})
+		feedbacks: [],
+		steps: [{ down: [], up: [] }],
+	}
 
-	presets.push({
+	presets['subscribeToPosition'] = {
+		name: 'subscribeToPosition',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Subscribe\\nto position',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'subscribe',
-				options: {
-					subscribe: 'subscribe',
-					name: 'mousePosition',
-					interval: 1000
-				},
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'subscribe',
+							name: 'mousePosition',
+							interval: 1000,
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
-	presets.push({
+	presets['unsubscribe'] = {
+		name: 'unsubscribe',
+		type: 'button',
 		category: 'Mouse',
-		bank: {
-			style: 'text',
+		style: {
 			text: 'Unsubscribe\\nto position',
 			size: '14',
-			color: self.rgb(255, 255, 255),
-			bgcolor: self.rgb(51, 51, 200),
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
 		},
-		actions: [
+		feedbacks: [],
+		steps: [
 			{
-				action: 'subscribe',
-				options: {
-					subscribe: 'unsubscribe',
-					name: 'mousePosition',
-					interval: 1000
-				},
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'unsubscribe',
+							name: 'mousePosition',
+							interval: 1000,
+						},
+					},
+				],
+				up: [],
 			},
 		],
-	})
+	}
 
 	return presets
 }
