@@ -17,6 +17,21 @@
     p-timeout "^4.1.0"
     tslib "^2.4.1"
 
+"@companion-module/base@~1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@companion-module/base/-/base-1.0.2.tgz#8d6438f80ccfffc10a720cd95487b3945348da9b"
+  integrity sha512-Q5K4tc9QKO53YFRcAq1JncC7l0fskRBEGyAmF1mMi3g6lqnrNW+3nROzZauCO8CrQ+39BY/SurOo4EDCl4v8QA==
+  dependencies:
+    "@sentry/node" "^7.28.0"
+    "@sentry/tracing" "^7.28.0"
+    ajv "^8.11.2"
+    ejson "^2.2.3"
+    eventemitter3 "^4.0.7"
+    nanoid "^3.3.4"
+    p-queue "^6.6.2"
+    p-timeout "^4.1.0"
+    tslib "^2.4.1"
+
 "@companion-module/tools@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@companion-module/tools/-/tools-0.5.1.tgz#bb714648e09ef102c7270d58db1dd11489561f94"
