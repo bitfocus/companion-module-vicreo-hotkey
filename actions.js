@@ -13,7 +13,7 @@ exports.GetActions = (base) => {
 					regex: '/^.$/',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.singleKey
 				cmd.type = 'press'
 
@@ -31,7 +31,7 @@ exports.GetActions = (base) => {
 					choices: this.CHOICES_KEYS,
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 				
@@ -55,7 +55,7 @@ exports.GetActions = (base) => {
 					default: 'c',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.key2
 				cmd.type = 'combination'
 				cmd.modifiers = [event.options.key1]
@@ -87,7 +87,7 @@ exports.GetActions = (base) => {
 					default: 'a',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.key3
 				cmd.type = 'trio'
 				cmd.modifiers = [event.options.key2, event.options.key1]
@@ -126,7 +126,7 @@ exports.GetActions = (base) => {
 					default: 'a',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.key4
 				cmd.type = 'quartet'
 				cmd.modifiers = [event.options.key3, event.options.key2, event.options.key1]
@@ -143,7 +143,7 @@ exports.GetActions = (base) => {
 					id: 'keyPress',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.keyPress
 				cmd.type = 'down'
 				
@@ -159,7 +159,7 @@ exports.GetActions = (base) => {
 					id: 'keyRelease',
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.keyRelease
 				cmd.type = 'up'
 				
@@ -170,14 +170,16 @@ exports.GetActions = (base) => {
 			name: 'Change mouse position (pro-action)',
 			options: [
 				{
-					type: 'textwithvariables',
+					type: 'textinput',
+					useVariables: true,
 					label: 'X-coordinate',
 					id: 'x',
 					default: 100,
 					width: 6,
 				},
 				{
-					type: 'textwithvariables',
+					type: 'textinput',
+					useVariables: true,
 					label: 'Y-coordinate',
 					id: 'y',
 					default: 100,
@@ -186,8 +188,10 @@ exports.GetActions = (base) => {
 			],
 			callback: async (event) => {
 				cmd.type = 'mousePosition'
-				cmd.x = event.options.x
-				cmd.y = event.options.y
+				const x = await base.parseVariablesInString(event.options.x)
+				const y = await base.parseVariablesInString(event.options.y)
+				cmd.x = x.trim()
+				cmd.y = y.trim()
 				
 				base.sendCommand(cmd)
 			},
@@ -217,7 +221,7 @@ exports.GetActions = (base) => {
 					],
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.type = 'mouseClick'
 				cmd.button = event.options.button
 				cmd.double = event.options.double
@@ -228,7 +232,7 @@ exports.GetActions = (base) => {
 		getMousePosition: {
 			name: 'Get the position of the mouse on screen',
 			options: [],
-			callback: async () => {
+			callback: () => {
 				cmd.type = 'getMousePosition'
 				base.sendCommand(cmd)
 			},
@@ -238,13 +242,15 @@ exports.GetActions = (base) => {
 			options: [
 				{
 					type: 'textinput',
-					label: 'Type message',
+					useVariables: true,
+					label: 'Type message (variables allowed)',
 					id: 'msg',
 				},
 			],
 			callback: async (event) => {
 				cmd.type = 'string'
-				cmd.msg = event.options.msg
+				const msg = await base.parseVariablesInString(event.options.msg)
+				cmd.msg = msg.trim()
 				
 				base.sendCommand(cmd)
 			},
@@ -254,13 +260,15 @@ exports.GetActions = (base) => {
 			options: [
 				{
 					type: 'textinput',
+					useVariables: true,
 					label: 'Type command',
 					id: 'shell',
 				},
 			],
 			callback: async (event) => {
 				cmd.type = 'shell'
-				cmd.shell = event.options.shell
+				const shell = base.parseVariablesInString(event.options.shell)
+				cmd.shell = shell.trim()
 				
 				base.sendCommand(cmd)
 			},
@@ -270,13 +278,15 @@ exports.GetActions = (base) => {
 			options: [
 				{
 					type: 'textinput',
+					useVariables: true,
 					label: 'Complete file path, surround by " (read help file)',
 					id: 'file',
 				},
 			],
 			callback: async (event) => {
+				let filepath = await base.parseVariablesInString(event.options.file)
 				cmd.type = 'file'
-				cmd.path = encodeURI(event.options.file)
+				cmd.path = encodeURI(filepath.trim())
 				
 				base.sendCommand(cmd)
 			},
@@ -313,7 +323,7 @@ exports.GetActions = (base) => {
 					choices: MODIFIER_KEYS,
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.virtualKeyCode
 				cmd.type = 'processOSX'
 				cmd.processName = event.options.processSearchString
@@ -335,7 +345,7 @@ exports.GetActions = (base) => {
 					choices: CHOICES_KEYS_SPECIALS,
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 				
@@ -369,7 +379,7 @@ exports.GetActions = (base) => {
 					default: 1000,
 				},
 			],
-			callback: async (event) => {
+			callback: (event) => {
 				cmd.type = event.options.subscribe
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
@@ -382,6 +392,7 @@ exports.GetActions = (base) => {
 			options: [
 				{
 					type: 'textinput',
+					useVariables: true,
 					label: 'Custom message',
 					id: 'custom',
 					default: '{"type":}',
@@ -389,9 +400,10 @@ exports.GetActions = (base) => {
 			],
 			callback: async (event) => {
 				try {
-					cmd = JSON.parse(event.options.custom)
+					const custom = base.parseVariablesInString(event.options.custom)
+					cmd = JSON.parse(custom.trim())
 				} catch (error) {
-					console.error('error', error)
+					base.log('error', error)
 				}
 				base.sendCommand(cmd)
 			},
