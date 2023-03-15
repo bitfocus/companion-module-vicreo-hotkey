@@ -2,21 +2,6 @@
 # yarn lockfile v1
 
 
-"@companion-module/base@~1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@companion-module/base/-/base-1.0.1.tgz#cfedb35820f035ec584a2fe25c1f0255836082e9"
-  integrity sha512-4EX9b2SmWVXBB9skqdp4sCRMx1hMUHTF6sbJa4p3EgXsxELjX93Y9y5SsJiUCIKH4iHyEDrv0UOWBPXrIvDQtA==
-  dependencies:
-    "@sentry/node" "^7.28.0"
-    "@sentry/tracing" "^7.28.0"
-    ajv "^8.11.2"
-    ejson "^2.2.3"
-    eventemitter3 "^4.0.7"
-    nanoid "^3.3.4"
-    p-queue "^6.6.2"
-    p-timeout "^4.1.0"
-    tslib "^2.4.1"
-
 "@companion-module/base@~1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@companion-module/base/-/base-1.0.2.tgz#8d6438f80ccfffc10a720cd95487b3945348da9b"
@@ -2035,9 +2020,9 @@ webpack-sources@^3.2.3:
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
 webpack@^5.75.0:
-  version "5.75.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.75.0.tgz#1e440468647b2505860e94c9ff3e44d5b582c152"
-  integrity sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==
+  version "5.76.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.76.1.tgz#7773de017e988bccb0f13c7d75ec245f377d295c"
+  integrity sha512-4+YIK4Abzv8172/SGqObnUjaIHjLEuUasz9EwQj/9xmPPkYJy2Mh03Q/lJfSD3YLzbxy5FeTq5Uw0323Oh6SJQ==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"
