@@ -1,6 +1,6 @@
 {
 	"name": "vicreo-hotkey",
-	"version": "4.0.3",
+	"version": "4.0.4",
 	"main": "hotkey.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",

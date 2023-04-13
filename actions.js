@@ -267,7 +267,7 @@ exports.GetActions = (base) => {
 			],
 			callback: async (event) => {
 				cmd.type = 'shell'
-				const shell = base.parseVariablesInString(event.options.shell)
+				const shell = await base.parseVariablesInString(event.options.shell)
 				cmd.shell = shell.trim()
 				
 				base.sendCommand(cmd)
