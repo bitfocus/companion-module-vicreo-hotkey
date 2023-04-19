@@ -28,7 +28,7 @@ exports.GetActions = (base) => {
 					label: 'Special key to send',
 					id: 'specialKey',
 					default: 'enter',
-					choices: this.CHOICES_KEYS,
+					choices: CHOICES_KEYS,
 				},
 			],
 			callback: (event) => {
