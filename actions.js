@@ -388,7 +388,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		custom: {
-			name: 'Custom action (pro-action)',
+			name: 'Custom action',
 			options: [
 				{
 					type: 'textinput',
@@ -400,8 +400,9 @@ exports.GetActions = (base) => {
 			],
 			callback: async (event) => {
 				try {
-					const custom = base.parseVariablesInString(event.options.custom)
-					cmd = JSON.parse(custom.trim())
+					const custom = await base.parseVariablesInString(event.options.custom)
+					base.log('debug','SEND:'+custom)
+					cmd = JSON.parse(custom)
 				} catch (error) {
 					base.log('error', error)
 				}
