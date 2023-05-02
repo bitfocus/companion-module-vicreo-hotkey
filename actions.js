@@ -409,6 +409,24 @@ exports.GetActions = (base) => {
 				base.sendCommand(cmd)
 			},
 		},
+		setWindowToForeground: {
+			name: 'Make a Window action (Pro-action, Windows only)',
+			options: [
+				{
+					type: 'textinput',
+					useVariables: true,
+					label: 'Name of window (see Taskmanager)',
+					id: 'window',
+					default: 'Kladblok',
+				},
+			],
+			callback: async (event) => {
+				cmd.type = 'setWindowToForeground'
+				cmd.window = await base.parseVariablesInString(event.options.window)
+				
+				base.sendCommand(cmd)
+			},
+		},
 	}
 
 	return actions
