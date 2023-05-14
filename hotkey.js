@@ -47,15 +47,18 @@ class instance extends InstanceBase {
 		this.initVariables()
 	}
 
-	sendCommand(cmd) {
-		cmd.password = md5(this.config.password)
-		console.log('cmd', JSON.stringify(cmd))
-		if (cmd !== undefined) {
+	sendCommand(command) {
+		command.password = md5(this.config.password)
+		console.log('command', JSON.stringify(command))
+		if (command !== undefined) {
 			if (this.tcp !== undefined) {
-				this.log('debug', `${JSON.stringify(cmd)} to ${this.config.host}`)
-				this.tcp.send(JSON.stringify(cmd))
+				this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
+				this.tcp.send(JSON.stringify(command))
 			}
 		}
+		Object.keys(command).forEach((key) => {
+			delete command[key]
+		})
 	}
 
 	/**
