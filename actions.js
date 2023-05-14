@@ -3,7 +3,7 @@ let cmd = {}
 exports.GetActions = (base) => {
 	let actions = {
 		singleKey: {
-			name: 'Hot(single)key',
+			name: 'Single key',
 			options: [
 				{
 					type: 'textinput',
@@ -21,7 +21,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		specialKey: {
-			name: 'special key',
+			name: 'Special key',
 			options: [
 				{
 					type: 'dropdown',
@@ -64,7 +64,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		trio: {
-			name: 'Three key (trio, pro-action)',
+			name: 'Three keys (pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -96,7 +96,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		quartet: {
-			name: 'Four keys (quartet, pro-action)',
+			name: 'Four keys (pro-action)',
 			options: [
 				{
 					type: 'dropdown',
@@ -135,7 +135,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		press: {
-			name: 'Key press',
+			name: 'Key press, down (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -151,7 +151,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		release: {
-			name: 'Key release',
+			name: 'Key release, up (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -388,7 +388,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		custom: {
-			name: 'Custom action',
+			name: 'Custom action (pro-action)',
 			options: [
 				{
 					type: 'textinput',
@@ -410,7 +410,7 @@ exports.GetActions = (base) => {
 			},
 		},
 		setWindowToForeground: {
-			name: 'Make a Window action (Pro-action, Windows only)',
+			name: 'Set a Window to foreground (pro-action, Windows only)',
 			options: [
 				{
 					type: 'textinput',
