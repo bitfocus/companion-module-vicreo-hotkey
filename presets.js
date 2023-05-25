@@ -777,6 +777,7 @@ exports.GetPresetsList = () => {
 				down: [
 					{
 						actionId: 'mousePosition',
+						delay: 20,
 						options: {
 							x: 500,
 							y: 500,

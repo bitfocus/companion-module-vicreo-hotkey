@@ -187,9 +187,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
-				cmd.type = 'mousePosition'
 				const x = await base.parseVariablesInString(event.options.x)
 				const y = await base.parseVariablesInString(event.options.y)
+				cmd.type = 'mousePosition'
 				cmd.x = x.trim()
 				cmd.y = y.trim()
 				
