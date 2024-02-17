@@ -26,6 +26,7 @@ Download and run the application on the remote computer (local is also possible)
 * Separate key release
 * MousePosition
 * MouseClick
+* MouseScrolling
 * Send a string
 * Send Shell command
 * Open a file remotely 

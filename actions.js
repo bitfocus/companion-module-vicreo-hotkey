@@ -229,6 +229,34 @@ exports.GetActions = (base) => {
 				base.sendCommand(cmd)
 			},
 		},
+		mouseScroll: {
+			name: 'Scroll the mouse (pro-action)',
+			options: [
+				{
+					type: 'number',
+					label: 'x-axis',
+					id: 'x-axis',
+					default: 0,
+					min: -100,
+					max: 100,
+				},
+				{
+					type: 'number',
+					label: 'y-axis',
+					id: 'y-axis',
+					default: 0,
+					min: -100,
+					max: 100,
+				},
+			],
+			callback: (event) => {
+				cmd.type = 'mouseCScroll'
+				cmd.x = event.options.x
+				cmd.y = event.options.y
+				
+				base.sendCommand(cmd)
+			},
+		},
 		getMousePosition: {
 			name: 'Get the position of the mouse on screen',
 			options: [],
