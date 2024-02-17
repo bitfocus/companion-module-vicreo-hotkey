@@ -840,6 +840,59 @@ exports.GetPresetsList = () => {
 		steps: [{ down: [], up: [] }],
 	}
 
+	presets['mouseScroll'] = {
+		name: 'mouseScroll',
+		type: 'button',
+		category: 'Mouse',
+		style: {
+			text: 'Scroll up',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseScroll',
+						options: {
+							x: 0,
+							y: 50,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+	presets['mouseScroll'] = {
+		name: 'mouseScroll',
+		type: 'button',
+		category: 'Mouse',
+		style: {
+			text: 'Scroll down',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseScroll',
+						options: {
+							x: 0,
+							y: -50,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
 	presets['subscribeToPosition'] = {
 		name: 'subscribeToPosition',
 		type: 'button',
