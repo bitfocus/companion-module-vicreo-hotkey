@@ -40,7 +40,7 @@ class instance extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
-
+		if (this.tcp !== undefined) this.tcp.destroy()
 		this.init_TCP()
 		this.actions()
 		this.initPresets()
@@ -89,9 +89,20 @@ class instance extends InstanceBase {
 
 	// Functions to handle socket events
 	makeConnection() {
-		console.log(`Connecting to ${this.config.host}:${this.config.port}...`)
 		// Create socket and bind callbacks
-		this.tcp = new TCPHelper(this.config.host, this.config.port)
+		if (this.config.bonjour_host !== undefined || this.config.bonjour_host !== null) {
+			let index = this.config.bonjour_host.indexOf(':')
+			if (index >= 0) {
+				console.log(`Connecting to ${this.config.bonjour_host.substring(0, index)}:${this.config.port}...`)
+				this.tcp = new TCPHelper(this.config.bonjour_host.substring(0, index), this.config.port)
+			} else {
+				console.log(`Connecting to ${this.config.bonjour_host}:${this.config.port}...`)
+				this.tcp = new TCPHelper(this.config.bonjour_host, this.config.port)
+			}
+		} else {
+			console.log(`Connecting to ${this.config.host}:${this.config.port}...`)
+			this.tcp = new TCPHelper(this.config.host, this.config.port)
+		}
 
 		this.tcp.on('status_change', (status, message) => {
 			this.updateStatus(status, message)
@@ -152,12 +163,27 @@ class instance extends InstanceBase {
 					'This module is for the VICREO Hotkey Listener, download <a href="https://www.vicreo-listener.com/" target="_new">here</a>.',
 			},
 			{
+				type: 'bonjour-device',
+				id: 'bonjour_host',
+				label: 'Bonjour Test',
+				width: 6,
+			},
+			{
 				type: 'textinput',
 				useVariables: false,
 				id: 'host',
 				label: 'Target IP',
+				isVisible: (options) => !options['bonjour_host'],
 				width: 6,
 				regex: Regex.IP,
+			},
+			{
+				type: 'static-text',
+				id: 'host-filler',
+				width: 6,
+				label: '',
+				isVisible: (options) => !!options['bonjour_host'],
+				value: '',
 			},
 			{
 				type: 'textinput',

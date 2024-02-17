@@ -20,5 +20,11 @@
 	},
 	"manufacturer": "VICREO",
 	"products": ["Listener"],
-	"keywords": ["Keyboard", "emulator"]
+	"keywords": ["Keyboard", "emulator"],
+	"bonjourQueries": {
+		"bonjour_host": {
+			"type": "VICREO-Listener",
+			"protocol": "tcp"
+		}
+	}
 }
