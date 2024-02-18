@@ -3,7 +3,7 @@
 	"name": "vicreo-hotkey",
 	"shortname": "VICREO-Listener",
 	"description": "VICREO Hotkey Listener plugin for Companion",
-	"version": "4.0.0",
+	"version": "4.2.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git",
 	"bugs": "https://github.com/bitfocus/companion-module-vicreo-hotkey/issues",
