@@ -1,4 +1,4 @@
-const { TCPHelper, InstanceBase, runEntrypoint, Regex } = require('@companion-module/base')
+const { TCPHelper, InstanceBase, runEntrypoint, Regex, InstanceStatus } = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
@@ -24,13 +24,11 @@ class instance extends InstanceBase {
 		// Create socket
 		this.timeout = 5000
 		this.retrying = false
-		// this.actions() // export actions
 	}
 
 	async init(config) {
 		this.config = config
-
-		this.updateStatus('connecting')
+		this.updateStatus(InstanceStatus.Ok, 'Initializing...')
 
 		this.init_TCP()
 		this.actions()
@@ -40,7 +38,7 @@ class instance extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
-		if (this.tcp !== undefined) this.tcp.destroy()
+
 		this.init_TCP()
 		this.actions()
 		this.initPresets()
@@ -90,17 +88,24 @@ class instance extends InstanceBase {
 	// Functions to handle socket events
 	makeConnection() {
 		// Create socket and bind callbacks
-		if (this.config.bonjour_host !== undefined || this.config.bonjour_host !== null) {
+		if (this.config.bonjour_host !== null) {
 			let index = this.config.bonjour_host.indexOf(':')
 			if (index >= 0) {
-				console.log(`Connecting to ${this.config.bonjour_host.substring(0, index)}:${this.config.port}...`)
-				this.tcp = new TCPHelper(this.config.bonjour_host.substring(0, index), this.config.port)
+				this.log(
+					'info',
+					`Connecting via bonjour ${this.config.bonjour_host.substring(0, index)}:${this.config.bonjour_host.substring(
+						index + 1,
+					)}`,
+				)
+				this.tcp = new TCPHelper(
+					this.config.bonjour_host.substring(0, index),
+					this.config.bonjour_host.substring(index + 1),
+				)
 			} else {
-				console.log(`Connecting to ${this.config.bonjour_host}:${this.config.port}...`)
-				this.tcp = new TCPHelper(this.config.bonjour_host, this.config.port)
+				this.log('error', `Invalid bonjour host: ${this.config.bonjour_host}`)
 			}
 		} else {
-			console.log(`Connecting to ${this.config.host}:${this.config.port}...`)
+			this.log('info',`Connecting to ${this.config.host}:${this.config.port}...`)
 			this.tcp = new TCPHelper(this.config.host, this.config.port)
 		}
 
@@ -146,9 +151,7 @@ class instance extends InstanceBase {
 		this.updateStatus('connecting')
 
 		if (this.config.port == undefined) this.config.port = 10001
-		if (this.config.host !== undefined) {
-			this.makeConnection()
-		}
+		this.makeConnection()
 	}
 
 	// Return config fields for web config
@@ -165,7 +168,7 @@ class instance extends InstanceBase {
 			{
 				type: 'bonjour-device',
 				id: 'bonjour_host',
-				label: 'Bonjour Test',
+				label: 'Find on the network',
 				width: 6,
 			},
 			{
@@ -191,6 +194,7 @@ class instance extends InstanceBase {
 				id: 'port',
 				label: 'Port number',
 				width: 6,
+				isVisible: (options) => !options['bonjour_host'],
 				regex: Regex.PORT,
 				default: 10001,
 			},
