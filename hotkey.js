@@ -88,7 +88,7 @@ class instance extends InstanceBase {
 	// Functions to handle socket events
 	makeConnection() {
 		// Create socket and bind callbacks
-		if (this.config.bonjour_host !== null) {
+		if (this.config.bonjour_host) {
 			let index = this.config.bonjour_host.indexOf(':')
 			if (index >= 0) {
 				this.log(
