@@ -229,6 +229,24 @@ exports.GetActions = (base) => {
 				base.sendCommand(cmd)
 			},
 		},
+		mouseClickHold: {
+			name: 'Click the mouse and hold (pro-action)',
+			options: [],
+			callback: (event) => {
+				cmd.type = 'mouseClickHold'
+				
+				base.sendCommand(cmd)
+			},
+		},
+		mouseClickRelease: {
+			name: 'Click the mouse and release (pro-action)',
+			options: [],
+			callback: (event) => {
+				cmd.type = 'mouseClickRelease'
+				
+				base.sendCommand(cmd)
+			},
+		},
 		mouseScroll: {
 			name: 'Scroll the mouse (pro-action)',
 			options: [
