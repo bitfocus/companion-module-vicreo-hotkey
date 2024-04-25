@@ -734,6 +734,54 @@ exports.GetPresetsList = () => {
 		],
 	}
 
+	presets['clickHold'] = {
+		name: 'clickHold',
+		type: 'button',
+		category: 'Mouse',
+		style: {
+			text: 'Click and Hold',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseClickHold',
+						options: {},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
+	presets['clickRelease'] = {
+		name: 'clickRelease',
+		type: 'button',
+		category: 'Mouse',
+		style: {
+			text: 'Click and Release',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mouseClickRelease',
+						options: {},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
 	presets['clickRight'] = {
 		name: 'clickRight',
 		type: 'button',
