@@ -235,7 +235,7 @@ exports.GetActions = (base) => {
 				{
 					type: 'number',
 					label: 'x-axis',
-					id: 'x-axis',
+					id: 'x_axis',
 					default: 0,
 					min: -100,
 					max: 100,
@@ -243,16 +243,16 @@ exports.GetActions = (base) => {
 				{
 					type: 'number',
 					label: 'y-axis',
-					id: 'y-axis',
+					id: 'y_axis',
 					default: 0,
 					min: -100,
 					max: 100,
 				},
 			],
 			callback: (event) => {
-				cmd.type = 'mouseCScroll'
-				cmd.x = event.options.x
-				cmd.y = event.options.y
+				cmd.type = 'mouseScroll'
+				cmd.x = event.options.x_axis
+				cmd.y = event.options.y_axis
 				
 				base.sendCommand(cmd)
 			},

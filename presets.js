@@ -840,7 +840,7 @@ exports.GetPresetsList = () => {
 		steps: [{ down: [], up: [] }],
 	}
 
-	presets['mouseScroll'] = {
+	presets['mouseScroll_up'] = {
 		name: 'mouseScroll',
 		type: 'button',
 		category: 'Mouse',
@@ -857,8 +857,8 @@ exports.GetPresetsList = () => {
 					{
 						actionId: 'mouseScroll',
 						options: {
-							x: 0,
-							y: 50,
+							x_axis: 0,
+							y_axis: 50,
 						},
 					},
 				],
@@ -866,7 +866,7 @@ exports.GetPresetsList = () => {
 			},
 		],
 	}
-	presets['mouseScroll'] = {
+	presets['mouseScroll_down'] = {
 		name: 'mouseScroll',
 		type: 'button',
 		category: 'Mouse',
@@ -883,8 +883,8 @@ exports.GetPresetsList = () => {
 					{
 						actionId: 'mouseScroll',
 						options: {
-							x: 0,
-							y: -50,
+							x_axis: 0,
+							y_axis: -50,
 						},
 					},
 				],
