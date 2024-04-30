@@ -739,7 +739,7 @@ exports.GetPresetsList = () => {
 		type: 'button',
 		category: 'Mouse',
 		style: {
-			text: 'Click and Hold',
+			text: 'Click and Hold mouse',
 			size: '14',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(51, 51, 200),
@@ -750,7 +750,7 @@ exports.GetPresetsList = () => {
 				down: [
 					{
 						actionId: 'mouseClickHold',
-						options: {},
+						options: {'button': 'right'},
 					},
 				],
 				up: [],
@@ -763,7 +763,7 @@ exports.GetPresetsList = () => {
 		type: 'button',
 		category: 'Mouse',
 		style: {
-			text: 'Click and Release',
+			text: 'Click and Release mouse',
 			size: '14',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(51, 51, 200),
@@ -774,7 +774,52 @@ exports.GetPresetsList = () => {
 				down: [
 					{
 						actionId: 'mouseClickRelease',
-						options: {},
+						options: {'button': 'right'},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+	presets['dragdrop'] = {
+		name: 'draganddrop',
+		type: 'button',
+		category: 'Mouse',
+		style: {
+			text: 'Drag and Drop mouse',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'mousePosition',
+						delay: 1000,
+						options: {
+							x: 500,
+							y: 500,
+						},
+					},
+					{
+						actionId: 'mouseClickHold',
+						delay: 1500,
+						options: {'button': 'left'},
+					},
+					{
+						actionId: 'mousePosition',
+						delay: 2000,
+						options: {
+							x: 1000,
+							y: 600,
+						},
+					},
+					{
+						actionId: 'mouseClickRelease',
+						delay: 2500,
+						options: {'button': 'left'},
 					},
 				],
 				up: [],

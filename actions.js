@@ -230,20 +230,38 @@ exports.GetActions = (base) => {
 			},
 		},
 		mouseClickHold: {
-			name: 'Click the mouse and hold (pro-action)',
-			options: [],
+			name: 'Hold mouse button down (pro-action)',
+			options: [{
+				type: 'dropdown',
+				label: 'Which button',
+				id: 'button',
+				default: 'left',
+				choices: [
+					{ id: 'left', label: 'Left' },
+					{ id: 'right', label: 'Right' },
+				],
+			}],
 			callback: (event) => {
 				cmd.type = 'mouseClickHold'
-				
+				cmd.button = event.options.button
 				base.sendCommand(cmd)
 			},
 		},
 		mouseClickRelease: {
-			name: 'Click the mouse and release (pro-action)',
-			options: [],
+			name: 'Release mouse button (pro-action)',
+			options: [{
+				type: 'dropdown',
+				label: 'Which button',
+				id: 'button',
+				default: 'left',
+				choices: [
+					{ id: 'left', label: 'Left' },
+					{ id: 'right', label: 'Right' },
+				],
+			}],
 			callback: (event) => {
 				cmd.type = 'mouseClickRelease'
-				
+				cmd.button = event.options.button
 				base.sendCommand(cmd)
 			},
 		},
