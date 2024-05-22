@@ -47,7 +47,7 @@ class instance extends InstanceBase {
 
 	sendCommand(command) {
 		command.password = md5(this.config.password)
-		console.log('command', JSON.stringify(command))
+		// console.log('command', JSON.stringify(command))
 		if (command !== undefined) {
 			if (this.tcp !== undefined) {
 				this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
