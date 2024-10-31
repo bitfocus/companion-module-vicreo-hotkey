@@ -56,7 +56,7 @@ class instance extends InstanceBase {
 	startKATimer() {
 		this.stopKATimer()
 		this.kaTimer = setTimeout(() => {
-			this.sendCommand(' ')
+			this.sendCommand({})
 		}, kaInterval)
 	}
 
