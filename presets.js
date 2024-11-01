@@ -629,6 +629,57 @@ exports.GetPresetsList = () => {
 		],
 	}
 
+	presets['screenshotOSX5'] = {
+		name: 'screenshotOSX5',
+		type: 'button',
+		category: 'OSX',
+		style: {
+			text: 'Screenshot (full)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'screencapture ~/Desktop/screenshot.png',
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+	presets['screenshotOSX4'] = {
+		name: 'screenshotOSX4',
+		type: 'button',
+		category: 'OSX',
+		style: {
+			text: 'Screenshot (part)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'shell',
+						options: {
+							shell: 'screencapture -i ~/Desktop/screenshot.png',
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
 	presets['mute'] = {
 		name: 'mute',
 		type: 'button',
