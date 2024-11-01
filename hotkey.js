@@ -3,6 +3,7 @@ const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
 const crypto = require('crypto')
+const kaInterval =  30000
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
@@ -45,6 +46,20 @@ class instance extends InstanceBase {
 		this.initVariables()
 	}
 
+	stopKATimer() {
+		if (this.kaTimer) {
+			clearTimeout(this.kaTimer)
+			delete this.kaTimer
+		}
+	}
+
+	startKATimer() {
+		this.stopKATimer()
+		this.kaTimer = setTimeout(() => {
+			this.sendCommand({})
+		}, kaInterval)
+	}
+
 	sendCommand(command) {
 		command.password = md5(this.config.password)
 		// console.log('command', JSON.stringify(command))
@@ -52,6 +67,7 @@ class instance extends InstanceBase {
 			if (this.tcp !== undefined) {
 				this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
 				this.tcp.send(JSON.stringify(command))
+				this.startKATimer()
 			}
 		}
 		Object.keys(command).forEach((key) => {
@@ -117,6 +133,7 @@ class instance extends InstanceBase {
 			console.log('connected')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
+			this.startKATimer()
 		})
 		this.tcp.on('data', (data) => {
 			let dataArray = data.toString().trim().split('\r\n')
@@ -141,6 +158,7 @@ class instance extends InstanceBase {
 				console.log('Reconnecting...')
 			}
 			this.intervalConnect = setInterval(this.makeConnection(), this.timeout)
+			this.stopKATimer()
 		})
 		this.tcp.on('error', (err) => {
 			this.log('info', err.toString())
@@ -212,6 +230,7 @@ class instance extends InstanceBase {
 	// When module gets deleted
 	async destroy() {
 		this.log('info', 'destroy')
+		this.stopKATimer()
 		if (this.tcp !== undefined) {
 			this.tcp.destroy()
 		}

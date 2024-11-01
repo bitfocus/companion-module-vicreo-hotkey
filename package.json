@@ -1,21 +1,27 @@
 {
 	"name": "vicreo-hotkey",
-	"version": "4.3.2",
+	"version": "4.3.3",
 	"main": "hotkey.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"format": "prettier -w ."
+		"format": "prettier -w .",
+		"package": "companion-module-build",
+		"lint:raw": "eslint",
+		"lint": "yarn lint:raw ."
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@companion-module/base": "~1.7.0"
+		"@companion-module/base": "~1.10.0"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^1.5.0"
+		"@companion-module/tools": "^2.0.4",
+		"eslint": "^9.13.0",
+		"prettier": "~3.3.3"
 	},
-	"prettier": "@companion-module/tools/.prettierrc.json"
+	"prettier": "@companion-module/tools/.prettierrc.json",
+	"packageManager": "yarn@1.22.22"
 }
