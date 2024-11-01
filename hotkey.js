@@ -133,7 +133,7 @@ class instance extends InstanceBase {
 			console.log('connected')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
-			this.startKATimer
+			this.startKATimer()
 		})
 		this.tcp.on('data', (data) => {
 			let dataArray = data.toString().trim().split('\r\n')
