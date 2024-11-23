@@ -1092,6 +1092,30 @@ exports.GetPresetsList = () => {
 			},
 		],
 	}
+	
+	presets['license'] = {
+		name: 'license',
+		type: 'button',
+		category: 'Misc',
+		style: {
+			text: 'Set license key',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'setLicenseKey',
+						options: {},
+					},
+				],
+				up: [],
+			},
+		],
+	}
 
 	return presets
 }

@@ -319,6 +319,24 @@ exports.GetActions = (base) => {
 				base.sendCommand(cmd)
 			},
 		},
+		setLicenseKey: {
+			name: 'Set License Key',
+			options: [
+				{
+					type: 'textinput',
+					useVariables: true,
+					label: 'Set License (variables allowed)',
+					id: 'license',
+				},
+			],
+			callback: async (event) => {
+				cmd.type = 'license'
+				const licenseKey = await base.parseVariablesInString(event.options.license)
+				cmd.license = licenseKey.trim()
+				
+				base.sendCommand(cmd)
+			},
+		},
 		shell: {
 			name: 'Send shell command (pro-action)',
 			options: [
