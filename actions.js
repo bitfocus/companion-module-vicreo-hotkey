@@ -636,7 +636,8 @@ const MODIFIER_KEYS = [
 	{ label: 'Option/alt', id: 'alt' },
 	{ label: 'Right Shift', id: 'right_shift' },
 	{ label: 'Right alt', id: 'right_alt' },
-	{ label: 'Right ctrl', id: 'right_ctrl' },
+	{ label: 'Left ctrl (Windows only)', id: 'left_ctrl' },
+	{ label: 'Right ctrl (Windows only)', id: 'right_ctrl' },
 ]
 const CHOICES_KEYS = [
 	{ label: 'Backspace', id: 'backspace' },
