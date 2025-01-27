@@ -3,7 +3,7 @@ const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
 const crypto = require('crypto')
-const kaInterval =  30000
+const kaInterval = 30000
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
@@ -39,7 +39,7 @@ class instance extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
-		if(this.tcp !== undefined) {
+		if (this.tcp !== undefined) {
 			this.tcp.destroy()
 		}
 		this.init_TCP()
@@ -58,7 +58,7 @@ class instance extends InstanceBase {
 	startKATimer() {
 		this.stopKATimer()
 		this.kaTimer = setTimeout(() => {
-			this.sendCommand({ "type": "keepAlive" })
+			this.sendCommand({ type: 'keepAlive' })
 		}, kaInterval)
 	}
 
@@ -67,7 +67,7 @@ class instance extends InstanceBase {
 		// console.log('command', JSON.stringify(command))
 		if (command !== undefined) {
 			if (this.tcp !== undefined) {
-				this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
+				if (command.type !== 'keepAlive') this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
 				this.tcp.send(JSON.stringify(command))
 				this.startKATimer()
 			}
@@ -95,6 +95,7 @@ class instance extends InstanceBase {
 			case 'subscribe':
 			case 'unsubscribe':
 			case 'getMousePosition':
+			case 'keepAlive':
 				break
 
 			default:
@@ -112,18 +113,18 @@ class instance extends InstanceBase {
 				this.log(
 					'info',
 					`Connecting via bonjour ${this.config.bonjour_host.substring(0, index)}:${this.config.bonjour_host.substring(
-						index + 1,
-					)}`,
+						index + 1
+					)}`
 				)
 				this.tcp = new TCPHelper(
 					this.config.bonjour_host.substring(0, index),
-					this.config.bonjour_host.substring(index + 1),
+					this.config.bonjour_host.substring(index + 1)
 				)
 			} else {
 				this.log('error', `Invalid bonjour host: ${this.config.bonjour_host}`)
 			}
 		} else {
-			this.log('info',`Connecting to ${this.config.host}:${this.config.port}...`)
+			this.log('info', `Connecting to ${this.config.host}:${this.config.port}...`)
 			this.tcp = new TCPHelper(this.config.host, this.config.port)
 		}
 
