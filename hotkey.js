@@ -39,7 +39,9 @@ class instance extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
-
+		if(this.tcp !== undefined) {
+			this.tcp.destroy()
+		}
 		this.init_TCP()
 		this.actions()
 		this.initPresets()
