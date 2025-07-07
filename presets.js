@@ -801,7 +801,7 @@ exports.GetPresetsList = () => {
 				down: [
 					{
 						actionId: 'mouseClickHold',
-						options: {'button': 'right'},
+						options: { button: 'right' },
 					},
 				],
 				up: [],
@@ -825,7 +825,7 @@ exports.GetPresetsList = () => {
 				down: [
 					{
 						actionId: 'mouseClickRelease',
-						options: {'button': 'right'},
+						options: { button: 'right' },
 					},
 				],
 				up: [],
@@ -857,7 +857,7 @@ exports.GetPresetsList = () => {
 					{
 						actionId: 'mouseClickHold',
 						delay: 1500,
-						options: {'button': 'left'},
+						options: { button: 'left' },
 					},
 					{
 						actionId: 'mousePosition',
@@ -870,7 +870,7 @@ exports.GetPresetsList = () => {
 					{
 						actionId: 'mouseClickRelease',
 						delay: 2500,
-						options: {'button': 'left'},
+						options: { button: 'left' },
 					},
 				],
 				up: [],
@@ -1092,7 +1092,7 @@ exports.GetPresetsList = () => {
 			},
 		],
 	}
-	
+
 	presets['license'] = {
 		name: 'license',
 		type: 'button',

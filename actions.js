@@ -34,7 +34,7 @@ exports.GetActions = (base) => {
 			callback: (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -59,7 +59,7 @@ exports.GetActions = (base) => {
 				cmd.key = event.options.key2
 				cmd.type = 'combination'
 				cmd.modifiers = [event.options.key1]
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -91,7 +91,7 @@ exports.GetActions = (base) => {
 				cmd.key = event.options.key3
 				cmd.type = 'trio'
 				cmd.modifiers = [event.options.key2, event.options.key1]
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -130,7 +130,7 @@ exports.GetActions = (base) => {
 				cmd.key = event.options.key4
 				cmd.type = 'quartet'
 				cmd.modifiers = [event.options.key3, event.options.key2, event.options.key1]
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -146,7 +146,7 @@ exports.GetActions = (base) => {
 			callback: (event) => {
 				cmd.key = event.options.keyPress
 				cmd.type = 'down'
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -162,7 +162,7 @@ exports.GetActions = (base) => {
 			callback: (event) => {
 				cmd.key = event.options.keyRelease
 				cmd.type = 'up'
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -192,7 +192,7 @@ exports.GetActions = (base) => {
 				cmd.type = 'mousePosition'
 				cmd.x = x.trim()
 				cmd.y = y.trim()
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -225,22 +225,24 @@ exports.GetActions = (base) => {
 				cmd.type = 'mouseClick'
 				cmd.button = event.options.button
 				cmd.double = event.options.double
-				
+
 				base.sendCommand(cmd)
 			},
 		},
 		mouseClickHold: {
 			name: 'Hold mouse button down (pro-action)',
-			options: [{
-				type: 'dropdown',
-				label: 'Which button',
-				id: 'button',
-				default: 'left',
-				choices: [
-					{ id: 'left', label: 'Left' },
-					{ id: 'right', label: 'Right' },
-				],
-			}],
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Which button',
+					id: 'button',
+					default: 'left',
+					choices: [
+						{ id: 'left', label: 'Left' },
+						{ id: 'right', label: 'Right' },
+					],
+				},
+			],
 			callback: (event) => {
 				cmd.type = 'mouseClickHold'
 				cmd.button = event.options.button
@@ -249,16 +251,18 @@ exports.GetActions = (base) => {
 		},
 		mouseClickRelease: {
 			name: 'Release mouse button (pro-action)',
-			options: [{
-				type: 'dropdown',
-				label: 'Which button',
-				id: 'button',
-				default: 'left',
-				choices: [
-					{ id: 'left', label: 'Left' },
-					{ id: 'right', label: 'Right' },
-				],
-			}],
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Which button',
+					id: 'button',
+					default: 'left',
+					choices: [
+						{ id: 'left', label: 'Left' },
+						{ id: 'right', label: 'Right' },
+					],
+				},
+			],
 			callback: (event) => {
 				cmd.type = 'mouseClickRelease'
 				cmd.button = event.options.button
@@ -289,7 +293,7 @@ exports.GetActions = (base) => {
 				cmd.type = 'mouseScroll'
 				cmd.x = event.options.x_axis
 				cmd.y = event.options.y_axis
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -315,7 +319,7 @@ exports.GetActions = (base) => {
 				cmd.type = 'string'
 				const msg = await base.parseVariablesInString(event.options.msg)
 				cmd.msg = msg.trim()
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -333,7 +337,7 @@ exports.GetActions = (base) => {
 				cmd.type = 'license'
 				const licenseKey = await base.parseVariablesInString(event.options.license)
 				cmd.license = licenseKey.trim()
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -351,7 +355,7 @@ exports.GetActions = (base) => {
 				cmd.type = 'shell'
 				const shell = await base.parseVariablesInString(event.options.shell)
 				cmd.shell = shell.trim()
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -369,7 +373,7 @@ exports.GetActions = (base) => {
 				let filepath = await base.parseVariablesInString(event.options.file)
 				cmd.type = 'file'
 				cmd.path = encodeURI(filepath.trim())
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -412,7 +416,7 @@ exports.GetActions = (base) => {
 				cmd.modifiers = []
 				if (event.options.modifier1 != 'none') cmd.modifiers.push(event.options.modifier1)
 				if (event.options.modifier2 != 'none') cmd.modifiers.push(event.options.modifier2)
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -430,7 +434,7 @@ exports.GetActions = (base) => {
 			callback: (event) => {
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -465,7 +469,7 @@ exports.GetActions = (base) => {
 				cmd.type = event.options.subscribe
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
-				
+
 				base.sendCommand(cmd)
 			},
 		},
@@ -483,7 +487,7 @@ exports.GetActions = (base) => {
 			callback: async (event) => {
 				try {
 					const custom = await base.parseVariablesInString(event.options.custom)
-					base.log('debug','SEND:'+custom)
+					base.log('debug', 'SEND:' + custom)
 					cmd = JSON.parse(custom)
 				} catch (error) {
 					base.log('error', error)
@@ -505,7 +509,7 @@ exports.GetActions = (base) => {
 			callback: async (event) => {
 				cmd.type = 'setWindowToForeground'
 				cmd.window = await base.parseVariablesInString(event.options.window)
-				
+
 				base.sendCommand(cmd)
 			},
 		},

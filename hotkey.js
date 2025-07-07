@@ -9,6 +9,10 @@ function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
 }
 
+/**
+ * VICREO Hotkey Companion Module
+ * Connects to VICREO Listener software to send keyboard commands
+ */
 class instance extends InstanceBase {
 	/**
 	 * Create an instance of the module
@@ -99,7 +103,7 @@ class instance extends InstanceBase {
 				break
 
 			default:
-				console.log('Other message', msg)
+				this.log('debug', 'Unknown message type:', msg.type)
 				break
 		}
 	}
@@ -113,12 +117,12 @@ class instance extends InstanceBase {
 				this.log(
 					'info',
 					`Connecting via bonjour ${this.config.bonjour_host.substring(0, index)}:${this.config.bonjour_host.substring(
-						index + 1
-					)}`
+						index + 1,
+					)}`,
 				)
 				this.tcp = new TCPHelper(
 					this.config.bonjour_host.substring(0, index),
-					this.config.bonjour_host.substring(index + 1)
+					this.config.bonjour_host.substring(index + 1),
 				)
 			} else {
 				this.log('error', `Invalid bonjour host: ${this.config.bonjour_host}`)
@@ -133,7 +137,6 @@ class instance extends InstanceBase {
 		})
 		this.tcp.on('connect', () => {
 			this.log('info', 'connected')
-			console.log('connected')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
 			this.startKATimer()
@@ -158,9 +161,9 @@ class instance extends InstanceBase {
 			this.log('info', 'Connection closed')
 			if (!this.retrying) {
 				this.retrying = true
-				console.log('Reconnecting...')
+				this.log('info', 'Reconnecting...')
 			}
-			this.intervalConnect = setInterval(this.makeConnection(), this.timeout)
+			this.intervalConnect = setInterval(() => this.makeConnection(), this.timeout)
 			this.stopKATimer()
 		})
 		this.tcp.on('error', (err) => {
@@ -169,7 +172,7 @@ class instance extends InstanceBase {
 	}
 
 	init_TCP() {
-		this.updateStatus('connecting')
+		this.updateStatus(InstanceStatus.Connecting)
 
 		if (this.config.port == undefined) this.config.port = 10001
 		this.makeConnection()
