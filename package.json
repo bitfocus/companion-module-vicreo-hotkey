@@ -18,7 +18,7 @@
 		"url": "git+https://github.com/bitfocus/companion-module-vicreo-hotkey.git"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.3.0",
+		"@companion-module/tools": "^2.6.1",
 		"eslint": "^9.30.1",
 		"prettier": "~3.6.2"
 	},
