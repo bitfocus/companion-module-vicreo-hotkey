@@ -4,9 +4,30 @@ const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
 const crypto = require('crypto')
 const kaInterval = 30000
+const MIN_LISTENER_VERSION = '9.11.0'
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
+}
+
+function normalizeVersionString(version) {
+	return String(version || '').trim().replace(/^v/i, '')
+}
+
+function compareVersions(left, right) {
+	const leftParts = normalizeVersionString(left).split('.').map((value) => parseInt(value, 10) || 0)
+	const rightParts = normalizeVersionString(right).split('.').map((value) => parseInt(value, 10) || 0)
+	const length = Math.max(leftParts.length, rightParts.length)
+
+	for (let index = 0; index < length; index++) {
+		const leftValue = leftParts[index] || 0
+		const rightValue = rightParts[index] || 0
+
+		if (leftValue > rightValue) return 1
+		if (leftValue < rightValue) return -1
+	}
+
+	return 0
 }
 
 /**
@@ -30,6 +51,7 @@ class instance extends InstanceBase {
 		this.timeout = 5000
 		this.retrying = false
 		this.receiveBuffer = ''
+		this.listenerVersionWarningShown = false
 	}
 
 	async init(config) {
@@ -90,6 +112,7 @@ class instance extends InstanceBase {
 		switch (msg.type) {
 			case 'version':
 				this.setVariableValues({ version: msg.data })
+				this.checkListenerCompatibility(msg.data)
 				break
 			case 'license':
 				this.setVariableValues({ license: msg.data })
@@ -107,6 +130,26 @@ class instance extends InstanceBase {
 				this.log('debug', 'Unknown message type:', msg.type)
 				break
 		}
+	}
+
+	checkListenerCompatibility(version) {
+		const normalizedVersion = normalizeVersionString(version)
+		if (!normalizedVersion) {
+			return
+		}
+
+		if (compareVersions(normalizedVersion, MIN_LISTENER_VERSION) < 0) {
+			if (!this.listenerVersionWarningShown) {
+				this.listenerVersionWarningShown = true
+				this.log(
+					'warn',
+					`Connected VICREO-Listener ${normalizedVersion} is older than ${MIN_LISTENER_VERSION}. Please update VICREO-Listener for the latest vicreo-hotkey protocol support.`
+				)
+			}
+			return
+		}
+
+		this.listenerVersionWarningShown = false
 	}
 
 	// Functions to handle socket events
@@ -140,6 +183,8 @@ class instance extends InstanceBase {
 			this.log('info', 'connected')
 			clearInterval(this.intervalConnect)
 			this.retrying = false
+			this.receiveBuffer = ''
+			this.listenerVersionWarningShown = false
 			this.startKATimer()
 		})
 		this.tcp.on('data', (data) => {
