@@ -29,6 +29,7 @@ class instance extends InstanceBase {
 		// Create socket
 		this.timeout = 5000
 		this.retrying = false
+		this.receiveBuffer = ''
 	}
 
 	async init(config) {
@@ -72,7 +73,7 @@ class instance extends InstanceBase {
 		if (command !== undefined) {
 			if (this.tcp !== undefined) {
 				if (command.type !== 'keepAlive') this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
-				this.tcp.send(JSON.stringify(command))
+				this.tcp.send(JSON.stringify(command) + "\n")
 				this.startKATimer()
 			}
 		}
@@ -142,8 +143,11 @@ class instance extends InstanceBase {
 			this.startKATimer()
 		})
 		this.tcp.on('data', (data) => {
-			let dataArray = data.toString().trim().split('\r\n')
+			this.receiveBuffer += data.toString()
+			let dataArray = this.receiveBuffer.split(/\r?\n/)
+			this.receiveBuffer = dataArray.pop() || ''
 			for (const rawData of dataArray) {
+				if (!rawData.trim()) continue
 				try {
 					let processed = JSON.parse(rawData)
 					if (processed !== null || processed !== undefined) this.processData(processed)
