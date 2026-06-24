@@ -23,5 +23,5 @@
 		"prettier": "~3.6.2"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
-	"packageManager": "yarn@4.9.2"
+	"packageManager": "yarn@4.13.0"
 }
