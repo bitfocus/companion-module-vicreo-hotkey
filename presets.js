@@ -1117,5 +1117,119 @@ exports.GetPresetsList = () => {
 		],
 	}
 
+	// A watchdog button: shows the process it watches and goes red when that
+	// application stops running. Fill in the process name after dragging it out.
+	presets['processWatchdog'] = {
+		name: 'Process watchdog',
+		type: 'button',
+		category: 'Watchdog',
+		style: {
+			text: 'chrome.exe\\n$(vicreo-hotkey:process_chrome_exe_running)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 100, 0),
+		},
+		feedbacks: [
+			{
+				feedbackId: 'processState',
+				options: {
+					process: 'chrome.exe',
+					state: 'notRunning',
+				},
+				style: {
+					bgcolor: combineRgb(200, 0, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
+		steps: [{ down: [], up: [] }],
+	}
+
+	presets['processWatchdogHung'] = {
+		name: 'Process hung',
+		type: 'button',
+		category: 'Watchdog',
+		style: {
+			text: 'chrome.exe\\nhung?',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 100, 0),
+		},
+		feedbacks: [
+			{
+				feedbackId: 'processState',
+				options: {
+					process: 'chrome.exe',
+					state: 'notResponsive',
+				},
+				style: {
+					bgcolor: combineRgb(230, 120, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
+		steps: [{ down: [], up: [] }],
+	}
+
+	presets['subscribeToProcesses'] = {
+		name: 'subscribeToProcesses',
+		type: 'button',
+		category: 'Watchdog',
+		style: {
+			text: 'Subscribe\\nto processes',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'subscribe',
+							name: 'processState',
+							processes: 'chrome.exe',
+							sendAlways: false,
+							interval: 10000,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
+	presets['unsubscribeFromProcesses'] = {
+		name: 'unsubscribeFromProcesses',
+		type: 'button',
+		category: 'Watchdog',
+		style: {
+			text: 'Unsubscribe\\nfrom processes',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'unsubscribe',
+							name: 'processState',
+							processes: '',
+							sendAlways: false,
+							interval: 10000,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
 	return presets
 }

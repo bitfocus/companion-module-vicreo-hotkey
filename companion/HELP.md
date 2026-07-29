@@ -47,6 +47,7 @@ From version 8.0.0 its possible to use the Bonjour service to find a listener on
 - Send Shell command
 - Open a file remotely
 - Send key directly to a process
+- Process watchdog (see below)
 
 ## Keys
 
@@ -135,3 +136,31 @@ There is an example preset to open notepad.
 ### Mouse Position and click
 
 From version 4.0.10 upwards there is control over the mouse via position and a click (left, right, middle button, double click)
+
+### Process watchdog
+
+Watch applications on the target machine and see on a button when one stops running or hangs. Windows and macOS only, and it needs a Pro license.
+
+**Setting it up.** In the connection config, fill in **Watch these processes** with a comma separated list and set a check interval. Those processes are watched automatically, including after a reconnect. Use the process name as the machine knows it:
+
+- Windows: the executable, e.g. `chrome.exe`, `POWERPNT.EXE`. The `.exe` is optional.
+- macOS: the application name or bundle id, e.g. `Keynote`, `Google Chrome`, `com.apple.Keynote`.
+
+You can also start and stop the watch from a button with the **Subscribe to data** action, choosing `process state (watchdog)`. That replaces whatever the config set, for the rest of the session.
+
+**Variables.** Each watched process gets four, with the name lowercased and punctuation turned into underscores, so `chrome.exe` becomes `chrome_exe`:
+
+| Variable | Value |
+| --- | --- |
+| `$(vicreo-hotkey:process_chrome_exe_running)` | `true` / `false` |
+| `$(vicreo-hotkey:process_chrome_exe_frontmost)` | `true` / `false` |
+| `$(vicreo-hotkey:process_chrome_exe_responsive)` | `true` / `false` / `unknown` |
+| `$(vicreo-hotkey:process_chrome_exe_pid)` | process id |
+
+They go blank while the connection is down, so a button never shows a stale "running".
+
+**Feedback.** Use **Process state (watchdog)** to style a button. Fill in the process name exactly as you watch it and pick the condition — "Process is NOT running" is the usual alarm. There are ready made buttons in the **Watchdog** preset category.
+
+**About "responsive".** This asks the application whether its event loop still answers, which is how a frozen-but-running app is caught. It reports `unknown` when it genuinely cannot be established: a background process with no window, or on macOS an app that is not a normal windowed application. On macOS the Listener needs Accessibility permission for this, the same permission it already needs to send keystrokes. `unknown` never triggers the "hung" feedback.
+
+**Reporting.** By default a report is only sent when something changes, so the network stays quiet. Tick "Report every interval" on the action if you want a message on every check. The interval is clamped to at least 1000 ms, and at most 20 processes can be watched at once.

@@ -2,9 +2,20 @@ const { TCPHelper, InstanceBase, runEntrypoint, Regex, InstanceStatus } = requir
 const UpgradeScripts = require('./upgrades')
 const { GetPresetsList } = require('./presets')
 const { GetActions } = require('./actions')
+const { GetFeedbacks } = require('./feedbacks')
+const {
+	DEFAULT_INTERVAL,
+	clampInterval,
+	emptyVariableValues,
+	parseProcessList,
+	variableDefinitions,
+	variableValues,
+} = require('./processWatch')
 const crypto = require('crypto')
 const kaInterval = 30000
 const MIN_LISTENER_VERSION = '9.11.0'
+/** The Listener release that added the processState subscription. */
+const MIN_PROCESS_WATCH_VERSION = '10.1.0'
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
@@ -52,14 +63,25 @@ class instance extends InstanceBase {
 		this.retrying = false
 		this.receiveBuffer = ''
 		this.listenerVersionWarningShown = false
+
+		// Watchdog state. `watchedProcesses` is the list the Listener has been
+		// asked for; it has to survive a reconnect because the Listener drops
+		// every subscription when the connection closes.
+		this.processStates = new Map()
+		this.watchedProcesses = []
+		this.watchInterval = DEFAULT_INTERVAL
+		this.watchSendAlways = false
+		this.listenerVersion = ''
 	}
 
 	async init(config) {
 		this.config = config
 		this.updateStatus(InstanceStatus.Ok, 'Initializing...')
 
+		this.adoptConfiguredWatchList()
 		this.init_TCP()
 		this.actions()
+		this.initFeedbacks()
 		this.initPresets()
 		this.initVariables()
 	}
@@ -69,10 +91,25 @@ class instance extends InstanceBase {
 		if (this.tcp !== undefined) {
 			this.tcp.destroy()
 		}
+		this.adoptConfiguredWatchList()
 		this.init_TCP()
 		this.actions()
+		this.initFeedbacks()
 		this.initPresets()
 		this.initVariables()
+	}
+
+	/**
+	 * Take the standing watch list from the connection config.
+	 *
+	 * Config is the default rather than the only source: the Subscribe action
+	 * can replace the list at runtime, and that replacement then survives
+	 * reconnects for the rest of the session.
+	 */
+	adoptConfiguredWatchList() {
+		this.watchedProcesses = parseProcessList(this.config.watchProcesses)
+		this.watchInterval = clampInterval(this.config.watchInterval)
+		this.watchSendAlways = false
 	}
 
 	stopKATimer() {
@@ -95,8 +132,15 @@ class instance extends InstanceBase {
 		if (command !== undefined) {
 			if (this.tcp !== undefined) {
 				if (command.type !== 'keepAlive') this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
-				this.tcp.send(JSON.stringify(command) + "\n")
-				this.startKATimer()
+				try {
+					// TCPHelper throws on a destroyed socket, so pressing a button
+					// while the Listener is unreachable would otherwise take the
+					// whole module down instead of just failing the one command.
+					this.tcp.send(JSON.stringify(command) + "\n")
+					this.startKATimer()
+				} catch (error) {
+					this.log('warn', `Could not send ${command.type}: ${error.message}`)
+				}
 			}
 		}
 		Object.keys(command).forEach((key) => {
@@ -111,6 +155,7 @@ class instance extends InstanceBase {
 	processData(msg) {
 		switch (msg.type) {
 			case 'version':
+				this.listenerVersion = msg.data
 				this.setVariableValues({ version: msg.data })
 				this.checkListenerCompatibility(msg.data)
 				break
@@ -119,6 +164,9 @@ class instance extends InstanceBase {
 				break
 			case 'mousePosition':
 				this.setVariableValues({ mouseX: msg.x, mouseY: msg.y })
+				break
+			case 'processState':
+				this.handleProcessState(msg)
 				break
 			case 'subscribe':
 			case 'unsubscribe':
@@ -130,6 +178,126 @@ class instance extends InstanceBase {
 				this.log('debug', 'Unknown message type:', msg.type)
 				break
 		}
+	}
+
+	/**
+	 * A watchdog report for one process.
+	 *
+	 * The Listener only sends these when the state changes (unless the
+	 * subscription asked for a heartbeat), so every message is worth acting on.
+	 */
+	handleProcessState(msg) {
+		if (msg.status === 'error') {
+			this.log('warn', `Process watchdog: ${msg.msg} (${msg.process})`)
+			return
+		}
+		if (!msg.process) return
+
+		const previous = this.processStates.get(msg.process)
+		this.processStates.set(msg.process, {
+			running: !!msg.running,
+			frontmost: !!msg.frontmost,
+			// Kept as a tri-state: null means the Listener could not establish it.
+			responsive: msg.responsive === undefined ? null : msg.responsive,
+			pid: msg.pid,
+		})
+
+		if (previous && previous.running && !msg.running) {
+			this.log('warn', `Process watchdog: "${msg.process}" is no longer running`)
+		} else if (previous && previous.responsive !== false && msg.responsive === false) {
+			this.log('warn', `Process watchdog: "${msg.process}" is not responding`)
+		}
+
+		this.setVariableValues(variableValues(msg))
+		this.checkFeedbacks('processState')
+	}
+
+	/**
+	 * Forget everything the watchdog reported.
+	 *
+	 * Called when the connection drops: the reports stop, so the last values are
+	 * stale, and leaving them in place would keep a button showing "running" for
+	 * an application nobody can see any more. The watch list itself is kept, so
+	 * the reconnect can re-establish it.
+	 */
+	clearProcessStates() {
+		if (this.processStates.size === 0) return
+		this.processStates.clear()
+		for (const processName of this.watchedProcesses) {
+			this.setVariableValues(emptyVariableValues(processName))
+		}
+		this.checkFeedbacks('processState')
+	}
+
+	/** Current watchdog state for a process, or undefined if nothing is known. */
+	getProcessState(processName) {
+		const wanted = String(processName ?? '').trim()
+		if (wanted === '') return undefined
+		if (this.processStates.has(wanted)) return this.processStates.get(wanted)
+
+		// Be forgiving about case in the feedback option: the Listener matches
+		// process names case-insensitively, so the button should too.
+		const lowered = wanted.toLowerCase()
+		for (const [name, state] of this.processStates) {
+			if (name.toLowerCase() === lowered) return state
+		}
+		return undefined
+	}
+
+	/**
+	 * Start (or replace) the process subscription.
+	 * @param {string} processes comma separated, as typed by the user
+	 * @param {unknown} interval milliseconds
+	 * @param {boolean} sendAlways report every interval instead of on change
+	 */
+	subscribeProcesses(processes, interval, sendAlways) {
+		const list = parseProcessList(processes)
+		if (list.length === 0) {
+			this.log('warn', 'Process watchdog: no processes given, nothing to subscribe to')
+			return
+		}
+
+		this.watchedProcesses = list
+		this.watchInterval = clampInterval(interval)
+		this.watchSendAlways = !!sendAlways
+		this.initVariables()
+		this.sendProcessSubscription()
+	}
+
+	/** Stop the process subscription and blank the state it produced. */
+	unsubscribeProcesses() {
+		const stopped = this.watchedProcesses
+		this.watchedProcesses = []
+		this.sendCommand({ type: 'unsubscribe', name: 'processState' })
+
+		// Leaving the last known values in place would keep a dead button green.
+		this.processStates.clear()
+		for (const processName of stopped) {
+			this.setVariableValues(emptyVariableValues(processName))
+		}
+		this.initVariables()
+		this.checkFeedbacks('processState')
+	}
+
+	/** Send the current watch list to the Listener. */
+	sendProcessSubscription() {
+		if (this.watchedProcesses.length === 0) return
+
+		if (this.listenerVersion && compareVersions(this.listenerVersion, MIN_PROCESS_WATCH_VERSION) < 0) {
+			this.log(
+				'warn',
+				`Process watchdog needs VICREO-Listener ${MIN_PROCESS_WATCH_VERSION} or newer, this one reports ${this.listenerVersion}.`,
+			)
+		}
+
+		this.sendCommand({
+			type: 'subscribe',
+			name: 'processState',
+			processes: this.watchedProcesses,
+			interval: this.watchInterval,
+			sendAlways: this.watchSendAlways,
+		})
+		this.log('debug', `Process watchdog: watching ${this.watchedProcesses.join(', ')} every ${this.watchInterval}ms`)
 	}
 
 	checkListenerCompatibility(version) {
@@ -186,6 +354,9 @@ class instance extends InstanceBase {
 			this.receiveBuffer = ''
 			this.listenerVersionWarningShown = false
 			this.startKATimer()
+			// The Listener tears down every subscription when the socket closes,
+			// so a reconnect has to re-establish the watch or it silently stops.
+			this.sendProcessSubscription()
 		})
 		this.tcp.on('data', (data) => {
 			this.receiveBuffer += data.toString()
@@ -206,6 +377,13 @@ class instance extends InstanceBase {
 			}
 		})
 
+		// TCPHelper emits 'end' and 'error' on a lost connection, never 'close',
+		// and it reconnects internally (re-emitting 'connect', which is what
+		// re-establishes the subscription).
+		this.tcp.on('end', () => {
+			this.clearProcessStates()
+		})
+
 		this.tcp.on('close', () => {
 			this.log('info', 'Connection closed')
 			if (!this.retrying) {
@@ -217,6 +395,7 @@ class instance extends InstanceBase {
 		})
 		this.tcp.on('error', (err) => {
 			this.log('info', err.toString())
+			this.clearProcessStates()
 		})
 	}
 
@@ -279,6 +458,33 @@ class instance extends InstanceBase {
 				width: 6,
 				default: '',
 			},
+			{
+				type: 'static-text',
+				id: 'watch-info',
+				width: 12,
+				label: 'Process watchdog (pro)',
+				value:
+					'Watch applications on the target machine and expose them as variables and the "Process state" feedback. Listed here they are watched automatically, including after a reconnect.',
+			},
+			{
+				type: 'textinput',
+				useVariables: false,
+				id: 'watchProcesses',
+				label: 'Watch these processes (comma separated)',
+				width: 8,
+				default: '',
+				tooltip:
+					'e.g. "chrome.exe, POWERPNT.EXE" on Windows or "Keynote, Google Chrome" on macOS. Leave empty to disable.',
+			},
+			{
+				type: 'number',
+				id: 'watchInterval',
+				label: 'Check interval (ms)',
+				width: 4,
+				default: 10000,
+				min: 1000,
+				max: 600000,
+			},
 		]
 	}
 
@@ -297,12 +503,18 @@ class instance extends InstanceBase {
 			{ variableId: 'license', name: 'License' },
 			{ variableId: 'mouseX', name: 'mouseX' },
 			{ variableId: 'mouseY', name: 'mouseY' },
+			// Four per watched process, so these come and go with the watch list.
+			...variableDefinitions(this.watchedProcesses),
 		]
 		this.setVariableDefinitions(variables)
 	}
 
 	initPresets() {
 		this.setPresetDefinitions(GetPresetsList())
+	}
+
+	initFeedbacks() {
+		this.setFeedbackDefinitions(GetFeedbacks(this))
 	}
 
 	actions() {

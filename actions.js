@@ -456,16 +456,47 @@ exports.GetActions = (base) => {
 					label: 'Object',
 					id: 'name',
 					default: 'mousePosition',
-					choices: [{ id: 'mousePosition', label: 'mouse position' }],
+					choices: [
+						{ id: 'mousePosition', label: 'mouse position' },
+						{ id: 'processState', label: 'process state (watchdog)' },
+					],
+				},
+				{
+					type: 'textinput',
+					label: 'Processes (comma separated)',
+					id: 'processes',
+					default: '',
+					isVisible: (options) => options['name'] === 'processState',
+					tooltip: 'e.g. "chrome.exe, POWERPNT.EXE" on Windows or "Keynote, Google Chrome" on macOS.',
+				},
+				{
+					type: 'checkbox',
+					label: 'Report every interval (not just on change)',
+					id: 'sendAlways',
+					default: false,
+					isVisible: (options) => options['name'] === 'processState',
 				},
 				{
 					type: 'number',
 					label: 'Interval',
 					id: 'interval',
 					default: 1000,
+					tooltip: 'Milliseconds. The Listener clamps mouse position to 100ms and process state to 1000ms.',
 				},
 			],
 			callback: (event) => {
+				if (event.options.name === 'processState') {
+					// Routed through the instance so it can remember the watch list
+					// and re-send it on reconnect: the Listener drops every
+					// subscription when the connection closes.
+					if (event.options.subscribe === 'subscribe') {
+						base.subscribeProcesses(event.options.processes, event.options.interval, event.options.sendAlways)
+					} else {
+						base.unsubscribeProcesses()
+					}
+					return
+				}
+
 				cmd.type = event.options.subscribe
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
