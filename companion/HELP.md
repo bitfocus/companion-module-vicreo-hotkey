@@ -123,7 +123,13 @@ Numpad 5
 Numpad 6
 Numpad 7
 Numpad 8
-Numpad
+Numpad 9
+Numpad / divide
+Numpad \* multiply
+Numpad - minus
+Numpad + plus
+Numpad . decimal
+Numpad separator
 Monitor brightness up
 Monitor brightness down
 Insert
