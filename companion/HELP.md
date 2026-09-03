@@ -11,10 +11,12 @@ Signed and notarised builds for macOS and Windows; a `.deb` for Linux is in beta
 ### Setup in three steps
 
 1. **Install and start the Listener on the target machine.** On macOS, allow it under System Settings → Privacy & Security → Accessibility; without that permission it cannot send keystrokes. The machine may also be the one Companion itself runs on.
-2. **Add the connection in Companion.** Use **Find on the network** (Bonjour, from Listener 8.0.0 onwards) or fill in **Target IP** by hand — `127.0.0.1` if the Listener runs on the same machine. The port is `10001` unless you changed it. Fill in the password only if the Listener asks for one.
+2. **Add the connection in Companion.** Use **Find on the network** (Bonjour, from Listener 8.0.0 onwards) or fill in **Target IP** by hand — `127.0.0.1` if the Listener runs on the same machine. The port is `10001` unless you changed it. Fill in the password only if the Listener asks for one; it is stored as a secret and left out of exported configs.
 3. **Test it.** Put the **Single key** action on a button and pick, say, `F5`. Or drag one of the built-in presets onto a page and press it — the preset categories cover Keynote, PowerPoint for Mac, Audio, Mouse, Windows, OSX, Watchdog and Misc.
 
 The **VICREO Listener version** variable fills in once the connection is up, which is the quickest confirmation that Companion and the Listener are talking.
+
+Every text field in the actions accepts variables, and can be switched to an expression. Module version 5 needs Companion 5.0 or newer; the last version for Companion 4 is 4.12.
 
 ### Free versus licensed
 
@@ -30,6 +32,10 @@ The **VICREO Listener version** variable fills in once the connection is up, whi
 | Subscriptions and custom JSON actions                                          |      |   ✔️    |
 
 Actions that need a license are marked **(pro-action)** in the action dropdown.
+
+### Actions switched off on the Listener
+
+The Listener's **Settings → Allowed remote actions** lets the person running that machine switch off shell commands, opening files, typing text, mouse control, window targeting or the process watchdog. A button that sends one of those is refused, and the reason appears as a warning in this connection's log in Companion (Listener 11 or newer). Key presses can never be switched off.
 
 ## Actions
 

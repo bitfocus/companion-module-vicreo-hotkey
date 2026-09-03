@@ -1,6 +1,16 @@
-let cmd = {}
+/**
+ * Text as it arrives from Companion, made safe to send on.
+ *
+ * Since module-api 2.0 Companion parses variables and expressions before the
+ * callback runs, so there is no `parseVariablesInString` here any more — but
+ * an expression can just as well produce a number or nothing, and the Listener
+ * expects a string.
+ * @param {unknown} value
+ * @returns {string}
+ */
+const asText = (value) => String(value ?? '').trim()
 
-exports.GetActions = (base) => {
+export const GetActions = (base) => {
 	let actions = {
 		singleKey: {
 			name: 'Single key',
@@ -14,6 +24,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.singleKey
 				cmd.type = 'press'
 
@@ -32,6 +43,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 
@@ -56,6 +68,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.key2
 				cmd.type = 'combination'
 				cmd.modifiers = [event.options.key1]
@@ -88,6 +101,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.key3
 				cmd.type = 'trio'
 				cmd.modifiers = [event.options.key2, event.options.key1]
@@ -127,6 +141,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.key4
 				cmd.type = 'quartet'
 				cmd.modifiers = [event.options.key3, event.options.key2, event.options.key1]
@@ -144,6 +159,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.keyPress
 				cmd.type = 'down'
 
@@ -160,6 +176,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.keyRelease
 				cmd.type = 'up'
 
@@ -174,7 +191,7 @@ exports.GetActions = (base) => {
 					useVariables: true,
 					label: 'X-coordinate',
 					id: 'x',
-					default: 100,
+					default: '100',
 					width: 6,
 				},
 				{
@@ -182,16 +199,15 @@ exports.GetActions = (base) => {
 					useVariables: true,
 					label: 'Y-coordinate',
 					id: 'y',
-					default: 100,
+					default: '100',
 					width: 6,
 				},
 			],
 			callback: async (event) => {
-				const x = await base.parseVariablesInString(event.options.x)
-				const y = await base.parseVariablesInString(event.options.y)
+				const cmd = {}
 				cmd.type = 'mousePosition'
-				cmd.x = x.trim()
-				cmd.y = y.trim()
+				cmd.x = asText(event.options.x)
+				cmd.y = asText(event.options.y)
 
 				base.sendCommand(cmd)
 			},
@@ -222,6 +238,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.type = 'mouseClick'
 				cmd.button = event.options.button
 				cmd.double = event.options.double
@@ -244,6 +261,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.type = 'mouseClickHold'
 				cmd.button = event.options.button
 				base.sendCommand(cmd)
@@ -264,6 +282,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.type = 'mouseClickRelease'
 				cmd.button = event.options.button
 				base.sendCommand(cmd)
@@ -290,6 +309,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.type = 'mouseScroll'
 				cmd.x = event.options.x_axis
 				cmd.y = event.options.y_axis
@@ -301,6 +321,7 @@ exports.GetActions = (base) => {
 			name: 'Get the position of the mouse on screen',
 			options: [],
 			callback: () => {
+				const cmd = {}
 				cmd.type = 'getMousePosition'
 				base.sendCommand(cmd)
 			},
@@ -316,9 +337,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
+				const cmd = {}
 				cmd.type = 'string'
-				const msg = await base.parseVariablesInString(event.options.msg)
-				cmd.msg = msg.trim()
+				cmd.msg = asText(event.options.msg)
 
 				base.sendCommand(cmd)
 			},
@@ -334,9 +355,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
+				const cmd = {}
 				cmd.type = 'license'
-				const licenseKey = await base.parseVariablesInString(event.options.license)
-				cmd.license = licenseKey.trim()
+				cmd.license = asText(event.options.license)
 
 				base.sendCommand(cmd)
 			},
@@ -352,9 +373,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
+				const cmd = {}
 				cmd.type = 'shell'
-				const shell = await base.parseVariablesInString(event.options.shell)
-				cmd.shell = shell.trim()
+				cmd.shell = asText(event.options.shell)
 
 				base.sendCommand(cmd)
 			},
@@ -370,9 +391,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
-				let filepath = await base.parseVariablesInString(event.options.file)
+				const cmd = {}
 				cmd.type = 'file'
-				cmd.path = encodeURI(filepath.trim())
+				cmd.path = encodeURI(asText(event.options.file))
 
 				base.sendCommand(cmd)
 			},
@@ -410,6 +431,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.virtualKeyCode
 				cmd.type = 'processOSX'
 				cmd.processName = event.options.processSearchString
@@ -432,6 +454,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				cmd.key = event.options.specialKey
 				cmd.type = 'pressSpecial'
 
@@ -460,13 +483,16 @@ exports.GetActions = (base) => {
 						{ id: 'mousePosition', label: 'mouse position' },
 						{ id: 'processState', label: 'process state (watchdog)' },
 					],
+					// Referenced by the isVisibleExpression below, which only works on
+					// fields that cannot themselves be expressions.
+					disableAutoExpression: true,
 				},
 				{
 					type: 'textinput',
 					label: 'Processes (comma separated)',
 					id: 'processes',
 					default: '',
-					isVisible: (options) => options['name'] === 'processState',
+					isVisibleExpression: `$(options:name) === 'processState'`,
 					tooltip: 'e.g. "chrome.exe, POWERPNT.EXE" on Windows or "Keynote, Google Chrome" on macOS.',
 				},
 				{
@@ -474,7 +500,7 @@ exports.GetActions = (base) => {
 					label: 'Report every interval (not just on change)',
 					id: 'sendAlways',
 					default: false,
-					isVisible: (options) => options['name'] === 'processState',
+					isVisibleExpression: `$(options:name) === 'processState'`,
 				},
 				{
 					type: 'number',
@@ -485,6 +511,7 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: (event) => {
+				const cmd = {}
 				if (event.options.name === 'processState') {
 					// Routed through the instance so it can remember the watch list
 					// and re-send it on reconnect: the Listener drops every
@@ -516,14 +543,20 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
+				const custom = asText(event.options.custom)
+				let parsed
 				try {
-					const custom = await base.parseVariablesInString(event.options.custom)
-					base.log('debug', 'SEND:' + custom)
-					cmd = JSON.parse(custom)
+					parsed = JSON.parse(custom)
 				} catch (error) {
-					base.log('error', error)
+					base.log('error', `Custom action is not valid JSON: ${error.message} — ${custom}`)
+					return
 				}
-				base.sendCommand(cmd)
+				if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+					base.log('error', `Custom action must be a JSON object, got: ${custom}`)
+					return
+				}
+				base.log('debug', 'SEND:' + custom)
+				base.sendCommand(parsed)
 			},
 		},
 		setWindowToForeground: {
@@ -538,8 +571,9 @@ exports.GetActions = (base) => {
 				},
 			],
 			callback: async (event) => {
+				const cmd = {}
 				cmd.type = 'setWindowToForeground'
-				cmd.window = await base.parseVariablesInString(event.options.window)
+				cmd.window = asText(event.options.window)
 
 				base.sendCommand(cmd)
 			},
