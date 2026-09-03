@@ -1,4 +1,4 @@
-const { combineRgb } = require('@companion-module/base')
+import { combineRgb } from '@companion-module/base'
 
 /**
  * Feedbacks for the process watchdog.
@@ -7,7 +7,7 @@ const { combineRgb } = require('@companion-module/base')
  * the application dies or hangs, so the default style is an alarm red and the
  * default condition is "not running".
  */
-exports.GetFeedbacks = (base) => {
+export const GetFeedbacks = (base) => {
 	return {
 		processState: {
 			type: 'boolean',

@@ -1,11 +1,19 @@
-const { combineRgb } = require('@companion-module/base')
+import { combineRgb } from '@companion-module/base'
 
-exports.GetPresetsList = () => {
+/**
+ * Presets, in the module-api 2.0 shape: the definitions keyed by id, plus a
+ * separate structure that says how they are presented. The structure here is
+ * one section per former `category`, in the order they are first defined, so
+ * the preset panel reads exactly as it did before the migration.
+ *
+ * @returns {{ structure: import('@companion-module/base').CompanionPresetSection[], presets: import('@companion-module/base').CompanionPresetDefinitions }}
+ */
+export const GetPresetsList = () => {
 	const presets = {}
 
 	presets['CommandTab'] = {
 		name: 'CommandTab',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Command + Tab (MAC)',
@@ -32,7 +40,7 @@ exports.GetPresetsList = () => {
 
 	presets['commandX'] = {
 		name: 'commandX',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Command + x',
@@ -59,7 +67,7 @@ exports.GetPresetsList = () => {
 
 	presets['commandC'] = {
 		name: 'commandC',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Command + c',
@@ -86,7 +94,7 @@ exports.GetPresetsList = () => {
 
 	presets['commandV'] = {
 		name: 'commandV',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Command + v',
@@ -113,7 +121,7 @@ exports.GetPresetsList = () => {
 
 	presets['altTab'] = {
 		name: 'altTab',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Combination Example',
@@ -140,7 +148,7 @@ exports.GetPresetsList = () => {
 
 	presets['controlAltTab'] = {
 		name: 'controlAltTab',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Trio example',
@@ -168,7 +176,7 @@ exports.GetPresetsList = () => {
 
 	presets['controlX'] = {
 		name: 'controlX',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + x',
@@ -195,7 +203,7 @@ exports.GetPresetsList = () => {
 
 	presets['controlC'] = {
 		name: 'controlC',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + c',
@@ -222,7 +230,7 @@ exports.GetPresetsList = () => {
 
 	presets['controlV'] = {
 		name: 'controlV',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Ctrl + v',
@@ -249,7 +257,7 @@ exports.GetPresetsList = () => {
 
 	presets['openWordpad'] = {
 		name: 'openWordpad',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Open Wordpad',
@@ -275,7 +283,7 @@ exports.GetPresetsList = () => {
 
 	presets['openNotepad'] = {
 		name: 'openNotepad',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Open Notepad',
@@ -301,7 +309,7 @@ exports.GetPresetsList = () => {
 
 	presets['gotoSlide1'] = {
 		name: 'gotoSlide1',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Goto slide 1',
@@ -324,7 +332,7 @@ exports.GetPresetsList = () => {
 					},
 					{
 						actionId: 'sendKeypressToProcess',
-						delay: '30',
+						delay: 30,
 						options: {
 							processSearchString: 'Microsoft PowerPoint',
 							virtualKeyCode: '0x4C',
@@ -340,7 +348,7 @@ exports.GetPresetsList = () => {
 
 	presets['nextSlide'] = {
 		name: 'nextSlide',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Next\\nSlide',
@@ -366,7 +374,7 @@ exports.GetPresetsList = () => {
 
 	presets['previousSlide'] = {
 		name: 'previousSlide',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Previous\\nSlide',
@@ -392,7 +400,7 @@ exports.GetPresetsList = () => {
 
 	presets['startFromTop'] = {
 		name: 'startFromTop',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Start\\nfrom top',
@@ -420,7 +428,7 @@ exports.GetPresetsList = () => {
 
 	presets['startFromCurrent'] = {
 		name: 'startFromCurrent',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Start\\nfrom current',
@@ -447,7 +455,7 @@ exports.GetPresetsList = () => {
 
 	presets['quitSlideshow'] = {
 		name: 'quitSlideshow',
-		type: 'button',
+		type: 'simple',
 		category: 'Powerpoint for mac',
 		style: {
 			text: 'Quit\\nslideshow',
@@ -473,7 +481,7 @@ exports.GetPresetsList = () => {
 
 	presets['startFromCurrentOSX'] = {
 		name: 'startFromCurrentOSX',
-		type: 'button',
+		type: 'simple',
 		category: 'Keynote',
 		style: {
 			text: 'Start\\nfrom current',
@@ -501,7 +509,7 @@ exports.GetPresetsList = () => {
 
 	presets['nextSlideOSX'] = {
 		name: 'nextSlideOSX',
-		type: 'button',
+		type: 'simple',
 		category: 'Keynote',
 		style: {
 			text: 'Next\\nSlide',
@@ -527,7 +535,7 @@ exports.GetPresetsList = () => {
 
 	presets['previousSlideOSX'] = {
 		name: 'previousSlideOSX',
-		type: 'button',
+		type: 'simple',
 		category: 'Keynote',
 		style: {
 			text: 'Previous\\nSlide',
@@ -553,7 +561,7 @@ exports.GetPresetsList = () => {
 
 	presets['quitSlideshowOSX'] = {
 		name: 'quitSlideshowOSX',
-		type: 'button',
+		type: 'simple',
 		category: 'Keynote',
 		style: {
 			text: 'Quit\\nslideshow',
@@ -579,7 +587,7 @@ exports.GetPresetsList = () => {
 
 	presets['shutdownWindows'] = {
 		name: 'shutdownWindows',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Shutdown',
@@ -605,7 +613,7 @@ exports.GetPresetsList = () => {
 
 	presets['rebootWindows'] = {
 		name: 'rebootWindows',
-		type: 'button',
+		type: 'simple',
 		category: 'Windows',
 		style: {
 			text: 'Reboot',
@@ -631,7 +639,7 @@ exports.GetPresetsList = () => {
 
 	presets['screenshotOSX5'] = {
 		name: 'screenshotOSX5',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Screenshot (full)',
@@ -656,7 +664,7 @@ exports.GetPresetsList = () => {
 	}
 	presets['screenshotOSX4'] = {
 		name: 'screenshotOSX4',
-		type: 'button',
+		type: 'simple',
 		category: 'OSX',
 		style: {
 			text: 'Screenshot (part)',
@@ -682,7 +690,7 @@ exports.GetPresetsList = () => {
 
 	presets['mute'] = {
 		name: 'mute',
-		type: 'button',
+		type: 'simple',
 		category: 'Audio',
 		style: {
 			text: 'Mute (toggle)',
@@ -708,7 +716,7 @@ exports.GetPresetsList = () => {
 
 	presets['volumeUp'] = {
 		name: 'volumeUp',
-		type: 'button',
+		type: 'simple',
 		category: 'Audio',
 		style: {
 			text: 'Volume Up',
@@ -734,7 +742,7 @@ exports.GetPresetsList = () => {
 
 	presets['volumeDown'] = {
 		name: 'volumeDown',
-		type: 'button',
+		type: 'simple',
 		category: 'Audio',
 		style: {
 			text: 'Volume Down',
@@ -760,7 +768,7 @@ exports.GetPresetsList = () => {
 
 	presets['clickLeft'] = {
 		name: 'clickLeft',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Click left',
@@ -787,7 +795,7 @@ exports.GetPresetsList = () => {
 
 	presets['clickHold'] = {
 		name: 'clickHold',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Click and Hold mouse',
@@ -811,7 +819,7 @@ exports.GetPresetsList = () => {
 
 	presets['clickRelease'] = {
 		name: 'clickRelease',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Click and Release mouse',
@@ -834,7 +842,7 @@ exports.GetPresetsList = () => {
 	}
 	presets['dragdrop'] = {
 		name: 'draganddrop',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Drag and Drop mouse',
@@ -880,7 +888,7 @@ exports.GetPresetsList = () => {
 
 	presets['clickRight'] = {
 		name: 'clickRight',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Click right',
@@ -907,7 +915,7 @@ exports.GetPresetsList = () => {
 
 	presets['setMousePosition'] = {
 		name: 'setMousePosition',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Set Mouse\\nposition',
@@ -935,7 +943,7 @@ exports.GetPresetsList = () => {
 
 	presets['getMousePosition'] = {
 		name: 'getMousePosition',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Get Mouse\\nposition',
@@ -958,7 +966,7 @@ exports.GetPresetsList = () => {
 
 	presets['mouseX'] = {
 		name: 'mouseX',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Mouse X:\n$(VICREO hotkey:mouseX)',
@@ -972,7 +980,7 @@ exports.GetPresetsList = () => {
 
 	presets['mouseY'] = {
 		name: 'mouseY',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Mouse Y:\n$(VICREO hotkey:mouseY)',
@@ -986,7 +994,7 @@ exports.GetPresetsList = () => {
 
 	presets['mouseScroll_up'] = {
 		name: 'mouseScroll',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Scroll up',
@@ -1012,7 +1020,7 @@ exports.GetPresetsList = () => {
 	}
 	presets['mouseScroll_down'] = {
 		name: 'mouseScroll',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Scroll down',
@@ -1039,7 +1047,7 @@ exports.GetPresetsList = () => {
 
 	presets['subscribeToPosition'] = {
 		name: 'subscribeToPosition',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Subscribe\\nto position',
@@ -1067,7 +1075,7 @@ exports.GetPresetsList = () => {
 
 	presets['unsubscribe'] = {
 		name: 'unsubscribe',
-		type: 'button',
+		type: 'simple',
 		category: 'Mouse',
 		style: {
 			text: 'Unsubscribe\\nto position',
@@ -1095,7 +1103,7 @@ exports.GetPresetsList = () => {
 
 	presets['license'] = {
 		name: 'license',
-		type: 'button',
+		type: 'simple',
 		category: 'Misc',
 		style: {
 			text: 'Set license key',
@@ -1121,7 +1129,7 @@ exports.GetPresetsList = () => {
 	// application stops running. Fill in the process name after dragging it out.
 	presets['processWatchdog'] = {
 		name: 'Process watchdog',
-		type: 'button',
+		type: 'simple',
 		category: 'Watchdog',
 		style: {
 			text: 'chrome.exe\\n$(vicreo-hotkey:process_chrome_exe_running)',
@@ -1147,7 +1155,7 @@ exports.GetPresetsList = () => {
 
 	presets['processWatchdogHung'] = {
 		name: 'Process hung',
-		type: 'button',
+		type: 'simple',
 		category: 'Watchdog',
 		style: {
 			text: 'chrome.exe\\nhung?',
@@ -1173,7 +1181,7 @@ exports.GetPresetsList = () => {
 
 	presets['subscribeToProcesses'] = {
 		name: 'subscribeToProcesses',
-		type: 'button',
+		type: 'simple',
 		category: 'Watchdog',
 		style: {
 			text: 'Subscribe\\nto processes',
@@ -1203,7 +1211,7 @@ exports.GetPresetsList = () => {
 
 	presets['unsubscribeFromProcesses'] = {
 		name: 'unsubscribeFromProcesses',
-		type: 'button',
+		type: 'simple',
 		category: 'Watchdog',
 		style: {
 			text: 'Unsubscribe\\nfrom processes',
@@ -1231,5 +1239,22 @@ exports.GetPresetsList = () => {
 		],
 	}
 
-	return presets
+	return splitIntoStructure(presets)
+}
+
+/**
+ * Turn `{ id: { category, ...preset } }` into what `setPresetDefinitions`
+ * takes in module-api 2.0: presets without `category`, and a structure of one
+ * section per category listing its preset ids.
+ */
+const splitIntoStructure = (withCategories) => {
+	const presets = {}
+	const sections = new Map()
+	for (const [id, { category, ...preset }] of Object.entries(withCategories)) {
+		presets[id] = preset
+		const sectionId = category.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+		if (!sections.has(sectionId)) sections.set(sectionId, { id: sectionId, name: category, definitions: [] })
+		sections.get(sectionId).definitions.push(id)
+	}
+	return { structure: [...sections.values()], presets }
 }

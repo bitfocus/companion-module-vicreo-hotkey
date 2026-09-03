@@ -1,17 +1,18 @@
-const { TCPHelper, InstanceBase, runEntrypoint, Regex, InstanceStatus } = require('@companion-module/base')
-const UpgradeScripts = require('./upgrades')
-const { GetPresetsList } = require('./presets')
-const { GetActions } = require('./actions')
-const { GetFeedbacks } = require('./feedbacks')
-const {
+import { TCPHelper, InstanceBase, Regex, InstanceStatus } from '@companion-module/base'
+import { GetPresetsList } from './presets.js'
+import { GetActions } from './actions.js'
+import { GetFeedbacks } from './feedbacks.js'
+import {
 	DEFAULT_INTERVAL,
 	clampInterval,
 	emptyVariableValues,
 	parseProcessList,
 	variableDefinitions,
 	variableValues,
-} = require('./processWatch')
-const crypto = require('crypto')
+} from './processWatch.js'
+import crypto from 'node:crypto'
+
+export { UpgradeScripts } from './upgrades.js'
 const kaInterval = 30000
 const MIN_LISTENER_VERSION = '9.11.0'
 /** The Listener release that added the processState subscription. */
@@ -22,12 +23,18 @@ function md5(str) {
 }
 
 function normalizeVersionString(version) {
-	return String(version || '').trim().replace(/^v/i, '')
+	return String(version || '')
+		.trim()
+		.replace(/^v/i, '')
 }
 
 function compareVersions(left, right) {
-	const leftParts = normalizeVersionString(left).split('.').map((value) => parseInt(value, 10) || 0)
-	const rightParts = normalizeVersionString(right).split('.').map((value) => parseInt(value, 10) || 0)
+	const leftParts = normalizeVersionString(left)
+		.split('.')
+		.map((value) => parseInt(value, 10) || 0)
+	const rightParts = normalizeVersionString(right)
+		.split('.')
+		.map((value) => parseInt(value, 10) || 0)
 	const length = Math.max(leftParts.length, rightParts.length)
 
 	for (let index = 0; index < length; index++) {
@@ -45,7 +52,7 @@ function compareVersions(left, right) {
  * VICREO Hotkey Companion Module
  * Connects to VICREO Listener software to send keyboard commands
  */
-class instance extends InstanceBase {
+export default class instance extends InstanceBase {
 	/**
 	 * Create an instance of the module
 	 *
@@ -74,8 +81,9 @@ class instance extends InstanceBase {
 		this.listenerVersion = ''
 	}
 
-	async init(config) {
+	async init(config, _isFirstInit, secrets) {
 		this.config = config
+		this.secrets = secrets ?? {}
 		this.updateStatus(InstanceStatus.Ok, 'Initializing...')
 
 		this.adoptConfiguredWatchList()
@@ -86,8 +94,9 @@ class instance extends InstanceBase {
 		this.initVariables()
 	}
 
-	async configUpdated(config) {
+	async configUpdated(config, secrets) {
 		this.config = config
+		this.secrets = secrets ?? {}
 		if (this.tcp !== undefined) {
 			this.tcp.destroy()
 		}
@@ -127,8 +136,10 @@ class instance extends InstanceBase {
 	}
 
 	sendCommand(command) {
-		command.password = md5(this.config.password)
-		// console.log('command', JSON.stringify(command))
+		// The password lives in the secrets store (a `secret-text` field), so it
+		// stays out of exported configs. Older configs are moved there by the
+		// upgrade script in upgrades.js.
+		command.password = md5(this.secrets?.password ?? '')
 		if (command !== undefined) {
 			if (this.tcp !== undefined) {
 				if (command.type !== 'keepAlive') this.log('debug', `${JSON.stringify(command)} to ${this.config.host}`)
@@ -136,16 +147,13 @@ class instance extends InstanceBase {
 					// TCPHelper throws on a destroyed socket, so pressing a button
 					// while the Listener is unreachable would otherwise take the
 					// whole module down instead of just failing the one command.
-					this.tcp.send(JSON.stringify(command) + "\n")
+					this.tcp.send(JSON.stringify(command) + '\n')
 					this.startKATimer()
 				} catch (error) {
 					this.log('warn', `Could not send ${command.type}: ${error.message}`)
 				}
 			}
 		}
-		Object.keys(command).forEach((key) => {
-			delete command[key]
-		})
 	}
 
 	/**
@@ -333,7 +341,7 @@ class instance extends InstanceBase {
 				this.listenerVersionWarningShown = true
 				this.log(
 					'warn',
-					`Connected VICREO-Listener ${normalizedVersion} is older than ${MIN_LISTENER_VERSION}. Please update VICREO-Listener for the latest vicreo-hotkey protocol support.`
+					`Connected VICREO-Listener ${normalizedVersion} is older than ${MIN_LISTENER_VERSION}. Please update VICREO-Listener for the latest vicreo-hotkey protocol support.`,
 				)
 			}
 			return
@@ -356,14 +364,14 @@ class instance extends InstanceBase {
 				)
 				this.tcp = new TCPHelper(
 					this.config.bonjour_host.substring(0, index),
-					this.config.bonjour_host.substring(index + 1),
+					Number(this.config.bonjour_host.substring(index + 1)),
 				)
 			} else {
 				this.log('error', `Invalid bonjour host: ${this.config.bonjour_host}`)
 			}
 		} else {
 			this.log('info', `Connecting to ${this.config.host}:${this.config.port}...`)
-			this.tcp = new TCPHelper(this.config.host, this.config.port)
+			this.tcp = new TCPHelper(this.config.host, Number(this.config.port))
 		}
 
 		this.tcp.on('status_change', (status, message) => {
@@ -387,8 +395,8 @@ class instance extends InstanceBase {
 			for (const rawData of dataArray) {
 				if (!rawData.trim()) continue
 				try {
-					let processed = JSON.parse(rawData)
-					if (processed !== null || processed !== undefined) this.processData(processed)
+					const processed = JSON.parse(rawData)
+					if (processed !== null && typeof processed === 'object') this.processData(processed)
 				} catch (objError) {
 					if (objError instanceof SyntaxError) {
 						console.error(objError.name)
@@ -424,7 +432,7 @@ class instance extends InstanceBase {
 	init_TCP() {
 		this.updateStatus(InstanceStatus.Connecting)
 
-		if (this.config.port == undefined) this.config.port = 10001
+		if (this.config.port == undefined || this.config.port === '') this.config.port = 10001
 		this.makeConnection()
 	}
 
@@ -450,7 +458,7 @@ class instance extends InstanceBase {
 				useVariables: false,
 				id: 'host',
 				label: 'Target IP',
-				isVisible: (options) => !options['bonjour_host'],
+				isVisibleExpression: `!$(options:bonjour_host)`,
 				width: 6,
 				regex: Regex.IP,
 			},
@@ -459,7 +467,7 @@ class instance extends InstanceBase {
 				id: 'host-filler',
 				width: 6,
 				label: '',
-				isVisible: (options) => !!options['bonjour_host'],
+				isVisibleExpression: `!!$(options:bonjour_host)`,
 				value: '',
 			},
 			{
@@ -468,13 +476,12 @@ class instance extends InstanceBase {
 				id: 'port',
 				label: 'Port number',
 				width: 6,
-				isVisible: (options) => !options['bonjour_host'],
+				isVisibleExpression: `!$(options:bonjour_host)`,
 				regex: Regex.PORT,
-				default: 10001,
+				default: '10001',
 			},
 			{
-				type: 'textinput',
-				useVariables: false,
+				type: 'secret-text',
 				id: 'password',
 				label: 'Password protected listeners',
 				width: 6,
@@ -520,19 +527,19 @@ class instance extends InstanceBase {
 	}
 
 	initVariables() {
-		let variables = [
-			{ variableId: 'version', name: 'VICREO Listener version' },
-			{ variableId: 'license', name: 'License' },
-			{ variableId: 'mouseX', name: 'mouseX' },
-			{ variableId: 'mouseY', name: 'mouseY' },
+		this.setVariableDefinitions({
+			version: { name: 'VICREO Listener version' },
+			license: { name: 'License' },
+			mouseX: { name: 'mouseX' },
+			mouseY: { name: 'mouseY' },
 			// Four per watched process, so these come and go with the watch list.
 			...variableDefinitions(this.watchedProcesses),
-		]
-		this.setVariableDefinitions(variables)
+		})
 	}
 
 	initPresets() {
-		this.setPresetDefinitions(GetPresetsList())
+		const { structure, presets } = GetPresetsList()
+		this.setPresetDefinitions(structure, presets)
 	}
 
 	initFeedbacks() {
@@ -543,4 +550,3 @@ class instance extends InstanceBase {
 		this.setActionDefinitions(GetActions(this))
 	}
 }
-runEntrypoint(instance, UpgradeScripts)

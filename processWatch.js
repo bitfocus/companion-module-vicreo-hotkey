@@ -55,19 +55,19 @@ function variableIds(processName) {
 }
 
 /**
- * Variable definitions for a whole watch list.
+ * Variable definitions for a whole watch list, keyed by variable id as
+ * `setVariableDefinitions` takes them since module-api 2.0.
  * @param {string[]} processes
+ * @returns {Record<string, {name: string}>}
  */
 function variableDefinitions(processes) {
-	const definitions = []
+	const definitions = {}
 	for (const processName of processes) {
 		const ids = variableIds(processName)
-		definitions.push(
-			{ variableId: ids.running, name: `${processName}: running` },
-			{ variableId: ids.frontmost, name: `${processName}: frontmost` },
-			{ variableId: ids.responsive, name: `${processName}: responsive` },
-			{ variableId: ids.pid, name: `${processName}: pid` },
-		)
+		definitions[ids.running] = { name: `${processName}: running` }
+		definitions[ids.frontmost] = { name: `${processName}: frontmost` }
+		definitions[ids.responsive] = { name: `${processName}: responsive` }
+		definitions[ids.pid] = { name: `${processName}: pid` }
 	}
 	return definitions
 }
@@ -109,7 +109,7 @@ function clampInterval(value) {
 	return Math.max(parsed, MIN_INTERVAL)
 }
 
-module.exports = {
+export {
 	MIN_INTERVAL,
 	DEFAULT_INTERVAL,
 	MAX_PROCESSES,
