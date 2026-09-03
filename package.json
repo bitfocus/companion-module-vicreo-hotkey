@@ -20,12 +20,12 @@
 	},
 	"devDependencies": {
 		"@companion-module/tools": "^3.1.0",
-		"eslint": "^9.39.3",
+		"eslint": "^10.2.0",
 		"prettier": "^3.8.1"
 	},
 	"engines": {
 		"node": "^22.18"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
-	"packageManager": "yarn@4.13.0"
+	"packageManager": "yarn@4.18.0"
 }
