@@ -33,7 +33,7 @@ Actions that need a license are marked **(pro-action)** in the action dropdown.
 
 ### Actions switched off on the Listener
 
-The Listener's **Settings → Allowed remote actions** lets the person running that machine switch off shell commands, opening files, typing text, mouse control, window targeting or the process watchdog. A button that sends one of those is refused, and the reason appears as a warning in this connection's log in Companion (Listener 10.4 or newer). Key presses can never be switched off.
+The Listener's **Settings → Allowed remote actions** lets the person running that machine switch off shell commands, opening files, typing text, mouse control, window targeting or the process watchdog. A button that sends one of those is refused, and the reason appears as a warning in this connection's log in Companion (Listener 11 or newer). Key presses can never be switched off.
 
 ## Actions
 
