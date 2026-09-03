@@ -153,6 +153,16 @@ class instance extends InstanceBase {
 	 * @param {JSON obj} data
 	 */
 	processData(msg) {
+		// A command the Listener refused. Since Listener 10.4 a command that is
+		// switched off under Settings → Allowed remote actions is answered on the
+		// socket as {status:'error', type:<the command>, code:'ACTION_DISABLED',
+		// msg}. Handled before the switch, because `type` is the command's type
+		// and would otherwise land in the "unknown type" branch below. Process
+		// watchdog errors keep their own handling.
+		if (msg.status === 'error' && msg.type !== 'processState') {
+			this.handleRefusal(msg)
+			return
+		}
 		switch (msg.type) {
 			case 'version':
 				this.listenerVersion = msg.data
@@ -178,6 +188,18 @@ class instance extends InstanceBase {
 				this.log('debug', 'Unknown message type:', msg.type)
 				break
 		}
+	}
+
+	/**
+	 * The Listener answered a command with an error. `code` is the stable part
+	 * of that answer (the message text is not), so branch on it. The Listener's
+	 * own message already says where to switch the action back on, and the
+	 * person reading this log is usually the person who can.
+	 */
+	handleRefusal(msg) {
+		const command = msg.type ? `"${msg.type}"` : 'a command'
+		const reason = msg.msg ?? (msg.code === 'ACTION_DISABLED' ? 'that action is switched off' : 'no reason given')
+		this.log('warn', `Listener on ${this.config.host} refused ${command}: ${reason}`)
 	}
 
 	/**
