@@ -118,7 +118,9 @@ export default class instance extends InstanceBase {
 	adoptConfiguredWatchList() {
 		this.watchedProcesses = parseProcessList(this.config.watchProcesses)
 		this.watchInterval = clampInterval(this.config.watchInterval)
-		this.watchSendAlways = false
+		// Configs saved before the checkbox existed have no value here; the
+		// double negation keeps that as "only on change", as it always was.
+		this.watchSendAlways = !!this.config.watchSendAlways
 	}
 
 	stopKATimer() {
@@ -513,6 +515,15 @@ export default class instance extends InstanceBase {
 				default: 10000,
 				min: 1000,
 				max: 600000,
+			},
+			{
+				type: 'checkbox',
+				id: 'watchSendAlways',
+				label: 'Report every interval (not just on change)',
+				width: 12,
+				default: false,
+				tooltip:
+					'Off: the Listener only reports a process when its state changes, which keeps the network quiet. On: a report on every check, so a missed change is corrected at the next interval. Use this for critical monitoring.',
 			},
 		]
 	}

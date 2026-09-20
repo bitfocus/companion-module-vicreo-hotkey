@@ -147,7 +147,7 @@ Printscreen
 
 Watch applications on the target machine and see on a button when one stops running or hangs. Windows and macOS only, and it needs a Pro license.
 
-**Setting it up.** In the connection config, fill in **Watch these processes** with a comma separated list and set a check interval. Those processes are watched automatically, including after a reconnect. Use the process name as the machine knows it:
+**Setting it up.** In the connection config, fill in **Watch these processes** with a comma separated list, set a check interval and choose whether to report on every check (see Reporting below). Those processes are watched automatically, including after a reconnect. Use the process name as the machine knows it:
 
 - Windows: the executable, e.g. `chrome.exe`, `POWERPNT.EXE`. The `.exe` is optional.
 - macOS: the application name or bundle id, e.g. `Keynote`, `Google Chrome`, `com.apple.Keynote`.
@@ -169,7 +169,7 @@ They go blank while the connection is down, so a button never shows a stale "run
 
 **About "responsive".** This asks the application whether its event loop still answers, which is how a frozen-but-running app is caught. It reports `unknown` when it genuinely cannot be established: a background process with no window, or on macOS an app that is not a normal windowed application. On macOS the Listener needs Accessibility permission for this, the same permission it already needs to send keystrokes. `unknown` never triggers the "hung" feedback.
 
-**Reporting.** By default a report is only sent when something changes, so the network stays quiet. Tick "Report every interval" on the action if you want a message on every check. The interval is clamped to at least 1000 ms, and at most 20 processes can be watched at once.
+**Reporting.** By default a report is only sent when something changes, so the network stays quiet. Tick **Report every interval** — in the connection config, or on the Subscribe to data action — if you want a message on every check; a change that was missed is then corrected at the next interval, which is the safer choice for critical monitoring. The interval is clamped to at least 1000 ms, and at most 20 processes can be watched at once.
 
 ## Mouse position and click
 
