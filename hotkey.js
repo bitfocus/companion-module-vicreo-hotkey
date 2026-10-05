@@ -17,6 +17,11 @@ const kaInterval = 30000
 const MIN_LISTENER_VERSION = '9.11.0'
 /** The Listener release that added the processState subscription. */
 const MIN_PROCESS_WATCH_VERSION = '10.1.0'
+/** The Listener release that added `lockScreen` and the screenLock subscription. */
+const MIN_SCREEN_LOCK_VERSION = '11.1.0'
+/** Matches the Listener: it clamps anything faster than this. */
+const MIN_SCREEN_LOCK_INTERVAL = 250
+const DEFAULT_SCREEN_LOCK_INTERVAL = 1000
 
 function md5(str) {
 	return crypto.createHash('md5').update(str).digest('hex')
@@ -79,6 +84,12 @@ export default class instance extends InstanceBase {
 		this.watchInterval = DEFAULT_INTERVAL
 		this.watchSendAlways = false
 		this.listenerVersion = ''
+
+		// Screen lock watch, same reconnect reasoning as the process watch.
+		// `screenLocked` is undefined while nothing is known, and null when the
+		// Listener reported that it could not establish the state.
+		this.screenLockWatch = null
+		this.screenLocked = undefined
 	}
 
 	async init(config, _isFirstInit, secrets) {
@@ -121,6 +132,9 @@ export default class instance extends InstanceBase {
 		// Configs saved before the checkbox existed have no value here; the
 		// double negation keeps that as "only on change", as it always was.
 		this.watchSendAlways = !!this.config.watchSendAlways
+		this.screenLockWatch = this.config.watchScreenLock
+			? { interval: DEFAULT_SCREEN_LOCK_INTERVAL, sendAlways: false }
+			: null
 	}
 
 	stopKATimer() {
@@ -187,6 +201,9 @@ export default class instance extends InstanceBase {
 				break
 			case 'processState':
 				this.handleProcessState(msg)
+				break
+			case 'screenLock':
+				this.handleScreenLock(msg)
 				break
 			case 'subscribe':
 			case 'unsubscribe':
@@ -332,6 +349,85 @@ export default class instance extends InstanceBase {
 		this.log('debug', `Process watchdog: watching ${this.watchedProcesses.join(', ')} every ${this.watchInterval}ms`)
 	}
 
+	/**
+	 * A screen lock report. Sent once at subscribe time and then only on a
+	 * change, unless the subscription asked for a heartbeat.
+	 */
+	handleScreenLock(msg) {
+		const locked = msg.locked === true || msg.locked === false ? msg.locked : null
+		if (this.screenLocked !== undefined && this.screenLocked !== locked) {
+			this.log(
+				'info',
+				`Screen on ${this.config.host} is ${locked === null ? 'in an unknown state' : locked ? 'locked' : 'unlocked'}`,
+			)
+		}
+		this.screenLocked = locked
+		this.setVariableValues({ screen_locked: locked === null ? 'unknown' : String(locked) })
+		this.checkFeedbacks('screenLocked')
+	}
+
+	/** Current screen lock state: true, false, null (unknown) or undefined (no data). */
+	getScreenLocked() {
+		return this.screenLocked
+	}
+
+	/** Forget the last report; it is stale once the connection drops. */
+	clearScreenLockState() {
+		if (this.screenLocked === undefined) return
+		this.screenLocked = undefined
+		this.setVariableValues({ screen_locked: '' })
+		this.checkFeedbacks('screenLocked')
+	}
+
+	/**
+	 * Start (or replace) the screen lock subscription.
+	 * @param {unknown} interval milliseconds
+	 * @param {boolean} sendAlways report every interval instead of on change
+	 */
+	subscribeScreenLock(interval, sendAlways) {
+		const parsed = parseInt(interval, 10)
+		this.screenLockWatch = {
+			interval: Number.isFinite(parsed) ? Math.max(parsed, MIN_SCREEN_LOCK_INTERVAL) : DEFAULT_SCREEN_LOCK_INTERVAL,
+			sendAlways: !!sendAlways,
+		}
+		this.sendScreenLockSubscription()
+	}
+
+	unsubscribeScreenLock() {
+		this.screenLockWatch = null
+		this.sendCommand({ type: 'unsubscribe', name: 'screenLock' })
+		this.clearScreenLockState()
+	}
+
+	sendScreenLockSubscription() {
+		if (!this.screenLockWatch) return
+		this.warnIfOlderThan(MIN_SCREEN_LOCK_VERSION, 'Screen lock state')
+		this.sendCommand({
+			type: 'subscribe',
+			name: 'screenLock',
+			interval: this.screenLockWatch.interval,
+			sendAlways: this.screenLockWatch.sendAlways,
+		})
+	}
+
+	lockScreen() {
+		this.warnIfOlderThan(MIN_SCREEN_LOCK_VERSION, 'Lock screen')
+		this.sendCommand({ type: 'lockScreen' })
+	}
+
+	/**
+	 * An older Listener answers an unknown command only in its own log, so say
+	 * here why the button did nothing.
+	 */
+	warnIfOlderThan(minimum, feature) {
+		if (this.listenerVersion && compareVersions(this.listenerVersion, minimum) < 0) {
+			this.log(
+				'warn',
+				`${feature} needs VICREO-Listener ${minimum} or newer, this one reports ${this.listenerVersion}.`,
+			)
+		}
+	}
+
 	checkListenerCompatibility(version) {
 		const normalizedVersion = normalizeVersionString(version)
 		if (!normalizedVersion) {
@@ -389,6 +485,7 @@ export default class instance extends InstanceBase {
 			// The Listener tears down every subscription when the socket closes,
 			// so a reconnect has to re-establish the watch or it silently stops.
 			this.sendProcessSubscription()
+			this.sendScreenLockSubscription()
 		})
 		this.tcp.on('data', (data) => {
 			this.receiveBuffer += data.toString()
@@ -414,6 +511,7 @@ export default class instance extends InstanceBase {
 		// re-establishes the subscription).
 		this.tcp.on('end', () => {
 			this.clearProcessStates()
+			this.clearScreenLockState()
 		})
 
 		this.tcp.on('close', () => {
@@ -428,6 +526,7 @@ export default class instance extends InstanceBase {
 		this.tcp.on('error', (err) => {
 			this.log('info', err.toString())
 			this.clearProcessStates()
+			this.clearScreenLockState()
 		})
 	}
 
@@ -525,6 +624,15 @@ export default class instance extends InstanceBase {
 				tooltip:
 					'Off: the Listener only reports a process when its state changes, which keeps the network quiet. On: a report on every check, so a missed change is corrected at the next interval. Use this for critical monitoring.',
 			},
+			{
+				type: 'checkbox',
+				id: 'watchScreenLock',
+				label: 'Watch whether the screen is locked (pro, Listener 11.1+)',
+				width: 12,
+				default: false,
+				tooltip:
+					'Fills the $(vicreo-hotkey:screen_locked) variable and the "Screen locked" feedback, including after a reconnect.',
+			},
 		]
 	}
 
@@ -543,6 +651,7 @@ export default class instance extends InstanceBase {
 			license: { name: 'License' },
 			mouseX: { name: 'mouseX' },
 			mouseY: { name: 'mouseY' },
+			screen_locked: { name: 'Screen locked (true / false / unknown)' },
 			// Four per watched process, so these come and go with the watch list.
 			...variableDefinitions(this.watchedProcesses),
 		})

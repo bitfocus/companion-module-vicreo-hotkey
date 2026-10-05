@@ -1239,6 +1239,100 @@ export const GetPresetsList = () => {
 		],
 	}
 
+	// Locks the machine and turns red once the Listener reports it locked. The
+	// feedback needs the screen lock watch, which the second preset starts (or
+	// tick "Watch whether the screen is locked" in the connection config).
+	presets['lockScreen'] = {
+		name: 'Lock screen',
+		type: 'simple',
+		category: 'Screen lock',
+		style: {
+			text: 'Lock\\nscreen',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [
+			{
+				feedbackId: 'screenLocked',
+				options: {
+					state: 'locked',
+				},
+				style: {
+					text: 'LOCKED',
+					bgcolor: combineRgb(200, 0, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'lockScreen',
+						options: {},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
+	presets['screenLockState'] = {
+		name: 'Screen lock state',
+		type: 'simple',
+		category: 'Screen lock',
+		style: {
+			text: 'Locked:\\n$(vicreo-hotkey:screen_locked)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 100, 0),
+		},
+		feedbacks: [
+			{
+				feedbackId: 'screenLocked',
+				options: {
+					state: 'locked',
+				},
+				style: {
+					bgcolor: combineRgb(200, 0, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
+		steps: [{ down: [], up: [] }],
+	}
+
+	presets['subscribeToScreenLock'] = {
+		name: 'subscribeToScreenLock',
+		type: 'simple',
+		category: 'Screen lock',
+		style: {
+			text: 'Watch\\nscreen lock',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(51, 51, 200),
+		},
+		feedbacks: [],
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'subscribe',
+						options: {
+							subscribe: 'subscribe',
+							name: 'screenLock',
+							processes: '',
+							sendAlways: false,
+							interval: 1000,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+	}
+
 	return splitIntoStructure(presets)
 }
 

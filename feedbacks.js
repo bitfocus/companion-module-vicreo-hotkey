@@ -1,7 +1,7 @@
 import { combineRgb } from '@companion-module/base'
 
 /**
- * Feedbacks for the process watchdog.
+ * Feedbacks for the process watchdog and the screen lock state.
  *
  * The point of watching a process from Companion is a button that changes when
  * the application dies or hangs, so the default style is an alarm red and the
@@ -61,6 +61,47 @@ export const GetFeedbacks = (base) => {
 						return state === undefined ? false : !!state.frontmost
 					case 'notFrontmost':
 						return state === undefined ? false : !state.frontmost
+					default:
+						return false
+				}
+			},
+		},
+		screenLocked: {
+			type: 'boolean',
+			name: 'Screen locked',
+			description:
+				'Changes the button style when the target machine\'s screen is locked. Requires "Watch whether the screen is locked" in the connection config, or a "Subscribe to data" / screen lock subscription.',
+			defaultStyle: {
+				bgcolor: combineRgb(200, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Turns on when',
+					id: 'state',
+					default: 'locked',
+					choices: [
+						{ id: 'locked', label: 'Screen is locked' },
+						{ id: 'unlocked', label: 'Screen is unlocked' },
+						{ id: 'unknown', label: 'Unknown (the Listener could not tell)' },
+						{ id: 'noData', label: 'No data (not subscribed or not connected)' },
+					],
+				},
+			],
+			callback: (feedback) => {
+				// undefined: nothing received. null: the Listener reported it does not
+				// know. Neither may read as locked or unlocked.
+				const locked = base.getScreenLocked()
+				switch (feedback.options.state) {
+					case 'locked':
+						return locked === true
+					case 'unlocked':
+						return locked === false
+					case 'unknown':
+						return locked === null
+					case 'noData':
+						return locked === undefined
 					default:
 						return false
 				}
