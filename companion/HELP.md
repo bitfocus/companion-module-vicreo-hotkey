@@ -12,7 +12,7 @@ Signed and notarised builds for macOS and Windows; a `.deb` for Linux is in beta
 
 1. **Install and start the Listener on the target machine.** On macOS, allow it under System Settings → Privacy & Security → Accessibility; without that permission it cannot send keystrokes. The machine may also be the one Companion itself runs on.
 2. **Add the connection in Companion.** Use **Find on the network** (Bonjour, from Listener 8.0.0 onwards) or fill in **Target IP** by hand — `127.0.0.1` if the Listener runs on the same machine. The port is `10001` unless you changed it. Fill in the password only if the Listener asks for one; it is stored as a secret and left out of exported configs.
-3. **Test it.** Put the **Single key** action on a button and pick, say, `F5`. Or drag one of the built-in presets onto a page and press it — the preset categories cover Keynote, PowerPoint for Mac, Audio, Mouse, Windows, OSX, Watchdog and Misc.
+3. **Test it.** Put the **Single key** action on a button and pick, say, `F5`. Or drag one of the built-in presets onto a page and press it — the preset categories cover Keynote, PowerPoint for Mac, Audio, Mouse, Windows, OSX, Watchdog, Screen lock and Misc.
 
 The **VICREO Listener version** variable fills in once the connection is up, which is the quickest confirmation that Companion and the Listener are talking.
 
@@ -29,13 +29,14 @@ Every text field in the actions accepts variables, and can be switched to an exp
 | Shell command, open a file                                                     |      |   ✔️    |
 | Send a key straight to a named process (macOS), window to foreground (Windows) |      |   ✔️    |
 | Process watchdog: running, frontmost, responsive                               |      |   ✔️    |
+| Lock the screen, see whether it is locked                                      |      |   ✔️    |
 | Subscriptions and custom JSON actions                                          |      |   ✔️    |
 
 Actions that need a license are marked **(pro-action)** in the action dropdown.
 
 ### Actions switched off on the Listener
 
-The Listener's **Settings → Allowed remote actions** lets the person running that machine switch off shell commands, opening files, typing text, mouse control, window targeting or the process watchdog. A button that sends one of those is refused, and the reason appears as a warning in this connection's log in Companion (Listener 11 or newer). Key presses can never be switched off.
+The Listener's **Settings → Allowed remote actions** lets the person running that machine switch off shell commands, opening files, typing text, mouse control, window targeting, the process watchdog (which includes the screen lock state) or locking the screen. A button that sends one of those is refused, and the reason appears as a warning in this connection's log in Companion (Listener 11 or newer). Key presses can never be switched off.
 
 ## Actions
 
@@ -66,7 +67,8 @@ The Listener's **Settings → Allowed remote actions** lets the person running t
 - Send shell command (pro-action)
 - Open a file (pro-action)
 - Set a Window to foreground (pro-action, Windows only)
-- Subscribe to data (pro-action) — mouse position or process state (watchdog)
+- Lock screen (pro-action)
+- Subscribe to data (pro-action) — mouse position, process state (watchdog) or screen lock state
 - Custom action (pro-action) — send raw JSON to the Listener
 - Set License Key
 
@@ -170,6 +172,14 @@ They go blank while the connection is down, so a button never shows a stale "run
 **About "responsive".** This asks the application whether its event loop still answers, which is how a frozen-but-running app is caught. It reports `unknown` when it genuinely cannot be established: a background process with no window, or on macOS an app that is not a normal windowed application. On macOS the Listener needs Accessibility permission for this, the same permission it already needs to send keystrokes. `unknown` never triggers the "hung" feedback.
 
 **Reporting.** By default a report is only sent when something changes, so the network stays quiet. Tick **Report every interval** — in the connection config, or on the Subscribe to data action — if you want a message on every check; a change that was missed is then corrected at the next interval, which is the safer choice for critical monitoring. The interval is clamped to at least 1000 ms, and at most 20 processes can be watched at once.
+
+## Screen lock
+
+Lock the target machine from a button, and see on a button whether it is locked. Windows and macOS, Pro license, VICREO Listener 11.1 or newer. Ready made buttons are in the **Screen lock** preset category.
+
+**Locking.** The **Lock screen** action locks the machine the way Win+L or the Apple menu's "Lock Screen" does. There is no unlock action, and there will not be one: both operating systems refuse synthetic key presses on their lock screen, which is exactly what a lock is for.
+
+**Seeing the state.** Tick **Watch whether the screen is locked** in the connection config, or use **Subscribe to data** with `screen lock state`. Either one fills `$(vicreo-hotkey:screen_locked)` with `true`, `false` or `unknown`, and drives the **Screen locked** feedback. The variable goes blank while the connection is down. `unknown` means the Listener could not establish it, and never counts as locked.
 
 ## Mouse position and click
 

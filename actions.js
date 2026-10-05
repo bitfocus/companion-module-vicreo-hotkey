@@ -482,6 +482,7 @@ export const GetActions = (base) => {
 					choices: [
 						{ id: 'mousePosition', label: 'mouse position' },
 						{ id: 'processState', label: 'process state (watchdog)' },
+						{ id: 'screenLock', label: 'screen lock state' },
 					],
 					// Referenced by the isVisibleExpression below, which only works on
 					// fields that cannot themselves be expressions.
@@ -500,14 +501,15 @@ export const GetActions = (base) => {
 					label: 'Report every interval (not just on change)',
 					id: 'sendAlways',
 					default: false,
-					isVisibleExpression: `$(options:name) === 'processState'`,
+					isVisibleExpression: `$(options:name) === 'processState' || $(options:name) === 'screenLock'`,
 				},
 				{
 					type: 'number',
 					label: 'Interval',
 					id: 'interval',
 					default: 1000,
-					tooltip: 'Milliseconds. The Listener clamps mouse position to 100ms and process state to 1000ms.',
+					tooltip:
+						'Milliseconds. The Listener clamps mouse position to 100ms, screen lock to 250ms and process state to 1000ms.',
 				},
 			],
 			callback: (event) => {
@@ -523,12 +525,30 @@ export const GetActions = (base) => {
 					}
 					return
 				}
+				if (event.options.name === 'screenLock') {
+					// Same reason as processState: remembered so a reconnect re-sends it.
+					if (event.options.subscribe === 'subscribe') {
+						base.subscribeScreenLock(event.options.interval, event.options.sendAlways)
+					} else {
+						base.unsubscribeScreenLock()
+					}
+					return
+				}
 
 				cmd.type = event.options.subscribe
 				cmd.name = event.options.name
 				cmd.interval = event.options.interval
 
 				base.sendCommand(cmd)
+			},
+		},
+		lockScreen: {
+			name: 'Lock screen (pro-action)',
+			description:
+				'Locks the target machine, as Win+L or the Apple menu\'s "Lock Screen" would. There is no unlock: the operating system does not accept synthetic key presses on its lock screen.',
+			options: [],
+			callback: () => {
+				base.lockScreen()
 			},
 		},
 		custom: {
